@@ -31,7 +31,6 @@ object InitialLoad {
     loadAnimation(assetCollection, dice)(Assets.Captain.jsonRef, Assets.Captain.ref, Depth(2))
       .map { captain =>
         makeStartupData(
-          screenDimensions,
           captain,
           levelDataStore(screenDimensions, assetCollection, dice)
         )
@@ -133,14 +132,12 @@ object InitialLoad {
     )
 
   def makeStartupData(
-      screenDimensions: Rectangle,
       captain: SpriteAndAnimations,
       levelDataStore: Option[(LevelDataStore, List[Animation])]
   ): Startup.Success[StartupData] =
     Startup
       .Success(
         StartupData(
-          screenDimensions,
           captain.sprite.withRef(37, 64).moveTo(300, 271),
           levelDataStore.map(_._1)
         )
@@ -150,7 +147,10 @@ object InitialLoad {
 
 }
 
-final case class StartupData(screenDimensions: Rectangle, captain: Sprite, levelDataStore: Option[LevelDataStore])
+final case class StartupData(
+    captain: Sprite,
+    levelDataStore: Option[LevelDataStore]
+)
 final case class LevelDataStore(
     waterReflections: Sprite,
     flag: Sprite,

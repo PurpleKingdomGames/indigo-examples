@@ -14,20 +14,23 @@ import scala.scalajs.js.annotation.JSExportTopLevel
 /*
 The Cursed Pirate uses scenes, and so extends `IndigoGame`.
 The parameter types are "boot data", "start up data", "model", "view model"
-*/
+ */
 // This is the only line of Scala.js you *must* use!
 @JSExportTopLevel("IndigoGame")
-object CursedPirateDemo extends IndigoGame[Rectangle, StartupData, Model, ViewModel] {
+object CursedPirateDemo extends IndigoGame[BootInformation, StartupData, Model, ViewModel] {
 
   /*
-  The boot function sets up the game basics. 
+  The boot function sets up the game basics.
   Two important things to watch out for:
-  1. The boot data type, in this case we're going to need the 
+  1. The boot data type, in this case we're going to need the
      screen dimensions later, so that's type we return.
   2. We only load the assets we need for the loading scene, since
      the loading scene loads the rest later.
-  */
-  def boot(flags: Map[String, String]): BootResult[Rectangle] = {
+   */
+  def boot(flags: Map[String, String]): BootResult[BootInformation] = {
+    val assetPath: String =
+      flags.getOrElse("baseUrl", "")
+
     val config =
       GameConfig.default
         .withViewport(GameViewport.at720p)
@@ -35,8 +38,8 @@ object CursedPirateDemo extends IndigoGame[Rectangle, StartupData, Model, ViewMo
 
     BootResult(
       config,
-      config.screenDimensions
-    ).withAssets(Assets.initialAssets)
+      BootInformation(assetPath, config.screenDimensions)
+    ).withAssets(Assets.initialAssets(assetPath))
       .withFonts(Assets.Fonts.fontInfo)
       .withSubSystems(FPSCounter(Assets.Fonts.fontKey, Point(10, 10), 60))
   }
@@ -45,19 +48,22 @@ object CursedPirateDemo extends IndigoGame[Rectangle, StartupData, Model, ViewMo
   // `initialScene` allows you to specify which scene to start at, but in
   // this case, the first scene in the list is correct so was just say
   // `None`
-  def initialScene(screenDimensions: Rectangle): Option[SceneName] =
+  def initialScene(bootInfo: BootInformation): Option[SceneName] =
     None
 
-  // Two scenes, the loading screen and the demo itself.
-  def scenes(screenDimensions: Rectangle): NonEmptyList[Scene[StartupData, Model, ViewModel]] =
-    NonEmptyList(LoadingScene, LevelScene(screenDimensions.width))
+  // Two scenes, the loading screen and the demo (Level) itself.
+  def scenes(bootInfo: BootInformation): NonEmptyList[Scene[StartupData, Model, ViewModel]] =
+    NonEmptyList(
+      LoadingScene(bootInfo.assetPath, bootInfo.screenDimensions),
+      LevelScene(bootInfo.screenDimensions.width)
+    )
 
   def setup(
-      screenDimensions: Rectangle,
+      bootInfo: BootInformation,
       assetCollection: AssetCollection,
       dice: Dice
   ): Startup[StartupErrors, StartupData] =
-    InitialLoad.setup(screenDimensions, assetCollection, dice)
+    InitialLoad.setup(bootInfo.screenDimensions, assetCollection, dice)
 
   def initialModel(startupData: StartupData): Model =
     Model.initial
@@ -66,3 +72,5 @@ object CursedPirateDemo extends IndigoGame[Rectangle, StartupData, Model, ViewMo
     ViewModel.initial
 
 }
+
+final case class BootInformation(assetPath: String, screenDimensions: Rectangle)

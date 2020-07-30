@@ -19,8 +19,9 @@ subsystem to dynamically load assets, which it interfaces with using events.
 
 As progress events come in, they are translated into some visual feedback
 for the player.
-*/
-final object LoadingScene extends Scene[StartupData, Model, ViewModel] {
+ */
+final case class LoadingScene(assetPath: String, screenDimensions: Rectangle)
+    extends Scene[StartupData, Model, ViewModel] {
   // We only care about the `LoadingState` which is actually a
   // sub-object of an otherwise pointless (but readable) `LoadingModel`
   // class. However! Here we use lenses to ignore the intermediary entirely
@@ -55,7 +56,7 @@ final object LoadingScene extends Scene[StartupData, Model, ViewModel] {
         case LoadingState.NotStarted =>
           Outcome(LoadingState.InProgress(0))
             .addGlobalEvents(
-              AssetBundleLoaderEvent.Load(BindingKey("Loading"), Assets.remainingAssets)
+              AssetBundleLoaderEvent.Load(BindingKey("Loading"), Assets.remainingAssets(assetPath))
             )
 
         case _ =>
@@ -85,7 +86,7 @@ final object LoadingScene extends Scene[StartupData, Model, ViewModel] {
 
   def present(context: FrameContext[StartupData], loadingState: LoadingState, viewModel: Unit): SceneUpdateFragment =
     LoadingView.draw(
-      context.startUpData.screenDimensions,
+      screenDimensions,
       context.startUpData.captain,
       loadingState
     )
