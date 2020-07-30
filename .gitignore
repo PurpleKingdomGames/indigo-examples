@@ -1,0 +1,31 @@
+
+*.class
+*.log
+.DS_Store
+
+# mill specific
+out
+publish.sh
+credentials.sh
+
+# sbt specific
+sbt
+.sbt-local
+.cache
+.history
+.lib
+dist
+target
+lib_managed
+src_managed
+
+# IDE specific
+.idea
+*.iml
+
+node_modules
+
+elm-stuff
+.metals/
+.bloop
+metals.sbt
