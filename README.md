@@ -1,6 +1,6 @@
 # Indigo Examples
 
-Examples of how to build things in Indigo, running the latest public release.
+Examples of how to build things in Indigo using the latest public release.
 
 There are two sections:
 
@@ -9,39 +9,39 @@ There are two sections:
 
 ## Watch out!
 
-If you try and run a lot of these demos and examples back to back you will likely fall foul of your browsers cache sooner or later. A lot of these demos and examples load assets with similar or identical names, and this can cause confusion.
+If you try and run a number of these demos and examples back to back, you will likely fall foul of your browsers cache sooner or later. A lot of these demos and examples make use of assets and files with similar or identical names, and this can cause cache confusion.
 
-> Consider testing in a private or incognito window where you don't mind blowing away the cache from time to time.
+> Consider testing in a private or incognito window, on _not_ your main browser, where you don't mind blowing away the cache from time to time.
 
 ## Demos
 
-Snake is a mill project, and assuming you have mill installed can be built as follows:
+Snake is a Mill project, and assuming you have Mill installed can be built as follows from the `demos/snake` directory:
 
 ```bash
 mill snake.buildGame
 ```
 
-The Cursed Pirate is an SBT project, and can be built as follows:
+The Cursed Pirate is an SBT project, and can be built as follows from the `demos/pirate`:
 
 ```bash
 sbt buildGame
 ```
 
-To run either game, check the last line of output for the folder is has been built into, go to that folder in your terminal and run `http-server -c-1`. Then navigate to `http://127.0.0.1:8080/` in your browser of choice*.
+To run either game, check the last line of output for the folder is has been built into, go to that folder in your terminal and run `http-server -c-1`. Then navigate to `http://127.0.0.1:8080/` in your browser of choice*. See [Setup & configuration](https://indigoengine.io/docs/quickstart/setup-and-configuration) for more details.
 
-(* Web GL requirements not withstanding)
+(* WebGL requirements not withstanding)
 
 ### The Cursed Pirate
 
 The Cursed Pirate Demo was originally ~made~ hastily thrown together in about 5 hours for the first [talk that featured / introduced Indigo](https://www.youtube.com/watch?v=SmZETGZKCVU). The idea was to put together something memorable - not a game - just a small, fun demo.
 
-This version is almost a total rebuild.
+This version is superficially similar, but is in fact almost a total rebuild of the code base.
 
 Indigo had already changed enormously between the talk in Jan 2020 and the first release in June 2020, and has evolved further since.
 
-So one reason for the rebuild was simply to bring it up to date, the other was that it wasn't a good example of how to build a game. The original version took many shortcuts, focusing on showing off some of the features of Indigo to an audience, via a happy path, rather than worrying about being a reasonable example of how one might build a game.
+So one reason for the rebuild was simply to bring it up to date, but the other was that it wasn't a good example of how to build a game. The original version took many shortcuts, focusing on showing off some of the features of Indigo to an audience via a happy path, rather than worrying about being a reasonable example of how one might build a game.
 
-Hopefully this version is a better example for people looking for inspiration.
+Hopefully this version is a better example for people looking for inspiration or reference.
 
 #### Asset Credits
 
@@ -65,15 +65,17 @@ Artwork - Pixel Frog
 
 ### Snake
 
-This Snake implementation was ...is!... the first full, if simple, game made using Indigo.
+This Snake implementation was the first full, albeit simple, game made using Indigo.
 
-The code is probably not what we'd do now, but there are some nice parts and it's still a useful reference.
+The code is probably not what we'd do now, but there are some nice aspects to it like the model of the Snake itself and it's tests, and so it's still a useful reference.
 
 ## Examples
 
 The examples a minimal references of how to use a range of Indigo's features. They're not always elegant but they are useful.
 
-The whole lot can be build by running:
+It's worth noting that these examples were really put together to aid QA testing - rather than for public consumption. For example in a couple of them all the output is actually in your browsers console! PR's and suggestions to make them nicer are very welcome.
+
+The whole lot can be built by running:
 
 ```bash
 sbt buildExamples
