@@ -23,14 +23,14 @@ lazy val pirate =
       showCursor := true,
       title := "The Cursed Pirate",
       gameAssetsDirectory := "assets",
+      windowStartWidth := 1280,
+      windowStartHeight := 720,
       libraryDependencies ++= Seq(
-        "io.indigoengine" %%% "indigo-json-circe" % "0.2.0", // Needed for Aseprite & Tiled support
-        "io.indigoengine" %%% "indigo"            % "0.2.0", // Important! :-)
-        "io.indigoengine" %%% "indigo-extras"     % "0.2.0" // Important! :-)
+        "io.indigoengine" %%% "indigo-json-circe" % "0.3.0", // Needed for Aseprite & Tiled support
+        "io.indigoengine" %%% "indigo"            % "0.3.0", // Important! :-)
+        "io.indigoengine" %%% "indigo-extras"     % "0.3.0" // Important! :-)
       )
     )
 
-addCommandAlias("buildGame", ";compile;fastOptJS;indigoBuildJS")
-addCommandAlias("buildGameFull", ";clean;update;compile;test;fastOptJS;indigoBuildJS")
-addCommandAlias("publishGame", ";compile;fullOptJS;indigoPublishJS")
-addCommandAlias("publishGameFull", ";clean;update;compile;test;fullOptJS;indigoPublishJS")
+addCommandAlias("buildGame", ";compile;fastOptJS;indigoBuild")
+addCommandAlias("runGame", ";compile;fastOptJS;indigoRun")

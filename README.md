@@ -27,9 +27,20 @@ The Cursed Pirate is an SBT project, and can be built as follows from the `demos
 sbt buildGame
 ```
 
-To run either game, check the last line of output for the folder is has been built into, go to that folder in your terminal and run `http-server -c-1`. Then navigate to `http://127.0.0.1:8080/` in your browser of choice*. See [Setup & configuration](https://indigoengine.io/docs/quickstart/setup-and-configuration) for more details.
+To run either game, instead do:
 
-(* WebGL requirements not withstanding)
+```bash
+mill snake.runGame
+```
+
+Or
+
+```bash
+sbt runGame
+```
+
+
+See [Setup & configuration](https://indigoengine.io/docs/quickstart/setup-and-configuration) for more details.
 
 ### The Cursed Pirate
 
@@ -74,6 +85,12 @@ The code is probably not what we'd do now, but there are some nice aspects to it
 The examples a minimal references of how to use a range of Indigo's features. They're not always elegant but they are useful.
 
 It's worth noting that these examples were really put together to aid QA testing - rather than for public consumption. For example in a couple of them all the output is actually in your browsers console! PR's and suggestions to make them nicer are very welcome.
+
+To run any example, do the follow (using lighting as an example):
+
+```bash
+sbt lighting/fastOptJS lighting/indigoRun
+```
 
 The whole lot can be built by running:
 

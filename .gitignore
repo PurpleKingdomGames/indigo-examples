@@ -6,7 +6,6 @@
 # mill specific
 out
 publish.sh
-credentials.sh
 
 # sbt specific
 sbt
@@ -22,6 +21,7 @@ src_managed
 # IDE specific
 .idea
 *.iml
+.vscode
 
 node_modules
 

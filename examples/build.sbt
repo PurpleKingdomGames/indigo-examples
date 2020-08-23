@@ -1,5 +1,3 @@
-// shadow sbt-scalajs' crossProject and CrossType from Scala.js 0.6.x
-import sbtcrossproject.CrossPlugin.autoImport.{crossProject, CrossType}
 import scala.sys.process._
 import scala.language.postfixOps
 
@@ -9,8 +7,8 @@ lazy val commonSettings = Seq(
   organization := "indigo-examples",
   libraryDependencies ++= Seq(
     "com.lihaoyi"     %%% "utest"         % "0.7.4" % "test",
-    "io.indigoengine" %%% "indigo"        % "0.2.0",
-    "io.indigoengine" %%% "indigo-extras" % "0.2.0"
+    "io.indigoengine" %%% "indigo"        % "0.3.0",
+    "io.indigoengine" %%% "indigo-extras" % "0.3.0"
   ),
   testFrameworks += new TestFramework("utest.runner.Framework"),
   wartremoverWarnings in (Compile, compile) ++= Warts.allBut(
@@ -22,9 +20,7 @@ lazy val commonSettings = Seq(
 
 // Examples
 lazy val basicSetup =
-  crossProject(JSPlatform, JVMPlatform)
-    .withoutSuffixFor(JSPlatform)
-    .crossType(CrossType.Pure)
+  project
     .in(file("basic-setup"))
     .settings(commonSettings: _*)
     .enablePlugins(SbtIndigo)
@@ -33,21 +29,13 @@ lazy val basicSetup =
       name := "basic-setup",
       showCursor := true,
       title := "Basic Setup",
-      gameAssetsDirectory := "assets"
-    )
-    .jvmSettings(
-      run / fork := true,
-      javaOptions ++= Seq(
-        "-XstartOnFirstThread",
-        "-Dorg.lwjgl.util.Debug=true",
-        "-Dorg.lwjgl.util.DebugLoader=true"
-      )
+      gameAssetsDirectory := "assets",
+      windowStartWidth := 550,
+      windowStartHeight := 400
     )
 
 lazy val subSystems =
-  crossProject(JSPlatform)
-    .withoutSuffixFor(JSPlatform)
-    .crossType(CrossType.Pure)
+  project
     .in(file("subsystems"))
     .settings(commonSettings: _*)
     .enablePlugins(SbtIndigo)
@@ -56,13 +44,13 @@ lazy val subSystems =
       name := "subsystems",
       showCursor := true,
       title := "SubSystems Example",
-      gameAssetsDirectory := "assets"
+      gameAssetsDirectory := "assets",
+      windowStartWidth := 550,
+      windowStartHeight := 400
     )
 
 lazy val scenesSetup =
-  crossProject(JSPlatform)
-    .withoutSuffixFor(JSPlatform)
-    .crossType(CrossType.Pure)
+  project
     .in(file("scenes-setup"))
     .settings(commonSettings: _*)
     .enablePlugins(SbtIndigo)
@@ -71,13 +59,13 @@ lazy val scenesSetup =
       name := "scenes-setup",
       showCursor := true,
       title := "Scene Manager Setup",
-      gameAssetsDirectory := "assets"
+      gameAssetsDirectory := "assets",
+      windowStartWidth := 550,
+      windowStartHeight := 400
     )
 
 lazy val text =
-  crossProject(JSPlatform)
-    .withoutSuffixFor(JSPlatform)
-    .crossType(CrossType.Pure)
+  project
     .in(file("text"))
     .settings(commonSettings: _*)
     .enablePlugins(SbtIndigo)
@@ -86,13 +74,13 @@ lazy val text =
       name := "text-example",
       showCursor := true,
       title := "Text example",
-      gameAssetsDirectory := "assets"
+      gameAssetsDirectory := "assets",
+      windowStartWidth := 550,
+      windowStartHeight := 400
     )
 
 lazy val inputfield =
-  crossProject(JSPlatform)
-    .withoutSuffixFor(JSPlatform)
-    .crossType(CrossType.Pure)
+  project
     .in(file("inputfield"))
     .settings(commonSettings: _*)
     .enablePlugins(SbtIndigo)
@@ -101,13 +89,13 @@ lazy val inputfield =
       name := "input-field-example",
       showCursor := true,
       title := "Input field example",
-      gameAssetsDirectory := "assets"
+      gameAssetsDirectory := "assets",
+      windowStartWidth := 550,
+      windowStartHeight := 400
     )
 
 lazy val button =
-  crossProject(JSPlatform)
-    .withoutSuffixFor(JSPlatform)
-    .crossType(CrossType.Pure)
+  project
     .in(file("button"))
     .settings(commonSettings: _*)
     .enablePlugins(SbtIndigo)
@@ -116,13 +104,13 @@ lazy val button =
       name := "button-example",
       showCursor := true,
       title := "Button example",
-      gameAssetsDirectory := "assets"
+      gameAssetsDirectory := "assets",
+      windowStartWidth := 550,
+      windowStartHeight := 400
     )
 
 lazy val graphic =
-  crossProject(JSPlatform)
-    .withoutSuffixFor(JSPlatform)
-    .crossType(CrossType.Pure)
+  project
     .in(file("graphic"))
     .settings(commonSettings: _*)
     .enablePlugins(SbtIndigo)
@@ -131,13 +119,13 @@ lazy val graphic =
       name := "graphic-example",
       showCursor := true,
       title := "Graphic example",
-      gameAssetsDirectory := "assets"
+      gameAssetsDirectory := "assets",
+      windowStartWidth := 550,
+      windowStartHeight := 400
     )
 
 lazy val group =
-  crossProject(JSPlatform)
-    .withoutSuffixFor(JSPlatform)
-    .crossType(CrossType.Pure)
+  project
     .in(file("group"))
     .settings(commonSettings: _*)
     .enablePlugins(SbtIndigo)
@@ -146,13 +134,13 @@ lazy val group =
       name := "group-example",
       showCursor := true,
       title := "Group example",
-      gameAssetsDirectory := "assets"
+      gameAssetsDirectory := "assets",
+      windowStartWidth := 550,
+      windowStartHeight := 400
     )
 
 lazy val tiled =
-  crossProject(JSPlatform)
-    .withoutSuffixFor(JSPlatform)
-    .crossType(CrossType.Pure)
+  project
     .in(file("tiled"))
     .settings(commonSettings: _*)
     .enablePlugins(SbtIndigo)
@@ -162,15 +150,15 @@ lazy val tiled =
       showCursor := true,
       title := "Tiled example",
       gameAssetsDirectory := "assets",
+      windowStartWidth := 19 * 32,
+      windowStartHeight := 11 * 32,
       libraryDependencies ++= Seq(
         "io.indigoengine" %%% "indigo-json-circe" % "0.2.0"
       )
     )
 
 lazy val sprite =
-  crossProject(JSPlatform)
-    .withoutSuffixFor(JSPlatform)
-    .crossType(CrossType.Pure)
+  project
     .in(file("sprite"))
     .settings(commonSettings: _*)
     .enablePlugins(SbtIndigo)
@@ -179,13 +167,13 @@ lazy val sprite =
       name := "sprite-example",
       showCursor := true,
       title := "Sprite example",
-      gameAssetsDirectory := "assets"
+      gameAssetsDirectory := "assets",
+      windowStartWidth := 550,
+      windowStartHeight := 400
     )
 
 lazy val http =
-  crossProject(JSPlatform)
-    .withoutSuffixFor(JSPlatform)
-    .crossType(CrossType.Pure)
+  project
     .in(file("http"))
     .settings(commonSettings: _*)
     .enablePlugins(SbtIndigo)
@@ -194,13 +182,13 @@ lazy val http =
       name := "http-example",
       showCursor := true,
       title := "Http example",
-      gameAssetsDirectory := "assets"
+      gameAssetsDirectory := "assets",
+      windowStartWidth := 550,
+      windowStartHeight := 400
     )
 
 lazy val websocket =
-  crossProject(JSPlatform)
-    .withoutSuffixFor(JSPlatform)
-    .crossType(CrossType.Pure)
+  project
     .in(file("websocket"))
     .settings(commonSettings: _*)
     .enablePlugins(SbtIndigo)
@@ -209,13 +197,13 @@ lazy val websocket =
       name := "websocket-example",
       showCursor := true,
       title := "WebSocket example",
-      gameAssetsDirectory := "assets"
+      gameAssetsDirectory := "assets",
+      windowStartWidth := 550,
+      windowStartHeight := 400
     )
 
 lazy val automata =
-  crossProject(JSPlatform)
-    .withoutSuffixFor(JSPlatform)
-    .crossType(CrossType.Pure)
+  project
     .in(file("automata"))
     .settings(commonSettings: _*)
     .enablePlugins(SbtIndigo)
@@ -224,13 +212,13 @@ lazy val automata =
       name := "automata-example",
       showCursor := true,
       title := "Automata example",
-      gameAssetsDirectory := "assets"
+      gameAssetsDirectory := "assets",
+      windowStartWidth := 550,
+      windowStartHeight := 400
     )
 
 lazy val fireworks =
-  crossProject(JSPlatform)
-    .withoutSuffixFor(JSPlatform)
-    .crossType(CrossType.Pure)
+  project
     .in(file("fireworks"))
     .settings(commonSettings: _*)
     .enablePlugins(SbtIndigo)
@@ -240,15 +228,15 @@ lazy val fireworks =
       showCursor := true,
       title := "Fireworks!",
       gameAssetsDirectory := "assets",
+      windowStartWidth := 1280,
+      windowStartHeight := 720,
       libraryDependencies ++= Seq(
         "org.scalacheck" %%% "scalacheck" % "1.14.3" % "test"
       )
     )
 
 lazy val audio =
-  crossProject(JSPlatform)
-    .withoutSuffixFor(JSPlatform)
-    .crossType(CrossType.Pure)
+  project
     .in(file("audio"))
     .settings(commonSettings: _*)
     .enablePlugins(SbtIndigo)
@@ -257,13 +245,13 @@ lazy val audio =
       name := "audio-example",
       showCursor := true,
       title := "Audio example",
-      gameAssetsDirectory := "assets"
+      gameAssetsDirectory := "assets",
+      windowStartWidth := 550,
+      windowStartHeight := 400
     )
 
 lazy val lighting =
-  crossProject(JSPlatform)
-    .withoutSuffixFor(JSPlatform)
-    .crossType(CrossType.Pure)
+  project
     .enablePlugins(SbtIndigo)
     .enablePlugins(ScalaJSPlugin)
     .settings(commonSettings: _*)
@@ -271,17 +259,13 @@ lazy val lighting =
       name := "lighting Example",
       showCursor := true,
       title := "Lighting",
-      gameAssetsDirectory := "assets"
-    )
-    .settings(
-      publish := {},
-      publishLocal := {}
+      gameAssetsDirectory := "assets",
+      windowStartWidth := 684,
+      windowStartHeight := 384
     )
 
 lazy val distortion =
-  crossProject(JSPlatform)
-    .withoutSuffixFor(JSPlatform)
-    .crossType(CrossType.Pure)
+  project
     .enablePlugins(SbtIndigo)
     .enablePlugins(ScalaJSPlugin)
     .settings(commonSettings: _*)
@@ -289,17 +273,13 @@ lazy val distortion =
       name := "distortion",
       showCursor := true,
       title := "Distortion Example",
-      gameAssetsDirectory := "assets"
-    )
-    .settings(
-      publish := {},
-      publishLocal := {}
+      gameAssetsDirectory := "assets",
+      windowStartWidth := 684,
+      windowStartHeight := 384
     )
 
 lazy val assetLoading =
-  crossProject(JSPlatform)
-    .withoutSuffixFor(JSPlatform)
-    .crossType(CrossType.Pure)
+  project
     .enablePlugins(SbtIndigo)
     .enablePlugins(ScalaJSPlugin)
     .settings(commonSettings: _*)
@@ -307,17 +287,13 @@ lazy val assetLoading =
       name := "assetLoading",
       showCursor := true,
       title := "Asset Loading Example",
-      gameAssetsDirectory := "assets"
-    )
-    .settings(
-      publish := {},
-      publishLocal := {}
+      gameAssetsDirectory := "assets",
+      windowStartWidth := 550,
+      windowStartHeight := 400
     )
 
 lazy val effects =
-  crossProject(JSPlatform)
-    .withoutSuffixFor(JSPlatform)
-    .crossType(CrossType.Pure)
+  project
     .enablePlugins(SbtIndigo)
     .enablePlugins(ScalaJSPlugin)
     .settings(commonSettings: _*)
@@ -325,9 +301,7 @@ lazy val effects =
       name := "effects",
       showCursor := true,
       title := "Effects Example",
-      gameAssetsDirectory := "assets"
-    )
-    .settings(
-      publish := {},
-      publishLocal := {}
+      gameAssetsDirectory := "assets",
+      windowStartWidth := 684,
+      windowStartHeight := 384
     )
