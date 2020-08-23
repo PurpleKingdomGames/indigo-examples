@@ -25,7 +25,7 @@ object Assets {
       Set(
         AssetType.Image(Static.backgroundRef, AssetPath(baseUrl + "assets/bg.png")),
         AssetType.Image(Static.chestRef, AssetPath(baseUrl + "assets/" + Static.chestRef.value + ".png")),
-        AssetType.Image(Static.terrainRef, AssetPath(baseUrl + "assets/Terrain (32x32).png")),
+        AssetType.Image(Static.terrainRef, AssetPath(baseUrl + "assets/terrain.png")),
         AssetType.Text(Static.terrainJsonRef, AssetPath(baseUrl + "assets/terrain.json"))
       )
   }

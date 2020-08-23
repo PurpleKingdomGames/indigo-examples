@@ -25,7 +25,7 @@ object CloudsAutomata {
       node match {
         case cloud: Graphic =>
           Signal
-            .Lerp(seed.spawnedAt, Point(-100, seed.spawnedAt.y), seed.lifeSpan)
+            .Lerp(seed.spawnedAt, Point(-150, seed.spawnedAt.y), seed.lifeSpan)
             .map { position =>
               AutomatonUpdate(cloud.moveTo(position))
             }
