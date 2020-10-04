@@ -1,14 +1,16 @@
 import scala.sys.process._
 import scala.language.postfixOps
 
+lazy val indigoVersion = "0.4.0"
+
 lazy val commonSettings = Seq(
   version := "0.0.1",
   scalaVersion := "2.13.3",
   organization := "indigo-examples",
   libraryDependencies ++= Seq(
     "com.lihaoyi"     %%% "utest"         % "0.7.4" % "test",
-    "io.indigoengine" %%% "indigo"        % "0.3.0",
-    "io.indigoengine" %%% "indigo-extras" % "0.3.0"
+    "io.indigoengine" %%% "indigo"        % indigoVersion,
+    "io.indigoengine" %%% "indigo-extras" % indigoVersion
   ),
   testFrameworks += new TestFramework("utest.runner.Framework"),
   wartremoverWarnings in (Compile, compile) ++= Warts.allBut(
@@ -153,7 +155,7 @@ lazy val tiled =
       windowStartWidth := 19 * 32,
       windowStartHeight := 11 * 32,
       libraryDependencies ++= Seq(
-        "io.indigoengine" %%% "indigo-json-circe" % "0.2.0"
+        "io.indigoengine" %%% "indigo-json-circe" % indigoVersion
       )
     )
 
@@ -304,4 +306,17 @@ lazy val effects =
       gameAssetsDirectory := "assets",
       windowStartWidth := 684,
       windowStartHeight := 384
+    )
+
+lazy val radio =
+  project
+    .in(file("radio"))
+    .settings(commonSettings: _*)
+    .enablePlugins(SbtIndigo)
+    .enablePlugins(ScalaJSPlugin)
+    .settings(
+      name := "radio-example",
+      showCursor := true,
+      title := "Radio button example",
+      gameAssetsDirectory := "assets"
     )

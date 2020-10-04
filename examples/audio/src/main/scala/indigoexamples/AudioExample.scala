@@ -19,7 +19,7 @@ object AudioExample extends IndigoDemo[Unit, Unit, Unit, Button] {
         AssetType.Audio(AssetName("music"), AssetPath("assets/march_of_steampunk.mp3"))
       )
 
-  def setup(bootData: Unit, assetCollection: AssetCollection, dice: Dice): Startup[StartupErrors, Unit] =
+  def setup(bootData: Unit, assetCollection: AssetCollection, dice: Dice): Startup[Unit] =
     Startup.Success(())
 
   def initialModel(startupData: Unit): Unit =
@@ -34,9 +34,7 @@ object AudioExample extends IndigoDemo[Unit, Unit, Unit, Button] {
       ),
       bounds = Rectangle(10, 10, 16, 16),
       depth = Depth(2)
-    ).withUpAction {
-      List(PlaySound(AssetName("bounce"), Volume.Max))
-    }
+    ).withUpActions(PlaySound(AssetName("bounce"), Volume.Max))
 
   def updateModel(context: FrameContext[Unit], model: Unit): GlobalEvent => Outcome[Unit] = {
     case _ =>

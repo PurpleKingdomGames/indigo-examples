@@ -22,7 +22,7 @@ object ButtonExample extends IndigoDemo[Unit, Unit, MyGameModel, MyViewModel] {
       down = Graphic(0, 0, 16, 16, 2, Material.Textured(AssetName("graphics"))).withCrop(32, 32, 16, 16)
     )
 
-  def setup(bootData: Unit, assetCollection: AssetCollection, dice: Dice): Startup[StartupErrors, Unit] =
+  def setup(bootData: Unit, assetCollection: AssetCollection, dice: Dice): Startup[Unit] =
     Startup.Success(())
 
   def initialModel(startupData: Unit): MyGameModel =
@@ -34,9 +34,7 @@ object ButtonExample extends IndigoDemo[Unit, Unit, MyGameModel, MyViewModel] {
         buttonAssets = buttonAssets,
         bounds = Rectangle(10, 10, 16, 16),
         depth = Depth(2)
-      ).withUpAction {
-        List(MyButtonEvent)
-      }
+      ).withUpActions(MyButtonEvent)
     )
 
   def updateModel(context: FrameContext[Unit], model: MyGameModel): GlobalEvent => Outcome[MyGameModel] = {
@@ -49,7 +47,11 @@ object ButtonExample extends IndigoDemo[Unit, Unit, MyGameModel, MyViewModel] {
       Outcome(model)
   }
 
-  def updateViewModel(context: FrameContext[Unit], model: MyGameModel, viewModel: MyViewModel): GlobalEvent => Outcome[MyViewModel] = {
+  def updateViewModel(
+      context: FrameContext[Unit],
+      model: MyGameModel,
+      viewModel: MyViewModel
+  ): GlobalEvent => Outcome[MyViewModel] = {
     case FrameTick =>
       viewModel.button.update(context.inputState.mouse).map { btn =>
         viewModel.copy(button = btn)

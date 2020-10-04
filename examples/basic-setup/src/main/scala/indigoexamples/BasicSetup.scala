@@ -15,7 +15,7 @@ object BasicSetup extends IndigoDemo[Unit, MyStartUpData, MyGameModel, MyViewMod
         .withClearColor(ClearColor.fromHexString("0xAA191E"))
     )
 
-  def setup(bootData: Unit, assetCollection: AssetCollection, dice: Dice): Startup[StartupErrors, MyStartUpData] =
+  def setup(bootData: Unit, assetCollection: AssetCollection, dice: Dice): Startup[MyStartUpData] =
     Startup.Success(MyStartUpData())
 
   def initialModel(startupData: MyStartUpData): MyGameModel =
@@ -23,9 +23,14 @@ object BasicSetup extends IndigoDemo[Unit, MyStartUpData, MyGameModel, MyViewMod
 
   def initialViewModel(startupData: MyStartUpData, model: MyGameModel): MyViewModel = MyViewModel()
 
-  def updateModel(context: FrameContext[MyStartUpData], model: MyGameModel): GlobalEvent => Outcome[MyGameModel] = _ => Outcome(model)
+  def updateModel(context: FrameContext[MyStartUpData], model: MyGameModel): GlobalEvent => Outcome[MyGameModel] =
+    _ => Outcome(model)
 
-  def updateViewModel(context: FrameContext[MyStartUpData], model: MyGameModel, viewModel: MyViewModel): GlobalEvent => Outcome[MyViewModel] =
+  def updateViewModel(
+      context: FrameContext[MyStartUpData],
+      model: MyGameModel,
+      viewModel: MyViewModel
+  ): GlobalEvent => Outcome[MyViewModel] =
     _ => Outcome(viewModel)
 
   def present(context: FrameContext[MyStartUpData], model: MyGameModel, viewModel: MyViewModel): SceneUpdateFragment =

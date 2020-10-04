@@ -19,7 +19,7 @@ object AssetLoadingExample extends IndigoDemo[Unit, Unit, MyGameModel, MyViewMod
       .withAssets(Assets.assets)
       .withSubSystems(AssetBundleLoader)
 
-  def setup(bootData: Unit, assetCollection: AssetCollection, dice: Dice): Startup[StartupErrors, Unit] =
+  def setup(bootData: Unit, assetCollection: AssetCollection, dice: Dice): Startup[Unit] =
     assetCollection.findTextDataByName(AssetName("text")) match {
       case Some(value) =>
         println("Loaded text! " + value)
@@ -37,34 +37,45 @@ object AssetLoadingExample extends IndigoDemo[Unit, Unit, MyGameModel, MyViewMod
         buttonAssets = Assets.buttonAssets,
         bounds = Rectangle(10, 10, 16, 16),
         depth = Depth(2)
-      ).withUpAction {
+      ).withUpActions {
         println("Start loading assets...")
-        List(AssetBundleLoaderEvent.Load(BindingKey("Junction box assets"), Assets.junctionboxImageAssets ++ Assets.otherAssetsToLoad))
+        List(
+          AssetBundleLoaderEvent.Load(
+            BindingKey("Junction box assets"),
+            Assets.junctionboxImageAssets ++ Assets.otherAssetsToLoad
+          )
+        )
       }
     )
 
   def updateModel(context: FrameContext[Unit], model: MyGameModel): GlobalEvent => Outcome[MyGameModel] = {
     case AssetBundleLoaderEvent.Started(key) =>
-      println("Load started! " + key.toString())
+      println("Load started! " + key.value)
       Outcome(model)
 
     case AssetBundleLoaderEvent.LoadProgress(key, percent, completed, total) =>
-      println(s"In progress...: ${key.toString()} - ${percent.toString()}%, ${completed.toString()} of ${total.toString()}")
+      println(
+        s"In progress...: ${key.value} - ${percent.toString()}%, ${completed.toString()} of ${total.toString()}"
+      )
       Outcome(model)
 
     case AssetBundleLoaderEvent.Success(key) =>
-      println("Got it! " + key.toString())
+      println("Got it! " + key.value)
       Outcome(model.copy(loaded = true)).addGlobalEvents(PlaySound(AssetName("sfx"), Volume.Max))
 
     case AssetBundleLoaderEvent.Failure(key, message) =>
-      println(s"Lost it... '$message' " + key.toString())
+      println(s"Lost it... '$message' " + key.value)
       Outcome(model)
 
     case _ =>
       Outcome(model)
   }
 
-  def updateViewModel(context: FrameContext[Unit], model: MyGameModel, viewModel: MyViewModel): GlobalEvent => Outcome[MyViewModel] = {
+  def updateViewModel(
+      context: FrameContext[Unit],
+      model: MyGameModel,
+      viewModel: MyViewModel
+  ): GlobalEvent => Outcome[MyViewModel] = {
     case FrameTick =>
       viewModel.button.update(context.inputState.mouse).map { btn =>
         viewModel.copy(button = btn)
@@ -75,12 +86,13 @@ object AssetLoadingExample extends IndigoDemo[Unit, Unit, MyGameModel, MyViewMod
   }
 
   def present(context: FrameContext[Unit], model: MyGameModel, viewModel: MyViewModel): SceneUpdateFragment = {
-    val box = if (model.loaded) {
-      List(
-        Graphic(Rectangle(0, 0, 64, 64), 1, Assets.junctionBoxMaterial)
-          .moveTo(30, 30)
-      )
-    } else Nil
+    val box =
+      if (model.loaded)
+        List(
+          Graphic(Rectangle(0, 0, 64, 64), 1, Assets.junctionBoxMaterial)
+            .moveTo(30, 30)
+        )
+      else Nil
 
     SceneUpdateFragment(
       viewModel.button.draw :: box

@@ -17,14 +17,13 @@ object AutomataExample extends IndigoDemo[Point, Point, Unit, ViewModel] {
       config,
       config.viewport.size
     ).withAssets(
-        AssetType.Image(AssetName("graphics"), AssetPath("assets/graphics.png")),
-        AssetType.Image(FontStuff.fontName, AssetPath("assets/boxy_font.png"))
-      )
-      .withFonts(FontStuff.fontInfo)
+      AssetType.Image(AssetName("graphics"), AssetPath("assets/graphics.png")),
+      AssetType.Image(FontStuff.fontName, AssetPath("assets/boxy_font.png"))
+    ).withFonts(FontStuff.fontInfo)
       .withSubSystems(Score.automataSubSystem(FontStuff.fontKey))
   }
 
-  def setup(bootData: Point, assetCollection: AssetCollection, dice: Dice): Startup[StartupErrors, Point] =
+  def setup(bootData: Point, assetCollection: AssetCollection, dice: Dice): Startup[Point] =
     Startup.Success(bootData)
 
   def initialModel(startupData: Point): Unit =
@@ -49,14 +48,18 @@ object AutomataExample extends IndigoDemo[Point, Point, Unit, ViewModel] {
       Outcome(model)
   }
 
-  def updateViewModel(context: FrameContext[Point], model: Unit, viewModel: ViewModel): GlobalEvent => Outcome[ViewModel] = {
+  def updateViewModel(
+      context: FrameContext[Point],
+      model: Unit,
+      viewModel: ViewModel
+  ): GlobalEvent => Outcome[ViewModel] = {
     case FrameTick =>
       viewModel.button
         .update(context.inputState.mouse)
         .map { btn =>
-          btn.withUpAction {
-            List(Score.spawnEvent(Score.generateLocation(viewModel.viewportSize, context.dice), context.dice))
-          }
+          btn.withUpActions(
+            Score.spawnEvent(Score.generateLocation(viewModel.viewportSize, context.dice), context.dice)
+          )
         }
         .map(viewModel.withButton)
 

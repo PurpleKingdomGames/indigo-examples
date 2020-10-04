@@ -32,7 +32,7 @@ object WebSocketExample extends IndigoDemo[Unit, MySetupData, Unit, MyViewModel]
       down = Graphic(0, 0, 16, 16, 2, Material.Textured(AssetName("graphics"))).withCrop(32, 32, 16, 16)
     )
 
-  def setup(bootData: Unit, assetCollection: AssetCollection, dice: Dice): Startup[StartupErrors, MySetupData] =
+  def setup(bootData: Unit, assetCollection: AssetCollection, dice: Dice): Startup[MySetupData] =
     Startup.Success(
       MySetupData(
         pingSocket = WebSocketConfig(
@@ -55,16 +55,12 @@ object WebSocketExample extends IndigoDemo[Unit, MySetupData, Unit, MyViewModel]
         buttonAssets = buttonAssets,
         bounds = Rectangle(10, 32, 16, 16),
         depth = Depth(2)
-      ).withUpAction {
-        List(WebSocketEvent.ConnectOnly(startupData.pingSocket))
-      },
+      ).withUpActions(WebSocketEvent.ConnectOnly(startupData.pingSocket)),
       echo = Button(
         buttonAssets = buttonAssets,
         bounds = Rectangle(10, 32, 16, 16),
         depth = Depth(2)
-      ).withUpAction {
-        List(WebSocketEvent.Send("Hello!", startupData.echoSocket))
-      }
+      ).withUpActions(WebSocketEvent.Send("Hello!", startupData.echoSocket))
     )
 
   def updateModel(context: FrameContext[MySetupData], model: Unit): GlobalEvent => Outcome[Unit] = {
@@ -88,7 +84,11 @@ object WebSocketExample extends IndigoDemo[Unit, MySetupData, Unit, MyViewModel]
       Outcome(model)
   }
 
-  def updateViewModel(context: FrameContext[MySetupData], model: Unit, viewModel: MyViewModel): GlobalEvent => Outcome[MyViewModel] = {
+  def updateViewModel(
+      context: FrameContext[MySetupData],
+      model: Unit,
+      viewModel: MyViewModel
+  ): GlobalEvent => Outcome[MyViewModel] = {
     case FrameTick =>
       (viewModel.ping.update(context.inputState.mouse) |+| viewModel.echo.update(context.inputState.mouse)).map {
         case (ping, echo) =>

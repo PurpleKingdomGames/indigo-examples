@@ -41,7 +41,7 @@ object LightingGame extends IndigoSandbox[Unit, Unit] {
       )
     )
 
-  def setup(assetCollection: AssetCollection, dice: Dice): Startup[StartupErrors, Unit] =
+  def setup(assetCollection: AssetCollection, dice: Dice): Startup[Unit] =
     Startup.Success(())
 
   def initialModel(startupData: Unit): Unit =
@@ -157,9 +157,11 @@ object LightingAssets {
     Set(
       AssetType.Tagged("atlas1")(
         AssetType.Image(junctionBoxAlbedo, AssetPath("assets/" + junctionBoxAlbedo.value + ".png")),
-        AssetType.Image(junctionBoxEmission.assetName, AssetPath("assets/" + junctionBoxEmission.assetName.value + ".png")),
+        AssetType
+          .Image(junctionBoxEmission.assetName, AssetPath("assets/" + junctionBoxEmission.assetName.value + ".png")),
         AssetType.Image(junctionBoxNormal.assetName, AssetPath("assets/" + junctionBoxNormal.assetName.value + ".png")),
-        AssetType.Image(junctionBoxSpecular.assetName, AssetPath("assets/" + junctionBoxSpecular.assetName.value + ".png")),
+        AssetType
+          .Image(junctionBoxSpecular.assetName, AssetPath("assets/" + junctionBoxSpecular.assetName.value + ".png")),
         AssetType.Image(trafficLightsName, AssetPath("assets/" + trafficLightsName.value + ".png"))
       )
     )

@@ -16,7 +16,7 @@ object InputFieldExample extends IndigoDemo[Unit, Unit, Unit, MyViewModel] {
       .withAssets(AssetType.Image(FontStuff.fontName, AssetPath("assets/boxy_font.png")))
       .withFonts(FontStuff.fontInfo)
 
-  def setup(bootData: Unit, assetCollection: AssetCollection, dice: Dice): Startup[StartupErrors, Unit] =
+  def setup(bootData: Unit, assetCollection: AssetCollection, dice: Dice): Startup[Unit] =
     Startup.Success(())
 
   def initialModel(startupData: Unit): Unit =
@@ -31,21 +31,33 @@ object InputFieldExample extends IndigoDemo[Unit, Unit, Unit, MyViewModel] {
 
     MyViewModel(
       InputField("Single line", assets).makeSingleLine.moveTo(Point(10, 10)),
-      InputField("Multi\nline", assets).makeMultiLine.moveTo(Point(10, 50))
+      InputField("Multi\nline", assets).makeMultiLine
+        .withKey(BindingKey("test input field")) // On change events are only emitted with a key is set
+        .moveTo(Point(10, 50))
+        .withFocusActions(MyInputFieldEvent("got focus"))
+        .withLoseFocusActions(MyInputFieldEvent("lost focus"))
     )
   }
 
-  def updateModel(context: FrameContext[Unit], model: Unit): GlobalEvent => Outcome[Unit] =
-    _ => Outcome(model)
+  def updateModel(context: FrameContext[Unit], model: Unit): GlobalEvent => Outcome[Unit] = {
+    case InputFieldChange(key, updatedText) =>
+      println(s"Updated '${key.value}' to: $updatedText")
+      Outcome(model)
+
+    case MyInputFieldEvent(message) =>
+      println(s"$message")
+      Outcome(model)
+
+    case _ =>
+      Outcome(model)
+  }
 
   def updateViewModel(context: FrameContext[Unit], model: Unit, viewModel: MyViewModel): GlobalEvent => Outcome[MyViewModel] = {
     case FrameTick =>
-      Outcome(
-        viewModel.copy(
-          singleLine = viewModel.singleLine.update(context),
-          multiLine = viewModel.multiLine.update(context)
-        )
-      )
+      for {
+        single <- viewModel.singleLine.update(context)
+        multi  <- viewModel.multiLine.update(context)
+      } yield viewModel.copy(singleLine = single, multiLine = multi)
 
     case _ =>
       Outcome(viewModel)
@@ -71,6 +83,8 @@ object InputFieldExample extends IndigoDemo[Unit, Unit, Unit, MyViewModel] {
 }
 
 final case class MyViewModel(singleLine: InputField, multiLine: InputField)
+
+final case class MyInputFieldEvent(message: String) extends GlobalEvent
 
 object FontStuff {
 
