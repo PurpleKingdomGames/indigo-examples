@@ -4,7 +4,7 @@ import indigo._
 import pirate.core.TileType
 import scala.annotation.tailrec
 import scala.collection.immutable.Nil
-import EqualTo._
+import indigo.shared.EqualTo._
 import indigoextras.geometry.BoundingBox
 
 /*

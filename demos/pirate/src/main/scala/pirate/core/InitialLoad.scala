@@ -27,7 +27,7 @@ object InitialLoad {
       screenDimensions: Rectangle,
       assetCollection: AssetCollection,
       dice: Dice
-  ): Startup[StartupErrors, StartupData] =
+  ): Startup[StartupData] =
     loadAnimation(assetCollection, dice)(Assets.Captain.jsonRef, Assets.Captain.ref, Depth(2))
       .map { captain =>
         makeStartupData(
@@ -36,7 +36,7 @@ object InitialLoad {
         )
       } match {
       case Left(message) =>
-        Startup.Failure(StartupErrors(message))
+        Startup.Failure(message)
 
       case Right(success) =>
         success

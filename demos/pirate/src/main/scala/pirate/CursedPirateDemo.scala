@@ -62,7 +62,7 @@ object CursedPirateDemo extends IndigoGame[BootInformation, StartupData, Model, 
       bootInfo: BootInformation,
       assetCollection: AssetCollection,
       dice: Dice
-  ): Startup[StartupErrors, StartupData] =
+  ): Startup[StartupData] =
     InitialLoad.setup(bootInfo.screenDimensions, assetCollection, dice)
 
   def initialModel(startupData: StartupData): Model =
