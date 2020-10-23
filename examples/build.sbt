@@ -1,7 +1,7 @@
 import scala.sys.process._
 import scala.language.postfixOps
 
-lazy val indigoVersion = "0.4.0"
+lazy val indigoVersion = "0.5.0"
 
 lazy val commonSettings = Seq(
   version := "0.0.1",
@@ -319,4 +319,19 @@ lazy val radio =
       showCursor := true,
       title := "Radio button example",
       gameAssetsDirectory := "assets"
+    )
+
+lazy val jobs =
+  project
+    .in(file("jobs"))
+    .settings(commonSettings: _*)
+    .enablePlugins(SbtIndigo)
+    .enablePlugins(ScalaJSPlugin)
+    .settings(
+      name := "jobs-example",
+      showCursor := true,
+      title := "Job System Example",
+      gameAssetsDirectory := "assets",
+      windowStartWidth := 400,
+      windowStartHeight := 400
     )

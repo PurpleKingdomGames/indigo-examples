@@ -26,9 +26,9 @@ lazy val pirate =
       windowStartWidth := 1280,
       windowStartHeight := 720,
       libraryDependencies ++= Seq(
-        "io.indigoengine" %%% "indigo-json-circe" % "0.4.0", // Needed for Aseprite & Tiled support
-        "io.indigoengine" %%% "indigo"            % "0.4.0", // Important! :-)
-        "io.indigoengine" %%% "indigo-extras"     % "0.4.0" // Important! :-)
+        "io.indigoengine" %%% "indigo-json-circe" % "0.5.0", // Needed for Aseprite & Tiled support
+        "io.indigoengine" %%% "indigo"            % "0.5.0", // Important! :-)
+        "io.indigoengine" %%% "indigo-extras"     % "0.5.0" // Important! :-)
       )
     )
 
