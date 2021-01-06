@@ -20,7 +20,9 @@ lazy val exampleProjects: List[String] =
     "assetLoading",
     "tiled",
     "radio",
-    "jobs"
+    "jobs",
+    "inputmapper",
+    "errors"
   )
 
 def applyCommand(projects: List[String], command: String): String =
@@ -49,7 +51,7 @@ addCommandAlias(
 )
 
 addCommandAlias(
-  "fastOptJSAll",
+  "fastOptAll",
   applyToAll("fastOptJS")
 )
 addCommandAlias(
@@ -60,7 +62,7 @@ addCommandAlias(
   "buildExamples",
   List(
     "buildAllNoClean",
-    "fastOptJSAll",
+    "fastOptAll",
     "indigoBuildAll"
   ).mkString(";", ";", "")
 )
@@ -153,5 +155,21 @@ addCommandAlias(
   List(
     "radio/fastOptJS",
     "radio/indigoBuild"
+  ).mkString(";", ";", "")
+)
+
+addCommandAlias(
+  "inputmapperBuild",
+  List(
+    "inputmapper/fastOptJS",
+    "inputmapper/indigoBuild"
+  ).mkString(";", ";", "")
+)
+
+addCommandAlias(
+  "errorsBuild",
+  List(
+    "errors/fastOptJS",
+    "errors/indigoBuild"
   ).mkString(";", ";", "")
 )

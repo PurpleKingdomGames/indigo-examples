@@ -20,7 +20,7 @@ object SceneB extends Scene[StartUpData, GameModel, Unit] {
   val viewModelLens: Lens[Unit, Unit] =
     Lens.fixed(())
 
-  val eventFilters: EventFilters = EventFilters.Default
+  val eventFilters: EventFilters = EventFilters.Permissive
 
   val subSystems: Set[SubSystem] =
     Set(
@@ -28,8 +28,14 @@ object SceneB extends Scene[StartUpData, GameModel, Unit] {
     )
 
   // Nothing to do
-  def updateModel(context: FrameContext[StartUpData], sceneModel: MessageB): GlobalEvent => Outcome[MessageB] =
-    _ => Outcome(sceneModel)
+  def updateModel(context: FrameContext[StartUpData], sceneModel: MessageB): GlobalEvent => Outcome[MessageB] = {
+    case SceneEvent.SceneChange(from, to, at) =>
+      println(s"B: Changed scene from '${from.name}' to '${to.name}' at running time: ${at.value}")
+      Outcome(sceneModel)
+
+    case _ =>
+      Outcome(sceneModel)
+  }
 
   // Nothing to do
   def updateViewModel(context: FrameContext[StartUpData], sceneModel: MessageB, sceneViewModel: Unit): GlobalEvent => Outcome[Unit] =
@@ -37,16 +43,16 @@ object SceneB extends Scene[StartUpData, GameModel, Unit] {
 
   // Show some text
   // When the user clicks anywhere in the screen, trigger an event to jump to the other scene.
-  def present(context: FrameContext[StartUpData], sceneModel: MessageB, sceneViewModel: Unit): SceneUpdateFragment = {
+  def present(context: FrameContext[StartUpData], sceneModel: MessageB, sceneViewModel: Unit): Outcome[SceneUpdateFragment] = {
     val events: List[GlobalEvent] =
       if (context.inputState.mouse.wasMouseClickedWithin(Rectangle(0, 0, 550, 400))) List(SceneEvent.JumpTo(SceneA.name))
       else Nil
 
     val text: Text = Text(sceneModel.value, 20, 20, 1, FontStuff.fontKey)
-
-    SceneUpdateFragment.empty
-      .addGameLayerNodes(text)
-      .addGlobalEvents(events)
+    Outcome(
+      SceneUpdateFragment.empty
+        .addGameLayerNodes(text)
+    ).addGlobalEvents(events)
   }
 }
 

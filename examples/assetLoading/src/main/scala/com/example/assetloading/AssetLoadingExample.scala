@@ -9,73 +9,69 @@ import scala.scalajs.js.annotation._
 @JSExportTopLevel("IndigoGame")
 object AssetLoadingExample extends IndigoDemo[Unit, Unit, MyGameModel, MyViewModel] {
 
-  val eventFilters: EventFilters = EventFilters.Default
+  val eventFilters: EventFilters = EventFilters.Permissive
 
-  def boot(flags: Map[String, String]): BootResult[Unit] =
-    BootResult
-      .noData(
-        defaultGameConfig.withMagnification(2)
-      )
-      .withAssets(Assets.assets)
-      .withSubSystems(AssetBundleLoader)
-
-  def setup(bootData: Unit, assetCollection: AssetCollection, dice: Dice): Startup[Unit] =
-    assetCollection.findTextDataByName(AssetName("text")) match {
-      case Some(value) =>
-        println("Loaded text! " + value)
-        Startup.Success(())
-      case None =>
-        Startup.Success(())
+  def boot(flags: Map[String, String]): Outcome[BootResult[Unit]] =
+    Outcome {
+      BootResult
+        .noData(
+          defaultGameConfig.withMagnification(2)
+        )
+        .withAssets(Assets.assets)
+        .withSubSystems(AssetBundleLoader)
     }
 
-  def initialModel(startupData: Unit): MyGameModel =
-    MyGameModel(loaded = false)
-
-  def initialViewModel(startupData: Unit, model: MyGameModel): MyViewModel =
-    MyViewModel(
-      button = Button(
-        buttonAssets = Assets.buttonAssets,
-        bounds = Rectangle(10, 10, 16, 16),
-        depth = Depth(2)
-      ).withUpActions {
-        println("Start loading assets...")
-        List(
-          AssetBundleLoaderEvent.Load(
-            BindingKey("Junction box assets"),
-            Assets.junctionboxImageAssets ++ Assets.otherAssetsToLoad
-          )
-        )
+  def setup(bootData: Unit, assetCollection: AssetCollection, dice: Dice): Outcome[Startup[Unit]] =
+    Outcome {
+      assetCollection.findTextDataByName(AssetName("text")) match {
+        case Some(value) =>
+          println("Loaded text! " + value)
+          Startup.Success(())
+        case None =>
+          Startup.Success(())
       }
-    )
+    }
 
+  def initialModel(startupData: Unit): Outcome[MyGameModel] =
+    Outcome(MyGameModel(loaded = false))
+
+  def initialViewModel(startupData: Unit, model: MyGameModel): Outcome[MyViewModel] =
+    Outcome {
+      MyViewModel(
+        button = Button(
+          buttonAssets = Assets.buttonAssets,
+          bounds = Rectangle(10, 10, 16, 16),
+          depth = Depth(2)
+        ).withUpActions {
+          println("Start loading assets...")
+          List(AssetBundleLoaderEvent.Load(BindingKey("Junction box assets"), Assets.junctionboxImageAssets ++ Assets.otherAssetsToLoad))
+        }
+      )
+    }
+
+  @SuppressWarnings(Array("org.wartremover.warts.ToString"))
   def updateModel(context: FrameContext[Unit], model: MyGameModel): GlobalEvent => Outcome[MyGameModel] = {
     case AssetBundleLoaderEvent.Started(key) =>
-      println("Load started! " + key.value)
+      println("Load started! " + key.toString())
       Outcome(model)
 
     case AssetBundleLoaderEvent.LoadProgress(key, percent, completed, total) =>
-      println(
-        s"In progress...: ${key.value} - ${percent.toString()}%, ${completed.toString()} of ${total.toString()}"
-      )
+      println(s"In progress...: ${key.toString()} - ${percent.toString()}%, ${completed.toString()} of ${total.toString()}")
       Outcome(model)
 
     case AssetBundleLoaderEvent.Success(key) =>
-      println("Got it! " + key.value)
+      println("Got it! " + key.toString())
       Outcome(model.copy(loaded = true)).addGlobalEvents(PlaySound(AssetName("sfx"), Volume.Max))
 
     case AssetBundleLoaderEvent.Failure(key, message) =>
-      println(s"Lost it... '$message' " + key.value)
+      println(s"Lost it... '$message' " + key.toString())
       Outcome(model)
 
     case _ =>
       Outcome(model)
   }
 
-  def updateViewModel(
-      context: FrameContext[Unit],
-      model: MyGameModel,
-      viewModel: MyViewModel
-  ): GlobalEvent => Outcome[MyViewModel] = {
+  def updateViewModel(context: FrameContext[Unit], model: MyGameModel, viewModel: MyViewModel): GlobalEvent => Outcome[MyViewModel] = {
     case FrameTick =>
       viewModel.button.update(context.inputState.mouse).map { btn =>
         viewModel.copy(button = btn)
@@ -85,17 +81,16 @@ object AssetLoadingExample extends IndigoDemo[Unit, Unit, MyGameModel, MyViewMod
       Outcome(viewModel)
   }
 
-  def present(context: FrameContext[Unit], model: MyGameModel, viewModel: MyViewModel): SceneUpdateFragment = {
-    val box =
-      if (model.loaded)
-        List(
-          Graphic(Rectangle(0, 0, 64, 64), 1, Assets.junctionBoxMaterial)
-            .moveTo(30, 30)
-        )
-      else Nil
+  def present(context: FrameContext[Unit], model: MyGameModel, viewModel: MyViewModel): Outcome[SceneUpdateFragment] = {
+    val box = if (model.loaded) {
+      List(
+        Graphic(Rectangle(0, 0, 64, 64), 1, Assets.junctionBoxMaterial)
+          .moveTo(30, 30)
+      )
+    } else Nil
 
-    SceneUpdateFragment(
-      viewModel.button.draw :: box
+    Outcome(
+      SceneUpdateFragment(viewModel.button.draw :: box)
     )
   }
 }

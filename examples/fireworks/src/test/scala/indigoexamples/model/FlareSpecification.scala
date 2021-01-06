@@ -3,26 +3,24 @@ package indigoexamples.model
 import org.scalacheck._
 import org.scalacheck.Prop._
 import indigo.shared.dice.Dice
-// import indigo.shared.time.Millis
+import indigo.shared.time.Millis
 import indigoextras.geometry.Vertex
 import indigo.shared.datatypes.Radians
-import indigo.shared.EqualTo._
-// import indigo.shared.datatypes.Point
+import indigo.shared.datatypes.Point
 
 class FlareSpecification extends Properties("Flare") {
 
   import Generators._
 
-  property("always creates two control points") = Prop.forAll { target: Vertex =>
-    Flare.createArcControlVertices(Vertex.zero)(target).length === 2
+  property("always creates two control points") = Prop.forAll { (target: Vertex) =>
+    Flare.createArcControlVertices(Vertex.zero)(target).length == 2
   }
 
-  property("Supplied vertex is always first") = Prop.forAll { target: Vertex =>
-    Flare.createArcControlVertices(Vertex.zero)(target).head === Vertex.zero
+  property("Supplied vertex is always first") = Prop.forAll { (target: Vertex) =>
+    Flare.createArcControlVertices(Vertex.zero)(target).head == Vertex.zero
   }
 
-  property("able to generate a good target vertex based on a start point") = Prop.forAll(radiansGen, diceGen) { (angle: Radians, dice: Dice) =>
-
+  property("able to generate a good target vertex based on a start point") = Prop.forAll(radiansGen, diceGen, clampedRadiusGen) { (angle: Radians, dice: Dice, radius: Radius) =>
     val maxX: Double = 1.21d
     val maxY: Double = 0.61d
 
@@ -30,7 +28,7 @@ class FlareSpecification extends Properties("Flare") {
       Flare.pickEndPoint(angle)(dice)
 
     val distance: Double =
-      Vertex.distanceBetween(Vertex.zero, target)
+      Vertex.zero.distanceTo(target)
 
     val maxDistance: Double =
       Vertex.zero.distanceTo(Vertex(maxX, maxY))

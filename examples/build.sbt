@@ -1,23 +1,19 @@
 import scala.sys.process._
 import scala.language.postfixOps
 
-lazy val indigoVersion = "0.5.0"
+val dottyVersion = "3.0.0-M3"
 
 lazy val commonSettings = Seq(
   version := "0.0.1",
-  scalaVersion := "2.13.3",
+  scalaVersion := dottyVersion,
   organization := "indigo-examples",
   libraryDependencies ++= Seq(
-    "com.lihaoyi"     %%% "utest"         % "0.7.4" % "test",
-    "io.indigoengine" %%% "indigo"        % indigoVersion,
-    "io.indigoengine" %%% "indigo-extras" % indigoVersion
+    "org.scalameta"   %%% "munit"         % "0.7.20" % Test,
+    "io.indigoengine" %%% "indigo"        % "0.6.0",
+    "io.indigoengine" %%% "indigo-extras" % "0.6.0"
   ),
-  testFrameworks += new TestFramework("utest.runner.Framework"),
-  wartremoverWarnings in (Compile, compile) ++= Warts.allBut(
-    Wart.Overloading,
-    Wart.ImplicitParameter
-  ),
-  scalacOptions += "-Yrangepos"
+  testFrameworks += new TestFramework("munit.Framework"),
+  Test / scalaJSLinkerConfig ~= { _.withModuleKind(ModuleKind.CommonJSModule) }
 )
 
 // Examples
@@ -31,9 +27,7 @@ lazy val basicSetup =
       name := "basic-setup",
       showCursor := true,
       title := "Basic Setup",
-      gameAssetsDirectory := "assets",
-      windowStartWidth := 550,
-      windowStartHeight := 400
+      gameAssetsDirectory := "assets"
     )
 
 lazy val subSystems =
@@ -46,9 +40,7 @@ lazy val subSystems =
       name := "subsystems",
       showCursor := true,
       title := "SubSystems Example",
-      gameAssetsDirectory := "assets",
-      windowStartWidth := 550,
-      windowStartHeight := 400
+      gameAssetsDirectory := "assets"
     )
 
 lazy val scenesSetup =
@@ -61,9 +53,7 @@ lazy val scenesSetup =
       name := "scenes-setup",
       showCursor := true,
       title := "Scene Manager Setup",
-      gameAssetsDirectory := "assets",
-      windowStartWidth := 550,
-      windowStartHeight := 400
+      gameAssetsDirectory := "assets"
     )
 
 lazy val text =
@@ -76,9 +66,7 @@ lazy val text =
       name := "text-example",
       showCursor := true,
       title := "Text example",
-      gameAssetsDirectory := "assets",
-      windowStartWidth := 550,
-      windowStartHeight := 400
+      gameAssetsDirectory := "assets"
     )
 
 lazy val inputfield =
@@ -91,9 +79,7 @@ lazy val inputfield =
       name := "input-field-example",
       showCursor := true,
       title := "Input field example",
-      gameAssetsDirectory := "assets",
-      windowStartWidth := 550,
-      windowStartHeight := 400
+      gameAssetsDirectory := "assets"
     )
 
 lazy val button =
@@ -106,9 +92,7 @@ lazy val button =
       name := "button-example",
       showCursor := true,
       title := "Button example",
-      gameAssetsDirectory := "assets",
-      windowStartWidth := 550,
-      windowStartHeight := 400
+      gameAssetsDirectory := "assets"
     )
 
 lazy val graphic =
@@ -121,9 +105,7 @@ lazy val graphic =
       name := "graphic-example",
       showCursor := true,
       title := "Graphic example",
-      gameAssetsDirectory := "assets",
-      windowStartWidth := 550,
-      windowStartHeight := 400
+      gameAssetsDirectory := "assets"
     )
 
 lazy val group =
@@ -136,9 +118,7 @@ lazy val group =
       name := "group-example",
       showCursor := true,
       title := "Group example",
-      gameAssetsDirectory := "assets",
-      windowStartWidth := 550,
-      windowStartHeight := 400
+      gameAssetsDirectory := "assets"
     )
 
 lazy val tiled =
@@ -152,10 +132,8 @@ lazy val tiled =
       showCursor := true,
       title := "Tiled example",
       gameAssetsDirectory := "assets",
-      windowStartWidth := 19 * 32,
-      windowStartHeight := 11 * 32,
       libraryDependencies ++= Seq(
-        "io.indigoengine" %%% "indigo-json-circe" % indigoVersion
+        "io.indigoengine" %%% "indigo-json-circe" % "0.6.0"
       )
     )
 
@@ -169,9 +147,7 @@ lazy val sprite =
       name := "sprite-example",
       showCursor := true,
       title := "Sprite example",
-      gameAssetsDirectory := "assets",
-      windowStartWidth := 550,
-      windowStartHeight := 400
+      gameAssetsDirectory := "assets"
     )
 
 lazy val http =
@@ -184,9 +160,7 @@ lazy val http =
       name := "http-example",
       showCursor := true,
       title := "Http example",
-      gameAssetsDirectory := "assets",
-      windowStartWidth := 550,
-      windowStartHeight := 400
+      gameAssetsDirectory := "assets"
     )
 
 lazy val websocket =
@@ -199,9 +173,7 @@ lazy val websocket =
       name := "websocket-example",
       showCursor := true,
       title := "WebSocket example",
-      gameAssetsDirectory := "assets",
-      windowStartWidth := 550,
-      windowStartHeight := 400
+      gameAssetsDirectory := "assets"
     )
 
 lazy val automata =
@@ -214,9 +186,7 @@ lazy val automata =
       name := "automata-example",
       showCursor := true,
       title := "Automata example",
-      gameAssetsDirectory := "assets",
-      windowStartWidth := 550,
-      windowStartHeight := 400
+      gameAssetsDirectory := "assets"
     )
 
 lazy val fireworks =
@@ -233,7 +203,7 @@ lazy val fireworks =
       windowStartWidth := 1280,
       windowStartHeight := 720,
       libraryDependencies ++= Seq(
-        "org.scalacheck" %%% "scalacheck" % "1.14.3" % "test"
+        "org.scalacheck" %%% "scalacheck" % "1.15.2" % "test"
       )
     )
 
@@ -247,9 +217,7 @@ lazy val audio =
       name := "audio-example",
       showCursor := true,
       title := "Audio example",
-      gameAssetsDirectory := "assets",
-      windowStartWidth := 550,
-      windowStartHeight := 400
+      gameAssetsDirectory := "assets"
     )
 
 lazy val lighting =
@@ -275,9 +243,7 @@ lazy val distortion =
       name := "distortion",
       showCursor := true,
       title := "Distortion Example",
-      gameAssetsDirectory := "assets",
-      windowStartWidth := 684,
-      windowStartHeight := 384
+      gameAssetsDirectory := "assets"
     )
 
 lazy val assetLoading =
@@ -289,9 +255,7 @@ lazy val assetLoading =
       name := "assetLoading",
       showCursor := true,
       title := "Asset Loading Example",
-      gameAssetsDirectory := "assets",
-      windowStartWidth := 550,
-      windowStartHeight := 400
+      gameAssetsDirectory := "assets"
     )
 
 lazy val effects =
@@ -303,9 +267,7 @@ lazy val effects =
       name := "effects",
       showCursor := true,
       title := "Effects Example",
-      gameAssetsDirectory := "assets",
-      windowStartWidth := 684,
-      windowStartHeight := 384
+      gameAssetsDirectory := "assets"
     )
 
 lazy val radio =
@@ -334,4 +296,34 @@ lazy val jobs =
       gameAssetsDirectory := "assets",
       windowStartWidth := 400,
       windowStartHeight := 400
+    )
+
+lazy val inputmapper =
+  project
+    .in(file("inputmapper"))
+    .settings(commonSettings: _*)
+    .enablePlugins(SbtIndigo)
+    .enablePlugins(ScalaJSPlugin)
+    .settings(
+      name := "inputmapper-example",
+      showCursor := true,
+      title := "Input Mapper Example",
+      gameAssetsDirectory := "assets",
+      windowStartWidth := 400,
+      windowStartHeight := 400
+    )
+
+lazy val errors =
+  project
+    .in(file("errors"))
+    .settings(commonSettings: _*)
+    .enablePlugins(ScalaJSPlugin)
+    .enablePlugins(SbtIndigo)
+    .settings(
+      name := "errors",
+      showCursor := true,
+      title := "Error Handling",
+      gameAssetsDirectory := "assets",
+      windowStartWidth := 800,
+      windowStartHeight := 800
     )
