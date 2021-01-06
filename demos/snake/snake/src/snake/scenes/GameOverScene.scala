@@ -2,29 +2,31 @@ package snake.scenes
 
 import indigo._
 import indigo.scenes._
-import snake.model.{SnakeGameModel, SnakeViewModel}
-import snake.init.{GameAssets, Settings, SnakeStartupData}
+import snake.model.ViewModel
+import snake.init.{GameAssets, StartupData}
+import snake.model.GameModel
 
-object GameOverScene extends Scene[SnakeStartupData, SnakeGameModel, SnakeViewModel] {
+object GameOverScene extends Scene[StartupData, GameModel, ViewModel] {
   type SceneModel     = Int
   type SceneViewModel = Unit
 
-  val name: SceneName = SceneName("game over")
+  val name: SceneName =
+    SceneName("game over")
 
-  val modelLens: Lens[SnakeGameModel, Int] =
-    Lens(_.gameModel.score, (m, _) => m)
+  val modelLens: Lens[GameModel, Int] =
+    Lens.readOnly(_.score)
 
-  val viewModelLens: Lens[SnakeViewModel, Unit] =
-    Lens.fixed(())
+  val viewModelLens: Lens[ViewModel, Unit] =
+    Lens.unit
 
   val eventFilters: EventFilters =
-    EventFilters.Default
+    EventFilters.Restricted
       .withViewModelFilter(_ => None)
 
   val subSystems: Set[SubSystem] =
     Set()
 
-  def updateModel(context: FrameContext[SnakeStartupData], pointsScored: Int): GlobalEvent => Outcome[Int] = {
+  def updateModel(context: FrameContext[StartupData], pointsScored: Int): GlobalEvent => Outcome[Int] = {
     case KeyboardEvent.KeyUp(Key.SPACE) =>
       Outcome(pointsScored)
         .addGlobalEvents(SceneEvent.JumpTo(StartScene.name))
@@ -34,25 +36,26 @@ object GameOverScene extends Scene[SnakeStartupData, SnakeGameModel, SnakeViewMo
   }
 
   def updateViewModel(
-      context: FrameContext[SnakeStartupData],
+      context: FrameContext[StartupData],
       pointsScored: Int,
       sceneViewModel: Unit
   ): GlobalEvent => Outcome[Unit] =
     _ => Outcome(sceneViewModel)
 
   def present(
-      context: FrameContext[SnakeStartupData],
+      context: FrameContext[StartupData],
       pointsScored: Int,
       sceneViewModel: Unit
-  ): SceneUpdateFragment = {
-    val horizontalCenter: Int = (Settings.viewportWidth / Settings.magnificationLevel) / 2
-    val verticalMiddle: Int   = (Settings.viewportHeight / Settings.magnificationLevel) / 2
+  ): Outcome[SceneUpdateFragment] =
+    Outcome {
+      val horizontalCenter: Int = context.startUpData.viewConfig.horizontalCenter
+      val verticalMiddle: Int   = context.startUpData.viewConfig.verticalMiddle
 
-    SceneUpdateFragment.empty
-      .addUiLayerNodes(
-        Text("Game Over!", horizontalCenter, verticalMiddle - 20, 1, GameAssets.fontKey).alignCenter,
-        Text(s"You scored: ${pointsScored.toString()} pts!", horizontalCenter, verticalMiddle - 5, 1, GameAssets.fontKey).alignCenter,
-        Text("(hit space to restart)", horizontalCenter, 220, 1, GameAssets.fontKey).alignCenter
-      )
-  }
+      SceneUpdateFragment.empty
+        .addUiLayerNodes(
+          Text("Game Over!", horizontalCenter, verticalMiddle - 20, 1, GameAssets.fontKey).alignCenter,
+          Text(s"You scored: ${pointsScored.toString()} pts!", horizontalCenter, verticalMiddle - 5, 1, GameAssets.fontKey).alignCenter,
+          Text("(hit space to restart)", horizontalCenter, 220, 1, GameAssets.fontKey).alignCenter
+        )
+    }
 }

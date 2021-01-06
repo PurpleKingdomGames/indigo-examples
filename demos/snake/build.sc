@@ -7,17 +7,17 @@ import mill.scalajslib._
 import mill.scalajslib.api._
 import coursier.maven.MavenRepository
 
-import $ivy.`io.indigoengine::mill-indigo:0.5.0`, millindigo._
+import $ivy.`io.indigoengine::mill-indigo:0.6.1-SNAPSHOT`, millindigo._
 
 object snake extends ScalaJSModule with MillIndigo {
-  def scalaVersion   = "2.13.3"
-  def scalaJSVersion = "1.3.0"
+  def scalaVersion   = "2.13.4"
+  def scalaJSVersion = "1.3.1"
 
   val gameAssetsDirectory: os.Path = os.pwd / "assets"
   val showCursor: Boolean          = true
   val title: String                = "Snake - Made with Indigo"
   val windowStartWidth: Int        = 720
-  val windowStartHeight: Int       = 480
+  val windowStartHeight: Int       = 516
 
   def buildGame() = T.command {
     T {
@@ -35,7 +35,7 @@ object snake extends ScalaJSModule with MillIndigo {
     }
   }
 
-  val indigoVersion = "0.5.0"
+  val indigoVersion = "0.6.1-SNAPSHOT"
 
   def ivyDeps = Agg(
     ivy"io.indigoengine::indigo-json-circe::$indigoVersion",
@@ -47,8 +47,8 @@ object snake extends ScalaJSModule with MillIndigo {
     MavenRepository("https://oss.sonatype.org/content/repositories/releases")
   )
 
-  def compileIvyDeps      = T { super.compileIvyDeps() ++ Agg(ivy"org.wartremover::wartremover:2.4.9") }
-  def scalacPluginIvyDeps = T { super.scalacPluginIvyDeps() ++ Agg(ivy"org.wartremover:::wartremover:2.4.9") }
+  def compileIvyDeps      = T { super.compileIvyDeps() ++ Agg(ivy"org.wartremover::wartremover:2.4.13") }
+  def scalacPluginIvyDeps = T { super.scalacPluginIvyDeps() ++ Agg(ivy"org.wartremover:::wartremover:2.4.13") }
 
   def scalacOptions = ScalacOptions.scala213Compile ++ Seq(
     "-P:wartremover:traverser:org.wartremover.warts.Unsafe"
@@ -56,11 +56,13 @@ object snake extends ScalaJSModule with MillIndigo {
 
   object test extends Tests {
     def ivyDeps = Agg(
-      ivy"com.lihaoyi::utest::0.7.4",
-      ivy"org.scalacheck::scalacheck::1.14.3"
-      )
+      ivy"org.scalameta::munit::0.7.20",
+      ivy"org.scalacheck::scalacheck::1.15.2"
+    )
 
-    def testFrameworks = Seq("utest.runner.Framework")
+    def testFrameworks = Seq("munit.Framework")
+
+    override def moduleKind = T(mill.scalajslib.api.ModuleKind.CommonJSModule)
 
     def scalacOptions = ScalacOptions.scala213Test
   }

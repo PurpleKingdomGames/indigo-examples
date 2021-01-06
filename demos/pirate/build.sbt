@@ -1,6 +1,9 @@
 //-----------------------------------
 // The essentials.
 //-----------------------------------
+
+val dottyVersion    = "3.0.0-M3"
+
 lazy val pirate =
   (project in file("."))
     .enablePlugins(
@@ -10,14 +13,14 @@ lazy val pirate =
     .settings( // Standard SBT settings
       name := "pirate",
       version := "0.0.1",
-      scalaVersion := "2.13.3",
+      scalaVersion := dottyVersion,
       organization := "pirate",
       libraryDependencies ++= Seq(
-        "com.lihaoyi"    %%% "utest"      % "0.7.4"  % "test",
-        "org.scalacheck" %%% "scalacheck" % "1.14.3" % "test"
+        "org.scalameta" %%% "munit" % "0.7.20" % Test,
+        "org.scalacheck" %%% "scalacheck" % "1.15.2" % "test"
       ),
-      testFrameworks += new TestFramework("utest.runner.Framework"),
-      wartremoverWarnings in (Compile, compile) ++= Warts.unsafe
+      testFrameworks += new TestFramework("munit.Framework"),
+      Test / scalaJSLinkerConfig ~= { _.withModuleKind(ModuleKind.CommonJSModule) }
     )
     .settings( // Indigo specific settings
       showCursor := true,
@@ -26,9 +29,9 @@ lazy val pirate =
       windowStartWidth := 1280,
       windowStartHeight := 720,
       libraryDependencies ++= Seq(
-        "io.indigoengine" %%% "indigo-json-circe" % "0.5.0", // Needed for Aseprite & Tiled support
-        "io.indigoengine" %%% "indigo"            % "0.5.0", // Important! :-)
-        "io.indigoengine" %%% "indigo-extras"     % "0.5.0" // Important! :-)
+        "io.indigoengine" %%% "indigo-json-circe" % "0.6.0", // Needed for Aseprite & Tiled support
+        "io.indigoengine" %%% "indigo"            % "0.6.0", // Important! :-)
+        "io.indigoengine" %%% "indigo-extras"     % "0.6.0"// Important! :-)
       )
     )
 

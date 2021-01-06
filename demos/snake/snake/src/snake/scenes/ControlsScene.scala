@@ -2,30 +2,32 @@ package snake.scenes
 
 import indigo._
 import indigo.scenes._
-import snake.model.{ControlScheme, SnakeGameModel, SnakeViewModel}
-import snake.init.{GameAssets, Settings, SnakeStartupData}
+import snake.model.{ControlScheme, ViewModel}
+import snake.init.{GameAssets, StartupData}
+import snake.model.GameModel
 
-object ControlsScene extends Scene[SnakeStartupData, SnakeGameModel, SnakeViewModel] {
+object ControlsScene extends Scene[StartupData, GameModel, ViewModel] {
   type SceneModel     = ControlScheme
   type SceneViewModel = Unit
 
-  val name: SceneName = SceneName("controls")
+  val name: SceneName =
+    SceneName("controls")
 
-  val modelLens: Lens[SnakeGameModel, ControlScheme] =
-    SnakeGameModel.Lenses.controlSchemeAccessors
+  val modelLens: Lens[GameModel, ControlScheme] =
+    Lens(_.controlScheme, (m, c) => m.copy(controlScheme = c))
 
-  val viewModelLens: Lens[SnakeViewModel, Unit] =
-    Lens.fixed(())
+  val viewModelLens: Lens[ViewModel, Unit] =
+    Lens.unit
 
   val eventFilters: EventFilters =
-    EventFilters.Default
+    EventFilters.Restricted
       .withViewModelFilter(_ => None)
 
   val subSystems: Set[SubSystem] =
     Set()
 
   def updateModel(
-      context: FrameContext[SnakeStartupData],
+      context: FrameContext[StartupData],
       controlScheme: ControlScheme
   ): GlobalEvent => Outcome[ControlScheme] = {
     case KeyboardEvent.KeyUp(Key.SPACE) =>
@@ -40,25 +42,26 @@ object ControlsScene extends Scene[SnakeStartupData, SnakeGameModel, SnakeViewMo
   }
 
   def updateViewModel(
-      context: FrameContext[SnakeStartupData],
+      context: FrameContext[StartupData],
       controlScheme: ControlScheme,
       sceneViewModel: Unit
   ): GlobalEvent => Outcome[Unit] =
     _ => Outcome(sceneViewModel)
 
   def present(
-      context: FrameContext[SnakeStartupData],
+      context: FrameContext[StartupData],
       sceneModel: ControlScheme,
       sceneViewModel: Unit
-  ): SceneUpdateFragment = {
-    val horizontalCenter: Int = (Settings.viewportWidth / Settings.magnificationLevel) / 2
-    val verticalMiddle: Int   = (Settings.viewportHeight / Settings.magnificationLevel) / 2
+  ): Outcome[SceneUpdateFragment] =
+    Outcome {
+      val horizontalCenter: Int = context.startUpData.viewConfig.horizontalCenter
+      val verticalMiddle: Int   = context.startUpData.viewConfig.verticalMiddle
 
-    SceneUpdateFragment.empty
-      .addUiLayerNodes(drawControlsText(24, verticalMiddle, sceneModel))
-      .addUiLayerNodes(drawSelectText(horizontalCenter))
-      .addUiLayerNodes(SharedElements.drawHitSpaceToStart(horizontalCenter, Seconds(1), context.gameTime))
-  }
+      SceneUpdateFragment.empty
+        .addUiLayerNodes(drawControlsText(24, verticalMiddle, sceneModel))
+        .addUiLayerNodes(drawSelectText(horizontalCenter))
+        .addUiLayerNodes(SharedElements.drawHitSpaceToStart(horizontalCenter, Seconds(1), context.gameTime))
+    }
 
   def drawControlsText(center: Int, middle: Int, controlScheme: ControlScheme): List[SceneGraphNode] =
     List(

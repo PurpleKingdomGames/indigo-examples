@@ -1,13 +1,8 @@
-
 *.class
 *.log
 .DS_Store
-
-# mill specific
 out
 publish.sh
-
-# sbt specific
 sbt
 .sbt-local
 .cache
@@ -17,15 +12,12 @@ dist
 target
 lib_managed
 src_managed
-
-# IDE specific
 .idea
 *.iml
 .vscode
-
 node_modules
-
-elm-stuff
 .metals/
 .bloop
 metals.sbt
+.dotty-ide-disabled
+.bsp

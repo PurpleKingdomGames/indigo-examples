@@ -3,44 +3,44 @@ package snake.scenes
 import indigo._
 import indigo.scenes._
 
-import snake.gamelogic.{ModelLogic, ViewLogic}
-import snake.model.{GameModel, SnakeGameModel, SnakeViewModel}
-import snake.gamelogic.Score
-import snake.init.{GameAssets, SnakeStartupData}
+import snake.model.{GameModel, ViewModel}
+import snake.Score
+import snake.init.{GameAssets, StartupData}
 
-object GameScene extends Scene[SnakeStartupData, SnakeGameModel, SnakeViewModel] {
+object GameScene extends Scene[StartupData, GameModel, ViewModel] {
   type SceneModel     = GameModel
-  type SceneViewModel = SnakeViewModel
+  type SceneViewModel = Group
 
-  val name: SceneName = SceneName("game scene")
+  val name: SceneName =
+    SceneName("game scene")
 
-  val modelLens: Lens[SnakeGameModel, GameModel] =
-    SnakeGameModel.Lenses.gameLens
-
-  val viewModelLens: Lens[SnakeViewModel, SnakeViewModel] =
+  val modelLens: Lens[GameModel, GameModel] =
     Lens.keepLatest
 
+  val viewModelLens: Lens[ViewModel, Group] =
+    Lens.readOnly(_.walls)
+
   val eventFilters: EventFilters =
-    EventFilters.Default
+    EventFilters.Restricted
       .withViewModelFilter(_ => None)
 
   val subSystems: Set[SubSystem] =
-    Set(Score.automataSubSystem(ModelLogic.ScoreIncrement.toString(), GameAssets.fontKey))
+    Set(Score.automataSubSystem(GameModel.ScoreIncrement.toString(), GameAssets.fontKey))
 
-  def updateModel(context: FrameContext[SnakeStartupData], gameModel: GameModel): GlobalEvent => Outcome[GameModel] =
-    ModelLogic.update(context.gameTime, context.dice, gameModel)
+  def updateModel(context: FrameContext[StartupData], gameModel: GameModel): GlobalEvent => Outcome[GameModel] =
+    gameModel.update(context.gameTime, context.dice, context.startUpData.viewConfig.gridSquareSize)
 
   def updateViewModel(
-      context: FrameContext[SnakeStartupData],
+      context: FrameContext[StartupData],
       gameModel: GameModel,
-      snakeViewModel: SnakeViewModel
-  ): GlobalEvent => Outcome[SnakeViewModel] =
-    _ => Outcome(snakeViewModel)
+      walls: Group
+  ): GlobalEvent => Outcome[Group] =
+    _ => Outcome(walls)
 
   def present(
-      context: FrameContext[SnakeStartupData],
+      context: FrameContext[StartupData],
       gameModel: GameModel,
-      snakeViewModel: SnakeViewModel
-  ): SceneUpdateFragment =
-    ViewLogic.update(gameModel, snakeViewModel)
+      walls: Group
+  ): Outcome[SceneUpdateFragment] =
+    GameView.update(context.startUpData.viewConfig, gameModel, walls, context.startUpData.staticAssets)
 }

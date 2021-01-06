@@ -3,75 +3,82 @@ package snake.scenes
 import indigo._
 import indigo.scenes._
 
-import snake.init.{GameAssets, Settings}
-import snake.model.{SnakeGameModel, SnakeViewModel}
-import snake.init.SnakeStartupData
+import snake.init.GameAssets
+import snake.model.ViewModel
+import snake.init.StartupData
+import snake.GameReset
+import snake.model.GameModel
 
-object StartScene extends Scene[SnakeStartupData, SnakeGameModel, SnakeViewModel] {
-  type SceneModel     = SnakeGameModel
-  type SceneViewModel = SnakeViewModel
+object StartScene extends Scene[StartupData, GameModel, ViewModel] {
+  type SceneModel     = Unit
+  type SceneViewModel = Unit
 
-  val name: SceneName = SceneName("start")
+  val name: SceneName =
+    SceneName("start")
 
-  val modelLens: Lens[SnakeGameModel, SnakeGameModel] =
-    Lens.keepLatest
+  val modelLens: Lens[GameModel, Unit] =
+    Lens.unit
 
-  val viewModelLens: Lens[SnakeViewModel, SnakeViewModel] =
-    Lens.keepLatest
+  val viewModelLens: Lens[ViewModel, Unit] =
+    Lens.unit
 
   val eventFilters: EventFilters =
-    EventFilters.Default
+    EventFilters.Restricted
       .withViewModelFilter(_ => None)
 
   val subSystems: Set[SubSystem] =
     Set()
 
   def updateModel(
-      context: FrameContext[SnakeStartupData],
-      snakeGameModel: SnakeGameModel
-  ): GlobalEvent => Outcome[SnakeGameModel] = {
+      context: FrameContext[StartupData],
+      snakeGameModel: Unit
+  ): GlobalEvent => Outcome[Unit] = {
     case KeyboardEvent.KeyUp(Key.SPACE) =>
-      Outcome(snakeGameModel.reset)
-        .addGlobalEvents(SceneEvent.JumpTo(ControlsScene.name))
+      Outcome(snakeGameModel)
+        .addGlobalEvents(
+          GameReset,
+          SceneEvent.JumpTo(ControlsScene.name)
+        )
 
     case _ =>
       Outcome(snakeGameModel)
   }
 
   def updateViewModel(
-      context: FrameContext[SnakeStartupData],
-      snakeGameModel: SnakeGameModel,
-      snakeViewModel: SnakeViewModel
-  ): GlobalEvent => Outcome[SnakeViewModel] =
+      context: FrameContext[StartupData],
+      snakeGameModel: Unit,
+      snakeViewModel: Unit
+  ): GlobalEvent => Outcome[Unit] =
     _ => Outcome(snakeViewModel)
 
   def present(
-      context: FrameContext[SnakeStartupData],
-      snakeGameModel: SnakeGameModel,
-      snakeViewModel: SnakeViewModel
-  ): SceneUpdateFragment = {
-    val horizontalCenter: Int = (Settings.viewportWidth / Settings.magnificationLevel) / 2
-    val verticalMiddle: Int   = (Settings.viewportHeight / Settings.magnificationLevel) / 2
+      context: FrameContext[StartupData],
+      snakeGameModel: Unit,
+      snakeViewModel: Unit
+  ): Outcome[SceneUpdateFragment] =
+    Outcome {
+      val horizontalCenter: Int = context.startUpData.viewConfig.horizontalCenter
+      val verticalMiddle: Int   = context.startUpData.viewConfig.verticalMiddle
 
-    SceneUpdateFragment.empty
-      .addUiLayerNodes(drawTitleText(horizontalCenter, verticalMiddle))
-      .addUiLayerNodes(SharedElements.drawHitSpaceToStart(horizontalCenter, Seconds(1), context.gameTime))
-      .withAudio(
-        SceneAudio(
-          SceneAudioSource(
-            BindingKey("intro music"),
-            PlaybackPattern.SingleTrackLoop(
-              Track(GameAssets.soundIntro)
+      SceneUpdateFragment.empty
+        .addUiLayerNodes(drawTitleText(horizontalCenter, verticalMiddle))
+        .addUiLayerNodes(SharedElements.drawHitSpaceToStart(horizontalCenter, Seconds(1), context.gameTime))
+        .withAudio(
+          SceneAudio(
+            SceneAudioSource(
+              BindingKey("intro music"),
+              PlaybackPattern.SingleTrackLoop(
+                Track(GameAssets.soundIntro)
+              )
             )
           )
         )
-      )
-  }
+    }
 
   def drawTitleText(center: Int, middle: Int): List[SceneGraphNode] =
     List(
       Text("snake!", center, middle - 20, 1, GameAssets.fontKey).alignCenter,
       Text("presented in glorious 1 bit graphics", center, middle - 5, 1, GameAssets.fontKey).alignCenter,
-      Text("Made with Indigo", center, middle + 10, 1, GameAssets.fontKey).alignCenter
+      Text("Made by Dave", center, middle + 10, 1, GameAssets.fontKey).alignCenter
     )
 }

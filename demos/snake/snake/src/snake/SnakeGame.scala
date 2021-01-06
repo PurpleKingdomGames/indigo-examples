@@ -4,47 +4,78 @@ import indigo._
 import indigo.scenes._
 import indigoextras.subsystems.FPSCounter
 
-import snake.model.{ControlScheme, SnakeGameModel, SnakeViewModel}
-import snake.init.{GameAssets, Settings, SnakeStartupData}
+import snake.model.{ControlScheme, GameModel, ViewModel}
+import snake.init.{GameAssets, StartupData, ViewConfig}
 import snake.scenes.{ControlsScene, GameOverScene, GameScene, StartScene}
 import scala.scalajs.js.annotation.JSExportTopLevel
 
 @JSExportTopLevel("IndigoGame")
-object SnakeGame extends IndigoGame[GameViewport, SnakeStartupData, SnakeGameModel, SnakeViewModel] {
+object SnakeGame extends IndigoGame[ViewConfig, StartupData, GameModel, ViewModel] {
 
-  def boot(flags: Map[String, String]): BootResult[GameViewport] = {
-    val assetPath: String =
-      flags.getOrElse("baseUrl", "")
-
-    val config =
-      GameConfig(
-        viewport = GameViewport(Settings.viewportWidth, Settings.viewportHeight),
-        frameRate = 60,
-        clearColor = ClearColor.Black,
-        magnification = Settings.magnificationLevel
-      )
-
-    BootResult(config, config.viewport)
-      .withAssets(GameAssets.assets(assetPath))
-      .withFonts(GameAssets.fontInfo)
-      .withSubSystems(
-        Set(FPSCounter(GameAssets.fontKey, Point(5, 5), 60))
-      )
-  }
-
-  def initialScene(bootData: GameViewport): Option[SceneName] =
+  def initialScene(bootData: ViewConfig): Option[SceneName] =
     Option(StartScene.name)
 
-  def scenes(bootData: GameViewport): NonEmptyList[Scene[SnakeStartupData, SnakeGameModel, SnakeViewModel]] =
+  def scenes(bootData: ViewConfig): NonEmptyList[Scene[StartupData, GameModel, ViewModel]] =
     NonEmptyList(StartScene, ControlsScene, GameScene, GameOverScene)
 
-  def initialModel(startupData: SnakeStartupData): SnakeGameModel =
-    SnakeGameModel.initialModel(startupData, ControlScheme.directedKeys)
+  val eventFilters: EventFilters =
+    EventFilters.Restricted
 
-  def initialViewModel(startupData: SnakeStartupData, model: SnakeGameModel): SnakeViewModel =
-    SnakeViewModel.initialViewModel(startupData, model)
+  def boot(flags: Map[String, String]): Outcome[BootResult[ViewConfig]] =
+    Outcome {
+      val viewConfig: ViewConfig =
+        ViewConfig.default
 
-  def setup(viewport: GameViewport, assetCollection: AssetCollection, dice: Dice): Startup[SnakeStartupData] =
-    SnakeStartupData.initialise(viewport, Settings.gridSize)
+      val assetPath: String =
+        flags.getOrElse("baseUrl", "")
+
+      val config =
+        GameConfig(
+          viewport = viewConfig.viewport,
+          frameRate = 60,
+          clearColor = RGBA.Black,
+          magnification = viewConfig.magnificationLevel
+        )
+
+      BootResult(config, viewConfig)
+        .withAssets(GameAssets.assets(assetPath))
+        .withFonts(GameAssets.fontInfo)
+        .withSubSystems(
+          Set(FPSCounter(GameAssets.fontKey, Point(5, 5), 60))
+        )
+    }
+
+  def initialModel(startupData: StartupData): Outcome[GameModel] =
+    Outcome(GameModel.initialModel(startupData.viewConfig.gridSize, ControlScheme.directedKeys))
+
+  def initialViewModel(startupData: StartupData, model: GameModel): Outcome[ViewModel] =
+    Outcome(ViewModel.initialViewModel(startupData, model))
+
+  def setup(viewConfig: ViewConfig, assetCollection: AssetCollection, dice: Dice): Outcome[Startup[StartupData]] =
+    StartupData.initialise(viewConfig)
+
+  def updateModel(context: FrameContext[StartupData], model: GameModel): GlobalEvent => Outcome[GameModel] = {
+    case GameReset =>
+      Outcome(GameModel.initialModel(context.startUpData.viewConfig.gridSize, model.controlScheme))
+
+    case _ =>
+      Outcome(model)
+  }
+
+  def updateViewModel(
+      context: FrameContext[StartupData],
+      model: GameModel,
+      viewModel: ViewModel
+  ): GlobalEvent => Outcome[ViewModel] =
+    _ => Outcome(viewModel)
+
+  def present(
+      context: FrameContext[StartupData],
+      model: GameModel,
+      viewModel: ViewModel
+  ): Outcome[SceneUpdateFragment] =
+    Outcome(SceneUpdateFragment.empty)
 
 }
+
+final case object GameReset extends GlobalEvent

@@ -1,4 +1,4 @@
-package snake.gamelogic
+package snake
 
 import indigo._
 import indigoextras.subsystems._
@@ -33,17 +33,19 @@ object Score {
             )
         }
 
-    val signal: (AutomatonSeedValues, SceneGraphNode) => Signal[AutomatonUpdate] =
-      (seed, sceneGraphNode) =>
-        sceneGraphNode match {
-          case t: Text =>
-            workOutPosition(seed).map { position =>
-              AutomatonUpdate(List(t.moveTo(position)), Nil)
-            }
+    val signal: SignalReader[(AutomatonSeedValues, SceneGraphNode), AutomatonUpdate] =
+      SignalReader {
+        case (seed, sceneGraphNode) =>
+          sceneGraphNode match {
+            case t: Text =>
+              workOutPosition(seed).map { position =>
+                AutomatonUpdate(List(t.moveTo(position)), Nil)
+              }
 
-          case _ =>
-            Signal.fixed(AutomatonUpdate.empty)
-        }
+            case _ =>
+              Signal.fixed(AutomatonUpdate.empty)
+          }
+      }
 
   }
 
