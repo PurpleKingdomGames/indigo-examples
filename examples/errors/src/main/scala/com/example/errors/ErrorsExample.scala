@@ -19,7 +19,7 @@ method calls.
 
 To see the output, open the developer tools / console in your browser, or
 in electron if you used indigoRun.
- */
+*/
 
 @JSExportTopLevel("IndigoGame")
 object ErrorsExample extends IndigoDemo[BootData, StartUpData, Model, ViewModel] {
@@ -95,7 +95,7 @@ object ErrorsExample extends IndigoDemo[BootData, StartUpData, Model, ViewModel]
         }
 
     case TraceEvent("present") =>
-      Outcome.raiseError(new Exception("One full frame completed, time to stop."))
+        Outcome.raiseError(new Exception("One full frame completed, time to stop."))
 
     case TraceEvent(origin) =>
       println("Model recieved trace event from: " + origin)
@@ -105,11 +105,7 @@ object ErrorsExample extends IndigoDemo[BootData, StartUpData, Model, ViewModel]
       Outcome(model)
   }
 
-  def updateViewModel(
-      context: FrameContext[StartUpData],
-      model: Model,
-      viewModel: ViewModel
-  ): GlobalEvent => Outcome[ViewModel] = {
+  def updateViewModel(context: FrameContext[StartUpData], model: Model, viewModel: ViewModel): GlobalEvent => Outcome[ViewModel] = {
     case FrameTick =>
       Outcome
         .raiseError(UpdateViewModelCrash)

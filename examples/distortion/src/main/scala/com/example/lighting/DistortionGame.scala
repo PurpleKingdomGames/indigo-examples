@@ -4,6 +4,9 @@ import indigo._
 
 import scala.scalajs.js.annotation._
 
+import indigoextras.effectmaterials.Refraction
+import indigoextras.effectmaterials.RefractionEntity
+
 @JSExportTopLevel("IndigoGame")
 object DistortionGame extends IndigoSandbox[Unit, Unit] {
 
@@ -21,6 +24,9 @@ object DistortionGame extends IndigoSandbox[Unit, Unit] {
       magnification = magnificationLevel
     )
 
+  val viewCenter: Point =
+    config.viewport.giveDimensions(magnificationLevel).center
+
   val assets: Set[AssetType] =
     DistortionAssets.assets
 
@@ -33,6 +39,12 @@ object DistortionGame extends IndigoSandbox[Unit, Unit] {
   val animations: Set[Animation] =
     Set()
 
+  val shaders: Set[Shader] =
+    Set(
+      Refraction.entityShader,
+      Refraction.blendShader
+    )
+
   def setup(assetCollection: AssetCollection, dice: Dice): Outcome[Startup[Unit]] =
     Outcome(Startup.Success(()))
 
@@ -43,54 +55,52 @@ object DistortionGame extends IndigoSandbox[Unit, Unit] {
     _ => Outcome(())
 
   val graphic: Graphic =
-    Graphic(Rectangle(0, 0, 64, 64), 1, DistortionAssets.junctionBoxMaterialOn)
+    Graphic(Rectangle(0, 0, 64, 64), 1, DistortionAssets.junctionBoxMaterial)
       .withRef(20, 20)
-      .moveTo(config.viewport.giveDimensions(config.magnification).center)
+      .moveTo(viewCenter)
 
   val imageLight: Graphic =
     Graphic(Rectangle(0, 0, 320, 240), 1, DistortionAssets.imageLightMaterial)
       .moveBy(-14, -60)
 
   val distortion: Graphic =
-    Graphic(Rectangle(0, 0, 64, 64), 1, DistortionAssets.smoothBumpMaterial)
-      .moveTo(config.viewport.giveDimensions(config.magnification).center)
-      .withRef(32, 32)
+    Graphic(Rectangle(0, 0, 240, 240), 1, DistortionAssets.normalMapMaterial)
+      .scaleBy(0.5, 0.5)
+      .withRef(120, 120)
 
   val background: Graphic =
     Graphic(Rectangle(0, 0, 790, 380), 1, DistortionAssets.foliageMaterial)
 
-  def orbiting(distance: Int): Signal[Graphic] =
-    Signal.Orbit(config.viewport.giveDimensions(config.magnification).center, distance.toDouble).map { vec =>
-      distortion.moveTo(vec.toPoint)
+  def sliding: Signal[Graphic] =
+    Signal.SmoothPulse.map { d =>
+      distortion.moveTo(Point(70, 70 + (50 * d).toInt))
     }
 
   def present(context: FrameContext[Unit], model: Unit): Outcome[SceneUpdateFragment] =
     Outcome(
-      SceneUpdateFragment.empty
-        .addGameLayerNodes(
-          background,
-          graphic,
-          graphic.moveBy(-60, 0).withMaterial(DistortionAssets.junctionBoxMaterialOff),
-          graphic.moveBy(-30, 0).withMaterial(DistortionAssets.junctionBoxMaterialGlass),
-          graphic.moveBy(30, 0).withMaterial(DistortionAssets.junctionBoxMaterialFlat),
-          graphic.moveBy(60, 0).withMaterial(DistortionAssets.junctionBoxMaterialFlat.unlit)
-        )
-        .withAmbientLight(RGBA.White.withAmount(0.1))
-        .withLights(
-          PointLight.default
-            .moveTo(config.viewport.center + Point(50, 0))
-            .withAttenuation(50)
-            .withColor(RGB.Magenta)
-            .withPower(0.4),
-          DirectionLight(30, RGB.Green, 1.2, Radians.fromDegrees(30))
-        )
-        .addLightingLayerNodes(
-          imageLight
-        )
-        .addDistortionLayerNodes(
-          distortion.withAlpha(1.0),
-          orbiting(40).affectTime(0.25).at(context.gameTime.running)
-        )
+      SceneUpdateFragment(
+        background,
+        graphic,
+        graphic.moveBy(-60, 0),
+        graphic.moveBy(-30, 0),
+        graphic.moveBy(30, 0),
+        graphic.moveBy(60, 0)
+      ).addLayer(
+        Layer(imageLight).withBlending(Blending.Lighting(RGBA(0.2, 0.5, 0.3, 0.5)))
+      )
+      .addLayer(
+        Layer(
+            distortion.moveTo(viewCenter + Point(50, 0)),
+            sliding.affectTime(0.3).at(context.gameTime.running)
+          ).withBlending(
+            Refraction.blending(
+              Signal.SmoothPulse
+                .map(d => 0.25 * d)
+                .affectTime(0.25)
+                .at(context.running)
+            )
+          )
+      )
     )
 }
 
@@ -102,43 +112,19 @@ object DistortionAssets {
   val junctionBoxSpecular: Texture = Texture(AssetName("junctionbox_specular"), 1.0d)
   val imageLightName: AssetName    = AssetName("light_texture")
   val foliageName: AssetName       = AssetName("foliage")
-  val smoothBumpName: AssetName    = AssetName("smooth-bump2")
+  val normalName: AssetName        = AssetName("normal-map")
 
-  val junctionBoxMaterialOn: Material.Lit =
-    Material.Lit(
-      junctionBoxAlbedo,
-      Some(junctionBoxEmission),
-      Some(junctionBoxNormal),
-      Some(junctionBoxSpecular)
-    )
+  val normalMapMaterial: RefractionEntity =
+    RefractionEntity(normalName)
 
-  val junctionBoxMaterialGlass: Material.Lit =
-    Material.Lit(
-      junctionBoxAlbedo,
-      Some(junctionBoxEmission),
-      Some(junctionBoxNormal),
-      Some(junctionBoxSpecular)
-    )
+  val junctionBoxMaterial: Material.Bitmap =
+    Material.Bitmap(junctionBoxAlbedo)
 
-  val junctionBoxMaterialOff: Material.Lit =
-    Material.Lit(
-      junctionBoxAlbedo,
-      None,
-      Some(junctionBoxNormal),
-      Some(junctionBoxSpecular)
-    )
+  val foliageMaterial: Material.Bitmap =
+    Material.Bitmap(foliageName)
 
-  val junctionBoxMaterialFlat: Material.Textured =
-    Material.Textured(junctionBoxAlbedo).lit
-
-  val foliageMaterial: Material.Textured =
-    Material.Textured(foliageName).lit
-
-  val imageLightMaterial: Material.Textured =
-    Material.Textured(imageLightName)
-
-  val smoothBumpMaterial: Material.Textured =
-    Material.Textured(smoothBumpName)
+  val imageLightMaterial: Material.Bitmap =
+    Material.Bitmap(imageLightName)
 
   def assets: Set[AssetType] =
     Set(
@@ -149,7 +135,7 @@ object DistortionAssets {
         AssetType.Image(junctionBoxSpecular.assetName, AssetPath("assets/" + junctionBoxSpecular.assetName.value + ".png")),
         AssetType.Image(imageLightName, AssetPath("assets/" + imageLightName.value + ".png")),
         AssetType.Image(foliageName, AssetPath("assets/" + foliageName.value + ".png")),
-        AssetType.Image(smoothBumpName, AssetPath("assets/" + smoothBumpName.value + ".png"))
+        AssetType.Image(normalName, AssetPath("assets/" + normalName.value + ".png"))
       )
     )
 

@@ -1,16 +1,16 @@
 import scala.sys.process._
 import scala.language.postfixOps
 
-val dottyVersion = "3.0.0-M3"
+val scala3Version    = "3.0.0-RC2"
 
 lazy val commonSettings = Seq(
   version := "0.0.1",
-  scalaVersion := dottyVersion,
+  scalaVersion := scala3Version,
   organization := "indigo-examples",
   libraryDependencies ++= Seq(
-    "org.scalameta"   %%% "munit"         % "0.7.20" % Test,
-    "io.indigoengine" %%% "indigo"        % "0.6.0",
-    "io.indigoengine" %%% "indigo-extras" % "0.6.0"
+    "org.scalameta"   %%% "munit"         % "0.7.23" % Test,
+    "io.indigoengine" %%% "indigo"        % "0.7.0",
+    "io.indigoengine" %%% "indigo-extras" % "0.7.0"
   ),
   testFrameworks += new TestFramework("munit.Framework"),
   Test / scalaJSLinkerConfig ~= { _.withModuleKind(ModuleKind.CommonJSModule) }
@@ -132,8 +132,10 @@ lazy val tiled =
       showCursor := true,
       title := "Tiled example",
       gameAssetsDirectory := "assets",
+      windowStartWidth := 19 * 32,
+      windowStartHeight := 11 * 32,
       libraryDependencies ++= Seq(
-        "io.indigoengine" %%% "indigo-json-circe" % "0.6.0"
+        "io.indigoengine" %%% "indigo-json-circe" % "0.7.0"
       )
     )
 
@@ -203,7 +205,7 @@ lazy val fireworks =
       windowStartWidth := 1280,
       windowStartHeight := 720,
       libraryDependencies ++= Seq(
-        "org.scalacheck" %%% "scalacheck" % "1.15.2" % "test"
+        "org.scalacheck" %%% "scalacheck" % "1.15.3" % "test"
       )
     )
 
@@ -233,6 +235,10 @@ lazy val lighting =
       windowStartWidth := 684,
       windowStartHeight := 384
     )
+    .settings(
+      publish := {},
+      publishLocal := {}
+    )
 
 lazy val distortion =
   project
@@ -243,7 +249,13 @@ lazy val distortion =
       name := "distortion",
       showCursor := true,
       title := "Distortion Example",
-      gameAssetsDirectory := "assets"
+      gameAssetsDirectory := "assets",
+      windowStartWidth := 684,
+      windowStartHeight := 384
+    )
+    .settings(
+      publish := {},
+      publishLocal := {}
     )
 
 lazy val assetLoading =
@@ -257,6 +269,10 @@ lazy val assetLoading =
       title := "Asset Loading Example",
       gameAssetsDirectory := "assets"
     )
+    .settings(
+      publish := {},
+      publishLocal := {}
+    )
 
 lazy val effects =
   project
@@ -267,7 +283,13 @@ lazy val effects =
       name := "effects",
       showCursor := true,
       title := "Effects Example",
-      gameAssetsDirectory := "assets"
+      gameAssetsDirectory := "assets",
+      windowStartWidth := 550,
+      windowStartHeight := 400
+    )
+    .settings(
+      publish := {},
+      publishLocal := {}
     )
 
 lazy val radio =
