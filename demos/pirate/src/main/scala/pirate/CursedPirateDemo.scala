@@ -59,7 +59,9 @@ object CursedPirateDemo extends IndigoGame[BootInformation, StartupData, Model, 
         BootInformation(assetPath, config.screenDimensions)
       ).withAssets(Assets.initialAssets(assetPath))
         .withFonts(Assets.Fonts.fontInfo)
-        .withSubSystems(FPSCounter(Assets.Fonts.fontKey, Point(10, 10), 60))
+        .withSubSystems(
+          FPSCounter(Assets.Fonts.fontKey, Point(10, 10), 60, Option(BindingKey("fps")), Assets.Fonts.fontMaterial)
+        )
     }
 
   def setup(
@@ -86,7 +88,15 @@ object CursedPirateDemo extends IndigoGame[BootInformation, StartupData, Model, 
     _ => Outcome(viewModel)
 
   def present(context: FrameContext[StartupData], model: Model, viewModel: ViewModel): Outcome[SceneUpdateFragment] =
-    Outcome(SceneUpdateFragment.empty)
+    Outcome(
+      SceneUpdateFragment.empty
+        .addLayer(Layer(BindingKey("background")))
+        .addLayer(Layer(BindingKey("big clouds")))
+        .addLayer(Layer(BindingKey("small clouds")))
+        .addLayer(Layer(BindingKey("game")))
+        .addLayer(Layer(BindingKey("ui")))
+        .addLayer(Layer(BindingKey("fps")))
+    )
 
 }
 
