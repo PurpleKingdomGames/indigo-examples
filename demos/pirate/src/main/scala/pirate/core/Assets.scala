@@ -24,7 +24,7 @@ object Assets {
     def assets(baseUrl: String): Set[AssetType] =
       Set(
         AssetType.Image(Static.backgroundRef, AssetPath(baseUrl + "assets/bg.png")),
-        AssetType.Image(Static.chestRef, AssetPath(baseUrl + "assets/" + Static.chestRef.value + ".png")),
+        AssetType.Image(Static.chestRef, AssetPath(baseUrl + "assets/" + Static.chestRef.toString + ".png")),
         AssetType.Image(Static.terrainRef, AssetPath(baseUrl + "assets/terrain.png")),
         AssetType.Text(Static.terrainJsonRef, AssetPath(baseUrl + "assets/terrain.json"))
       )
@@ -60,8 +60,8 @@ object Assets {
 
     def assets(baseUrl: String): Set[AssetType] =
       Set(
-        AssetType.Image(Clouds.bigCloudsRef, AssetPath(baseUrl + "assets/" + Clouds.bigCloudsRef.value + ".png")),
-        AssetType.Image(Clouds.smallCloudsRef, AssetPath(baseUrl + "assets/" + Clouds.smallCloudsRef.value + ".png"))
+        AssetType.Image(Clouds.bigCloudsRef, AssetPath(baseUrl + "assets/" + Clouds.bigCloudsRef.toString + ".png")),
+        AssetType.Image(Clouds.smallCloudsRef, AssetPath(baseUrl + "assets/" + Clouds.smallCloudsRef.toString + ".png"))
       )
 
   }
@@ -72,8 +72,8 @@ object Assets {
 
     def assets(baseUrl: String): Set[AssetType] =
       Set(
-        AssetType.Image(Water.ref, AssetPath(baseUrl + "assets/" + Water.ref.value + ".png")),
-        AssetType.Text(Water.jsonRef, AssetPath(baseUrl + "assets/" + Water.ref.value + ".json"))
+        AssetType.Image(Water.ref, AssetPath(baseUrl + "assets/" + Water.ref.toString + ".png")),
+        AssetType.Text(Water.jsonRef, AssetPath(baseUrl + "assets/" + Water.ref.toString + ".json"))
       )
   }
 
@@ -83,8 +83,8 @@ object Assets {
 
     def assets(baseUrl: String): Set[AssetType] =
       Set(
-        AssetType.Image(Flag.ref, AssetPath(baseUrl + "assets/" + Flag.ref.value + ".png")),
-        AssetType.Text(Flag.jsonRef, AssetPath(baseUrl + "assets/" + Flag.ref.value + ".json"))
+        AssetType.Image(Flag.ref, AssetPath(baseUrl + "assets/" + Flag.ref.toString + ".png")),
+        AssetType.Text(Flag.jsonRef, AssetPath(baseUrl + "assets/" + Flag.ref.toString + ".json"))
       )
   }
 
@@ -94,8 +94,8 @@ object Assets {
 
     def assets(baseUrl: String): Set[AssetType] =
       Set(
-        AssetType.Image(Captain.ref, AssetPath(baseUrl + "assets/" + Captain.ref.value + ".png")),
-        AssetType.Text(Captain.jsonRef, AssetPath(baseUrl + "assets/" + Captain.ref.value + ".json"))
+        AssetType.Image(Captain.ref, AssetPath(baseUrl + "assets/" + Captain.ref.toString + ".png")),
+        AssetType.Text(Captain.jsonRef, AssetPath(baseUrl + "assets/" + Captain.ref.toString + ".json"))
       )
   }
 
@@ -119,9 +119,9 @@ object Assets {
 
     def assets(baseUrl: String): Set[AssetType] =
       Set(
-        AssetType.Image(Trees.trunksRef, AssetPath(baseUrl + "assets/" + Trees.trunksRef.value + ".png")),
-        AssetType.Image(Trees.ref, AssetPath(baseUrl + "assets/" + Trees.ref.value + ".png")),
-        AssetType.Text(Trees.jsonRef, AssetPath(baseUrl + "assets/" + Trees.ref.value + ".json"))
+        AssetType.Image(Trees.trunksRef, AssetPath(baseUrl + "assets/" + Trees.trunksRef.toString + ".png")),
+        AssetType.Image(Trees.ref, AssetPath(baseUrl + "assets/" + Trees.ref.toString + ".png")),
+        AssetType.Text(Trees.jsonRef, AssetPath(baseUrl + "assets/" + Trees.ref.toString + ".json"))
       )
   }
 
@@ -131,8 +131,8 @@ object Assets {
 
     def assets(baseUrl: String): Set[AssetType] =
       Set(
-        AssetType.Image(Helm.ref, AssetPath(baseUrl + "assets/" + Helm.ref.value + ".png")),
-        AssetType.Text(Helm.jsonRef, AssetPath(baseUrl + "assets/" + Helm.ref.value + ".json"))
+        AssetType.Image(Helm.ref, AssetPath(baseUrl + "assets/" + Helm.ref.toString + ".png")),
+        AssetType.Text(Helm.jsonRef, AssetPath(baseUrl + "assets/" + Helm.ref.toString + ".json"))
       )
   }
 

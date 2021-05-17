@@ -7,10 +7,10 @@ import mill.scalajslib._
 import mill.scalajslib.api._
 import coursier.maven.MavenRepository
 
-import $ivy.`io.indigoengine::mill-indigo:0.7.0`, millindigo._
+import $ivy.`io.indigoengine::mill-indigo:0.8.0`, millindigo._
 
 object snake extends ScalaJSModule with MillIndigo {
-  def scalaVersion   = "3.0.0-RC2"
+  def scalaVersion   = "3.0.0"
   def scalaJSVersion = "1.5.1"
 
   val gameAssetsDirectory: os.Path = os.pwd / "assets"
@@ -35,7 +35,7 @@ object snake extends ScalaJSModule with MillIndigo {
     }
   }
 
-  val indigoVersion = "0.7.0"
+  val indigoVersion = "0.8.0"
 
   def ivyDeps = Agg(
     ivy"io.indigoengine::indigo-json-circe::$indigoVersion",
@@ -47,10 +47,10 @@ object snake extends ScalaJSModule with MillIndigo {
 
   object test extends Tests {
     def ivyDeps = Agg(
-      ivy"org.scalameta::munit::0.7.23"
+      ivy"org.scalameta::munit::0.7.26"
     )
 
-    def testFrameworks = Seq("munit.Framework")
+    def testFramework = "munit.Framework"
 
     override def moduleKind = T(mill.scalajslib.api.ModuleKind.CommonJSModule)
 
