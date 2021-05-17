@@ -44,7 +44,12 @@ object AssetLoadingExample extends IndigoDemo[Unit, Unit, MyGameModel, MyViewMod
           depth = Depth(2)
         ).withUpActions {
           println("Start loading assets...")
-          List(AssetBundleLoaderEvent.Load(BindingKey("Junction box assets"), Assets.junctionboxImageAssets ++ Assets.otherAssetsToLoad))
+          List(
+            AssetBundleLoaderEvent.Load(
+              BindingKey("Junction box assets"),
+              Assets.junctionboxImageAssets ++ Assets.otherAssetsToLoad
+            )
+          )
         }
       )
     }
@@ -56,7 +61,9 @@ object AssetLoadingExample extends IndigoDemo[Unit, Unit, MyGameModel, MyViewMod
       Outcome(model)
 
     case AssetBundleLoaderEvent.LoadProgress(key, percent, completed, total) =>
-      println(s"In progress...: ${key.toString()} - ${percent.toString()}%, ${completed.toString()} of ${total.toString()}")
+      println(
+        s"In progress...: ${key.toString()} - ${percent.toString()}%, ${completed.toString()} of ${total.toString()}"
+      )
       Outcome(model)
 
     case AssetBundleLoaderEvent.Success(key) =>
@@ -71,7 +78,11 @@ object AssetLoadingExample extends IndigoDemo[Unit, Unit, MyGameModel, MyViewMod
       Outcome(model)
   }
 
-  def updateViewModel(context: FrameContext[Unit], model: MyGameModel, viewModel: MyViewModel): GlobalEvent => Outcome[MyViewModel] = {
+  def updateViewModel(
+      context: FrameContext[Unit],
+      model: MyGameModel,
+      viewModel: MyViewModel
+  ): GlobalEvent => Outcome[MyViewModel] = {
     case FrameTick =>
       viewModel.button.update(context.inputState.mouse).map { btn =>
         viewModel.copy(button = btn)
@@ -107,10 +118,10 @@ object Assets {
 
   def junctionboxImageAssets: Set[AssetType] =
     Set(
-      AssetType.Image(junctionBoxAlbedo, AssetPath("assets/" + junctionBoxAlbedo.value + ".png")),
-      AssetType.Image(junctionBoxEmission, AssetPath("assets/" + junctionBoxEmission.value + ".png")),
-      AssetType.Image(junctionBoxNormal, AssetPath("assets/" + junctionBoxNormal.value + ".png")),
-      AssetType.Image(junctionBoxSpecular, AssetPath("assets/" + junctionBoxSpecular.value + ".png"))
+      AssetType.Image(junctionBoxAlbedo, AssetPath("assets/" + junctionBoxAlbedo.toString + ".png")),
+      AssetType.Image(junctionBoxEmission, AssetPath("assets/" + junctionBoxEmission.toString + ".png")),
+      AssetType.Image(junctionBoxNormal, AssetPath("assets/" + junctionBoxNormal.toString + ".png")),
+      AssetType.Image(junctionBoxSpecular, AssetPath("assets/" + junctionBoxSpecular.toString + ".png"))
     )
 
   def otherAssetsToLoad: Set[AssetType] =

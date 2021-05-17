@@ -1,16 +1,16 @@
 import scala.sys.process._
 import scala.language.postfixOps
 
-val scala3Version    = "3.0.0-RC2"
+val scala3Version = "3.0.0"
 
 lazy val commonSettings = Seq(
   version := "0.0.1",
   scalaVersion := scala3Version,
   organization := "indigo-examples",
   libraryDependencies ++= Seq(
-    "org.scalameta"   %%% "munit"         % "0.7.23" % Test,
-    "io.indigoengine" %%% "indigo"        % "0.7.0",
-    "io.indigoengine" %%% "indigo-extras" % "0.7.0"
+    "org.scalameta"   %%% "munit"         % "0.7.26" % Test,
+    "io.indigoengine" %%% "indigo"        % "0.8.0",
+    "io.indigoengine" %%% "indigo-extras" % "0.8.0"
   ),
   testFrameworks += new TestFramework("munit.Framework"),
   Test / scalaJSLinkerConfig ~= { _.withModuleKind(ModuleKind.CommonJSModule) }
@@ -135,7 +135,7 @@ lazy val tiled =
       windowStartWidth := 19 * 32,
       windowStartHeight := 11 * 32,
       libraryDependencies ++= Seq(
-        "io.indigoengine" %%% "indigo-json-circe" % "0.7.0"
+        "io.indigoengine" %%% "indigo-json-circe" % "0.8.0"
       )
     )
 
@@ -205,7 +205,7 @@ lazy val fireworks =
       windowStartWidth := 1280,
       windowStartHeight := 720,
       libraryDependencies ++= Seq(
-        "org.scalacheck" %%% "scalacheck" % "1.15.3" % "test"
+        "org.scalacheck" %%% "scalacheck" % "1.15.4" % "test"
       )
     )
 

@@ -29,7 +29,7 @@ object SceneA extends Scene[StartUpData, GameModel, Unit] {
 
   def updateModel(context: FrameContext[StartUpData], sceneModel: MessageA): GlobalEvent => Outcome[MessageA] = {
     case SceneEvent.SceneChange(from, to, at) =>
-      println(s"A: Changed scene from '${from.name}' to '${to.name}' at running time: ${at.value}")
+      println(s"A: Changed scene from '${from.toString}' to '${to.toString}' at running time: ${at.toString}")
       Outcome(sceneModel)
 
     case _ =>

@@ -88,15 +88,19 @@ object EffectsExample extends IndigoSandbox[Unit, Unit] {
           .moveTo(viewCenter)
           .moveBy(60, -40)
           .modifyMaterial {
-            case m: LegacyEffects => m.withOverlay(Fill.LinearGradient(Point.zero, RGBA.Magenta, Point(40), RGBA.Cyan.withAmount(0.5)))
-            case m                => m
+            case m: LegacyEffects =>
+              m.withOverlay(Fill.LinearGradient(Point.zero, RGBA.Magenta, Point(40), RGBA.Cyan.withAmount(0.5)))
+            case m => m
           },
         graphic // radial gradient overlay - identical to ImageEffects material
           .moveTo(viewCenter)
           .moveBy(-60, 10)
           .modifyMaterial {
-            case m: LegacyEffects => m.withOverlay(Fill.RadialGradient(Point(20), 10, RGBA.Magenta.withAmount(0.5), RGBA.Cyan.withAmount(0.25)))
-            case m                => m
+            case m: LegacyEffects =>
+              m.withOverlay(
+                Fill.RadialGradient(Point(20), 10, RGBA.Magenta.withAmount(0.5), RGBA.Cyan.withAmount(0.25))
+              )
+            case m => m
           },
         graphic // inner glow
           .moveTo(viewCenter)
@@ -150,7 +154,7 @@ object EffectsAssets {
 
   def assets: Set[AssetType] =
     Set(
-      AssetType.Image(junctionBoxAlbedo, AssetPath("assets/" + junctionBoxAlbedo.value + ".png"))
+      AssetType.Image(junctionBoxAlbedo, AssetPath("assets/" + junctionBoxAlbedo.toString + ".png"))
     )
 
 }
