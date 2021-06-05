@@ -1,4 +1,4 @@
-# "How to use Indigo with Parcel.js"
+# How to use Indigo with Parcel.js
 
 This project takes the standard ["sbt hello indigo"](https://github.com/PurpleKingdomGames/hello-indigo-sbt) project but runs it in a browser - with hot reloading - via [parcel](https://parceljs.org/).
 
