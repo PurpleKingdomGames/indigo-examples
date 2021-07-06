@@ -80,7 +80,7 @@ object HelloIndigo extends IndigoSandbox[Unit, Model] {
   def drawDots(
       center: Point,
       dots: List[Dot]
-  ): List[Graphic] =
+  ): List[Graphic[_]] =
     dots.map { dot =>
       val position = Point(
         (Math.sin(dot.angle.toDouble) * dot.orbitDistance + center.x).toInt,
