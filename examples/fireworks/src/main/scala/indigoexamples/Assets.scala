@@ -10,7 +10,7 @@ object Assets {
       AssetType.Image(FontDetails.fontName, AssetPath("assets/boxy_font_small.png"))
     )
 
-  val cross: Graphic =
+  val cross: Graphic[_] =
     Graphic(0, 0, 3, 3, 1, Material.ImageEffects(AssetName("graphics")))
 
 }

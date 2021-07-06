@@ -26,7 +26,7 @@ object View {
       Assets.blueDot.moveTo(16, 16)
     )
 
-  def drawBob(bob: Bob): Graphic =
+  def drawBob(bob: Bob): Graphic[_] =
     Assets.redDot.moveTo(bob.position)
 
   def drawTrees(grove: Grove): Group =
