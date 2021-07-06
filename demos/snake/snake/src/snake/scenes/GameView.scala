@@ -9,7 +9,12 @@ import indigoextras.geometry.BoundingBox
 
 object GameView {
 
-  def update(viewConfig: ViewConfig, model: GameModel, walls: Group, staticAssets: StaticAssets): Outcome[SceneUpdateFragment] =
+  def update(
+      viewConfig: ViewConfig,
+      model: GameModel,
+      walls: Group,
+      staticAssets: StaticAssets
+  ): Outcome[SceneUpdateFragment] =
     Outcome(
       SceneUpdateFragment.empty
         .addLayer(
@@ -33,16 +38,20 @@ object GameView {
   ): List[SceneNode] =
     walls ::
       drawApple(viewConfig, currentState.gameMap, staticAssets) ++
-        drawSnake(viewConfig, currentState, staticAssets.snake) ++
+      drawSnake(viewConfig, currentState, staticAssets.snake) ++
       drawScore(viewConfig, currentState.score)
 
-  def drawApple(viewConfig: ViewConfig, gameMap: GameMap, staticAssets: StaticAssets): List[Graphic] =
+  def drawApple(viewConfig: ViewConfig, gameMap: GameMap, staticAssets: StaticAssets): List[Graphic[Material.Bitmap]] =
     gameMap.findApples.map { a =>
       staticAssets.apple
         .moveTo(gridPointToPoint(a.gridPoint, gameMap.gridSize, viewConfig.gridSquareSize))
     }
 
-  def drawSnake(viewConfig: ViewConfig, currentState: GameModel, snakeAsset: Graphic): List[Graphic] =
+  def drawSnake(
+      viewConfig: ViewConfig,
+      currentState: GameModel,
+      snakeAsset: Graphic[Material.Bitmap]
+  ): List[Graphic[Material.Bitmap]] =
     currentState.snake.givePath.map { pt =>
       snakeAsset.moveTo(gridPointToPoint(pt, currentState.gameMap.gridSize, viewConfig.gridSquareSize))
     }

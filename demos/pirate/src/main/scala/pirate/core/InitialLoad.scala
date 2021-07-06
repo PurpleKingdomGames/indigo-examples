@@ -84,8 +84,7 @@ object InitialLoad {
         flag        <- loader(Assets.Flag.jsonRef, Assets.Flag.ref, Depth(10)).toOption
         terrain     <- terrainData
       } yield makeAdditionalAssets(screenDimensions, helm, palm, reflections, flag, terrain._1, terrain._2, terrain._3)
-    } else
-      None
+    } else None
   }
 
   // Helper function that loads Aseprite animations.
@@ -143,8 +142,7 @@ object InitialLoad {
           captain.sprite
             .withMaterial {
               captain.sprite.material match {
-                case m: Material.ImageEffects => m
-                case m: Material.Bitmap       => Material.ImageEffects(m.diffuse)
+                case m: Material.Bitmap => Material.ImageEffects(m.diffuse)
               }
             }
             .withRef(37, 64)
@@ -158,19 +156,19 @@ object InitialLoad {
 }
 
 final case class StartupData(
-    captain: Sprite,
+    captain: Sprite[Material.ImageEffects],
     levelDataStore: Option[LevelDataStore]
 )
 final case class LevelDataStore(
-    waterReflections: Sprite,
-    flag: Sprite,
-    helm: Sprite,
-    palm: Sprite,
+    waterReflections: Sprite[Material.Bitmap],
+    flag: Sprite[Material.Bitmap],
+    helm: Sprite[Material.Bitmap],
+    palm: Sprite[Material.Bitmap],
     tileSize: Point,
     terrainMap: TiledGridMap[TileType],
     terrain: Group
 ) {
-  val backTallPalm: Sprite =
+  val backTallPalm: Sprite[Material.Bitmap] =
     palm
       .withBindingKey(BindingKey("Back Tall Palm"))
       .withDepth(Depth(10))
