@@ -4,7 +4,7 @@ import mill.scalalib._
 import mill.scalajslib._
 import mill.scalajslib.api._
 
-import $ivy.`io.indigoengine::mill-indigo:0.9.1`, millindigo._
+import $ivy.`io.indigoengine::mill-indigo:0.9.2`, millindigo._
 
 object mygame extends ScalaJSModule with MillIndigo {
   def scalaVersion   = "3.0.2"
@@ -34,7 +34,7 @@ object mygame extends ScalaJSModule with MillIndigo {
       }
     }
 
-  def ivyDeps = Agg(ivy"io.indigoengine::indigo::0.9.1")
+  def ivyDeps = Agg(ivy"io.indigoengine::indigo::0.9.2")
 
   def scalacOptions = super.scalacOptions() ++ ScalacOptions.compile
 
