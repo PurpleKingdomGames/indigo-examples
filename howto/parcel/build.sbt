@@ -4,7 +4,7 @@ lazy val helloindigo =
     .settings( // Normal SBT settings
       name := "helloindigo",
       version := "0.0.1",
-      scalaVersion := "3.0.2",
+      scalaVersion := "3.1.0",
       organization := "helloindigo",
       libraryDependencies ++= Seq(
         "org.scalameta" %%% "munit" % "0.7.29" % Test
@@ -18,9 +18,9 @@ lazy val helloindigo =
       windowStartWidth := 550,
       windowStartHeight := 400,
       libraryDependencies ++= Seq(
-        "io.indigoengine" %%% "indigo-json-circe" % "0.9.2",
-        "io.indigoengine" %%% "indigo"            % "0.9.2",
-        "io.indigoengine" %%% "indigo-extras"     % "0.9.2"
+        "io.indigoengine" %%% "indigo-json-circe" % "0.10.0",
+        "io.indigoengine" %%% "indigo"            % "0.10.0",
+        "io.indigoengine" %%% "indigo-extras"     % "0.10.0"
       ),
       scalaJSLinkerConfig ~= { _.withModuleKind(ModuleKind.CommonJSModule) }
     )

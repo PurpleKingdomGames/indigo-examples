@@ -2,7 +2,7 @@
 // The essentials.
 //-----------------------------------
 
-val scala3Version    = "3.0.2"
+val scala3Version    = "3.1.0"
 
 lazy val pirate =
   (project in file("."))
@@ -29,9 +29,9 @@ lazy val pirate =
       windowStartWidth := 1280,
       windowStartHeight := 720,
       libraryDependencies ++= Seq(
-        "io.indigoengine" %%% "indigo-json-circe" % "0.9.2", // Needed for Aseprite & Tiled support
-        "io.indigoengine" %%% "indigo"            % "0.9.2", // Important! :-)
-        "io.indigoengine" %%% "indigo-extras"     % "0.9.2" // Important! :-)
+        "io.indigoengine" %%% "indigo-json-circe" % "0.10.0", // Needed for Aseprite & Tiled support
+        "io.indigoengine" %%% "indigo"            % "0.10.0", // Important! :-)
+        "io.indigoengine" %%% "indigo-extras"     % "0.10.0" // Important! :-)
       )
     )
 

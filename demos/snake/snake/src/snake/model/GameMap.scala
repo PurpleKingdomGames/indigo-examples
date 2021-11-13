@@ -26,7 +26,7 @@ final case class GameMap(quadTree: QuadTree[MapElement], gridSize: BoundingBox) 
     GameMap.findEmptySpace(quadTree, dice, gridSize, not)
 
   def asElementList: List[MapElement] =
-    quadTree.asElementList
+    quadTree.toList
 
   lazy val findWalls: List[MapElement.Wall] =
     asElementList.flatMap {
