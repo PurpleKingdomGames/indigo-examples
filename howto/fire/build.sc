@@ -4,11 +4,11 @@ import mill.scalalib._
 import mill.scalajslib._
 import mill.scalajslib.api._
 
-import $ivy.`io.indigoengine::mill-indigo:0.10.0`, millindigo._
+import $ivy.`io.indigoengine::mill-indigo:0.11.0`, millindigo._
 
 object fire extends ScalaJSModule with MillIndigo {
   def scalaVersion   = "3.1.0"
-  def scalaJSVersion = "1.7.1"
+  def scalaJSVersion = "1.8.0"
 
   val gameAssetsDirectory: os.Path = os.pwd / "assets"
   val showCursor: Boolean          = true
@@ -34,7 +34,7 @@ object fire extends ScalaJSModule with MillIndigo {
       }
     }
 
-  val indigoVersion = "0.10.0"
+  val indigoVersion = "0.11.0"
 
   def ivyDeps =
     Agg(

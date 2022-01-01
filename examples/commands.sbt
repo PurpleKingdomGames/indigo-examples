@@ -1,36 +1,10 @@
-lazy val exampleProjects: List[String] =
-  List(
-    "basicSetup",
-    "subSystems",
-    "scenesSetup",
-    "button",
-    "http",
-    "text",
-    "graphic",
-    "sprite",
-    "websocket",
-    "inputfield",
-    "audio",
-    "group",
-    "automata",
-    "fireworks",
-    "lighting",
-    "distortion",
-    "effects",
-    "assetLoading",
-    "tiled",
-    "radio",
-    "jobs",
-    "inputmapper",
-    "errors"
-  )
 
 def applyCommand(projects: List[String], command: String): String =
   projects.map(p => p + "/" + command).mkString(";", ";", "")
 
 def applyToAll(command: String): String =
   List(
-    applyCommand(exampleProjects, command)
+    applyCommand(ExampleProjects.exampleProjects, command)
   ).mkString
 
 addCommandAlias(
@@ -69,7 +43,7 @@ addCommandAlias(
 
 addCommandAlias(
   "testExamples",
-  applyCommand(exampleProjects, "test")
+  applyCommand(ExampleProjects.exampleProjects, "test")
 )
 addCommandAlias(
   "testAllNoClean",
@@ -99,7 +73,7 @@ addCommandAlias(
 
 addCommandAlias(
   "buildExamples",
-  applyCommand(exampleProjects, "compile")
+  applyCommand(ExampleProjects.exampleProjects, "compile")
 )
 
 addCommandAlias(

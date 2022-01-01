@@ -1,7 +1,13 @@
 import scala.sys.process._
 import scala.language.postfixOps
 
+import sbtwelcome._
+
 val scala3Version = "3.1.0"
+
+Global / onChangedBuildSource := ReloadOnSourceChanges
+
+ThisBuild / scalafixDependencies += "com.github.liancheng" %% "organize-imports" % "0.5.0"
 
 lazy val commonSettings = Seq(
   version := "0.0.1",
@@ -9,11 +15,14 @@ lazy val commonSettings = Seq(
   organization := "indigo-examples",
   libraryDependencies ++= Seq(
     "org.scalameta"   %%% "munit"         % "0.7.29" % Test,
-    "io.indigoengine" %%% "indigo"        % "0.10.0",
-    "io.indigoengine" %%% "indigo-extras" % "0.10.0"
+    "io.indigoengine" %%% "indigo"        % "0.11.0",
+    "io.indigoengine" %%% "indigo-extras" % "0.11.0"
   ),
   testFrameworks += new TestFramework("munit.Framework"),
-  Test / scalaJSLinkerConfig ~= { _.withModuleKind(ModuleKind.CommonJSModule) }
+  Test / scalaJSLinkerConfig ~= { _.withModuleKind(ModuleKind.CommonJSModule) },
+  scalafixOnCompile := true,
+  semanticdbEnabled := true,
+  semanticdbVersion := scalafixSemanticdb.revision
 )
 
 // Examples
@@ -28,6 +37,34 @@ lazy val basicSetup =
       showCursor := true,
       title := "Basic Setup",
       gameAssetsDirectory := "assets"
+    )
+
+lazy val blending =
+  project
+    .in(file("blending"))
+    .settings(commonSettings: _*)
+    .enablePlugins(SbtIndigo)
+    .enablePlugins(ScalaJSPlugin)
+    .settings(
+      name                := "blending-example",
+      showCursor          := true,
+      title               := "Blending example",
+      gameAssetsDirectory := "assets"
+    )
+
+lazy val confetti =
+  project
+    .in(file("confetti"))
+    .settings(commonSettings: _*)
+    .enablePlugins(SbtIndigo)
+    .enablePlugins(ScalaJSPlugin)
+    .settings(
+      name                := "confetti",
+      showCursor          := true,
+      title               := "Confetti",
+      gameAssetsDirectory := "assets",
+      windowStartWidth    := 640,
+      windowStartHeight   := 480
     )
 
 lazy val subSystems =
@@ -135,7 +172,7 @@ lazy val tiled =
       windowStartWidth := 19 * 32,
       windowStartHeight := 11 * 32,
       libraryDependencies ++= Seq(
-        "io.indigoengine" %%% "indigo-json-circe" % "0.10.0"
+        "io.indigoengine" %%% "indigo-json-circe" % "0.11.0"
       )
     )
 
@@ -349,3 +386,43 @@ lazy val errors =
       windowStartWidth := 800,
       windowStartHeight := 800
     )
+
+// Root
+lazy val examplesProject =
+  (project in file("."))
+    .settings(
+      code := {
+        val command = Seq("code", ".")
+        val run = sys.props("os.name").toLowerCase match {
+          case x if x contains "windows" => Seq("cmd", "/C") ++ command
+          case _                         => command
+        }
+        run.!
+      }
+    )
+    .settings(
+      logo := "Indigo Examples",
+      usefulTasks := Seq(
+        UsefulTask("", "cleanAll", "Clean all the projects"),
+        UsefulTask("", "buildAllNoClean", "Rebuild without cleaning"),
+        UsefulTask("", "testAllNoClean", "Test all without cleaning"),
+        UsefulTask("", "crossLocalPublishNoClean", "Locally publish the core modules"),
+        UsefulTask("", "code", "Launch VSCode")
+      ) ++ makeCmds(ExampleProjects.exampleProjects),
+      logoColor        := scala.Console.MAGENTA,
+      aliasColor       := scala.Console.CYAN,
+      commandColor     := scala.Console.BLUE,
+      descriptionColor := scala.Console.WHITE
+    )
+
+def makeCmds(names: List[String]): Seq[UsefulTask] =
+  names.zipWithIndex.map { case (n, i) =>
+    val cmd = List(
+      s"$n/fastOptJS",
+      s"$n/indigoRun"
+    ).mkString(";", ";", "")
+    UsefulTask("run" + (i + 1), cmd, n)
+  }.toSeq
+
+lazy val code =
+  taskKey[Unit]("Launch VSCode in the current directory")

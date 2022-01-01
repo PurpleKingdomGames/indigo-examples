@@ -37,13 +37,13 @@ final case class Fire(
 object Fire:
 
   def orange(position: Point, size: Size): Fire =
-    Fire(position, size, Depth(1), RGB(1.0, 0.5, 0.0), RGB(1.0, 0.8, 0.0), RGB.White, 0.0d)
+    Fire(position, size, Depth.zero, RGB(1.0, 0.5, 0.0), RGB(1.0, 0.8, 0.0), RGB.White, 0.0d)
 
   def blue(position: Point, size: Size): Fire =
-    Fire(position, size, Depth(1), RGB.Blue, RGB.Cyan, RGB.White, 0.0d)
+    Fire(position, size, Depth.zero, RGB.Blue, RGB.Cyan, RGB.White, 0.0d)
 
   def green(position: Point, size: Size): Fire =
-    Fire(position, size, Depth(1), RGB.Green, RGB.Yellow, RGB.White, 0.0d)
+    Fire(position, size, Depth.zero, RGB.Green, RGB.Yellow, RGB.White, 0.0d)
 
   def apply(position: Point, size: Size): Fire =
     orange(position, size)

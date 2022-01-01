@@ -18,9 +18,9 @@ lazy val helloindigo =
       windowStartWidth := 550,
       windowStartHeight := 400,
       libraryDependencies ++= Seq(
-        "io.indigoengine" %%% "indigo-json-circe" % "0.10.0",
-        "io.indigoengine" %%% "indigo"            % "0.10.0",
-        "io.indigoengine" %%% "indigo-extras"     % "0.10.0"
+        "io.indigoengine" %%% "indigo-json-circe" % "0.11.0",
+        "io.indigoengine" %%% "indigo"            % "0.11.0",
+        "io.indigoengine" %%% "indigo-extras"     % "0.11.0"
       ),
       scalaJSLinkerConfig ~= { _.withModuleKind(ModuleKind.CommonJSModule) }
     )
