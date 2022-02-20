@@ -7,17 +7,18 @@ import mill.scalajslib._
 import mill.scalajslib.api._
 import coursier.maven.MavenRepository
 
-import $ivy.`io.indigoengine::mill-indigo:0.11.0`, millindigo._
+import $ivy.`io.indigoengine::mill-indigo:0.12.1`, millindigo._
 
 object snake extends ScalaJSModule with MillIndigo {
-  def scalaVersion   = "3.1.0"
-  def scalaJSVersion = "1.8.0"
+  def scalaVersion   = "3.1.1"
+  def scalaJSVersion = "1.9.0"
 
-  val gameAssetsDirectory: os.Path = os.pwd / "assets"
-  val showCursor: Boolean          = true
-  val title: String                = "Snake - Made with Indigo"
-  val windowStartWidth: Int        = 720
-  val windowStartHeight: Int       = 516
+  val gameAssetsDirectory: os.Path   = os.pwd / "assets"
+  val showCursor: Boolean            = true
+  val title: String                  = "Snake - Made with Indigo"
+  val windowStartWidth: Int          = 720
+  val windowStartHeight: Int         = 516
+  val disableFrameRateLimit: Boolean = false
 
   def buildGame() = T.command {
     T {
@@ -35,7 +36,7 @@ object snake extends ScalaJSModule with MillIndigo {
     }
   }
 
-  val indigoVersion = "0.11.0"
+  val indigoVersion = "0.12.1"
 
   def ivyDeps = Agg(
     ivy"io.indigoengine::indigo-json-circe::$indigoVersion",
@@ -45,8 +46,6 @@ object snake extends ScalaJSModule with MillIndigo {
 
   def scalacOptions = super.scalacOptions() ++ ScalacOptions.compile
 
-  override def useECMAScript2015 = T(true)
-
   object test extends Tests {
     def ivyDeps = Agg(
       ivy"org.scalameta::munit::0.7.29"
@@ -54,9 +53,7 @@ object snake extends ScalaJSModule with MillIndigo {
 
     def testFramework = "munit.Framework"
 
-    override def moduleKind        = T(mill.scalajslib.api.ModuleKind.CommonJSModule)
-    override def jsEnvConfig       = T(JsEnvConfig.NodeJs(args = List("--dns-result-order=ipv4first")))
-    override def useECMAScript2015 = T(true)
+    override def moduleKind = T(mill.scalajslib.api.ModuleKind.CommonJSModule)
 
     def scalacOptions = super.scalacOptions() ++ ScalacOptions.test
   }
@@ -69,23 +66,24 @@ object ScalacOptions {
     Seq(
       "-deprecation", // Emit warning and location for usages of deprecated APIs.
       "-encoding",
-      "utf-8",                  // Specify character encoding used by source files.
-      "-feature",               // Emit warning and location for usages of features that should be imported explicitly.
-      "-language:existentials", // Existential types (besides wildcard types) can be written and inferred
+      "utf-8",                         // Specify character encoding used by source files.
+      "-feature",                      // Emit warning and location for usages of features that should be imported explicitly.
+      "-language:existentials",        // Existential types (besides wildcard types) can be written and inferred
       "-language:experimental.macros", // Allow macro definition (besides implementation and application)
       "-language:higherKinds",         // Allow higher-kinded types
       "-language:implicitConversions", // Allow definition of implicit functions called views
       "-unchecked",                    // Enable additional warnings where generated code depends on assumptions.
-      "-Xfatal-warnings"               // Fail the compilation if there are any warnings.
+      "-Xfatal-warnings",              // Fail the compilation if there are any warnings.
+      "-language:strictEquality"       // Scala 3 - Multiversal Equality
     )
 
   lazy val test: Seq[String] =
     Seq(
       "-deprecation", // Emit warning and location for usages of deprecated APIs.
       "-encoding",
-      "utf-8",                  // Specify character encoding used by source files.
-      "-feature",               // Emit warning and location for usages of features that should be imported explicitly.
-      "-language:existentials", // Existential types (besides wildcard types) can be written and inferred
+      "utf-8",                         // Specify character encoding used by source files.
+      "-feature",                      // Emit warning and location for usages of features that should be imported explicitly.
+      "-language:existentials",        // Existential types (besides wildcard types) can be written and inferred
       "-language:experimental.macros", // Allow macro definition (besides implementation and application)
       "-language:higherKinds",         // Allow higher-kinded types
       "-language:implicitConversions", // Allow definition of implicit functions called views
