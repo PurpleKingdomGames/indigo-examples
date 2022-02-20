@@ -32,8 +32,8 @@ object Flare {
         dice.rollDouble * 0.3d
 
       Vertex(
-        Math.sin(wobble(dice, initialAngle.toDouble - 0.2d, initialAngle.toDouble + 0.2d)),
-        Math.cos(wobble(dice, initialAngle.toDouble - 0.2d, initialAngle.toDouble + 0.2d))
+        Math.sin(wobble(dice, (initialAngle - 0.2d).toDouble, (initialAngle + 0.2d).toDouble)),
+        Math.cos(wobble(dice, (initialAngle - 0.2d).toDouble, (initialAngle + 0.2d).toDouble))
       ) * Vertex(radius * 3.0d, radius)
     }
 

@@ -86,6 +86,8 @@ The examples a minimal references of how to use a range of Indigo's features. Th
 
 It's worth noting that these examples were really put together to aid QA testing - rather than for public consumption. For example in a couple of them all the output is actually in your browsers console! PR's and suggestions to make them nicer are very welcome.
 
+An easy way to run the demos it to run `sbt` in the folder, you will then be presented with a welcome message with commands to run all the examples.
+
 To run any example, do the follow (using lighting as an example):
 
 ```bash

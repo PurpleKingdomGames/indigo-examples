@@ -62,7 +62,7 @@ object InputMapperExample extends IndigoSandbox[Unit, Model] {
 
   def drawDot(
       dot: Dot
-  ): Graphic[_] =
+  ): Graphic[Material.Bitmap] =
     Graphic(Rectangle(0, 0, 32, 32), 1, Material.Bitmap(assetName))
       .withCrop(Rectangle(16, 16, 16, 16))
       .withRef(8, 8)

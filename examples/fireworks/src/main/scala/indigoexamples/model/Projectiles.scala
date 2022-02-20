@@ -35,9 +35,9 @@ object Projectiles {
     if (max == min) {
       min
     } else if (max > min) {
-      Seconds(min.toDouble + (dice.rollDouble * (max.toDouble - min.toDouble)).toLong)
+      min + ((max - min) * dice.rollDouble).toDouble
     } else {
-      Seconds(max.toDouble + (dice.rollDouble * (min.toDouble - max.toDouble)).toLong)
+      max + ((min - max) * dice.rollDouble).toDouble
     }
 
   def emitTrailEvents(position: Point, tint: RGBA, interval: Seconds): Signal[List[AutomataEvent.Spawn]] =

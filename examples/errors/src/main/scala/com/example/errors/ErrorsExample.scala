@@ -147,12 +147,14 @@ final case class StartUpData()
 final case class Model()
 final case class ViewModel()
 
-case object BootUpCrash              extends Exception with NoStackTrace
-case object StartUpCrash             extends Exception with NoStackTrace
-case object InitialiseModelCrash     extends Exception with NoStackTrace
-case object InitialiseViewModelCrash extends Exception with NoStackTrace
-case object UpdateModelCrash         extends Exception with NoStackTrace
-case object UpdateViewModelCrash     extends Exception with NoStackTrace
-case object PresentViewCrash         extends Exception with NoStackTrace
+sealed trait GameErrors extends Exception with NoStackTrace derives CanEqual
+
+case object BootUpCrash              extends GameErrors
+case object StartUpCrash             extends GameErrors
+case object InitialiseModelCrash     extends GameErrors
+case object InitialiseViewModelCrash extends GameErrors
+case object UpdateModelCrash         extends GameErrors
+case object UpdateViewModelCrash     extends GameErrors
+case object PresentViewCrash         extends GameErrors
 
 final case class TraceEvent(origin: String) extends GlobalEvent

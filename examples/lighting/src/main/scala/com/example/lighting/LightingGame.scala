@@ -5,9 +5,7 @@ import indigo._
 import scala.scalajs.js.annotation._
 
 @JSExportTopLevel("IndigoGame")
-object LightingGame extends IndigoSandbox[Unit, Unit] {
-
-  val targetFPS: Int = 60
+object LightingGame extends IndigoSandbox[Unit, Unit]:
 
   private val magnificationLevel: Int = 3
   private val viewportWidth: Int      = 228 * magnificationLevel
@@ -16,7 +14,6 @@ object LightingGame extends IndigoSandbox[Unit, Unit] {
   val config: GameConfig =
     GameConfig(
       viewport = GameViewport(viewportWidth, viewportHeight),
-      frameRate = targetFPS,
       clearColor = RGBA(0.0, 0.0, 0.2, 1.0),
       magnification = magnificationLevel
     )
@@ -111,9 +108,8 @@ object LightingGame extends IndigoSandbox[Unit, Unit] {
           .withFalloff(Falloff.None(15, 100))
       )
     )
-}
 
-object LightingAssets {
+object LightingAssets:
 
   val junctionBoxAlbedo: AssetName = AssetName("junctionbox_albedo")
   val junctionBoxEmission: Texture = Texture(AssetName("junctionbox_emission"), 1.0d)
@@ -150,12 +146,10 @@ object LightingAssets {
   def assets: Set[AssetType] =
     Set(
       AssetType.Tagged("atlas1")(
-        AssetType.Image(junctionBoxAlbedo, AssetPath("assets/" + junctionBoxAlbedo.toString + ".png")),
-        AssetType.Image(junctionBoxEmission.assetName, AssetPath("assets/" + junctionBoxEmission.assetName.toString + ".png")),
-        AssetType.Image(junctionBoxNormal.assetName, AssetPath("assets/" + junctionBoxNormal.assetName.toString + ".png")),
-        AssetType.Image(junctionBoxSpecular.assetName, AssetPath("assets/" + junctionBoxSpecular.assetName.toString + ".png")),
-        AssetType.Image(trafficLightsName, AssetPath("assets/" + trafficLightsName.toString + ".png"))
+        AssetType.Image(junctionBoxAlbedo, AssetPath("assets/" + junctionBoxAlbedo + ".png")),
+        AssetType.Image(junctionBoxEmission.assetName, AssetPath("assets/" + junctionBoxEmission.assetName + ".png")),
+        AssetType.Image(junctionBoxNormal.assetName, AssetPath("assets/" + junctionBoxNormal.assetName + ".png")),
+        AssetType.Image(junctionBoxSpecular.assetName, AssetPath("assets/" + junctionBoxSpecular.assetName + ".png")),
+        AssetType.Image(trafficLightsName, AssetPath("assets/" + trafficLightsName + ".png"))
       )
     )
-
-}

@@ -18,10 +18,9 @@ object AutomataExample extends IndigoDemo[Size, Size, Unit, ViewModel] {
         config,
         config.viewport.size
       ).withAssets(
-          AssetType.Image(AssetName("graphics"), AssetPath("assets/graphics.png")),
-          AssetType.Image(FontStuff.fontName, AssetPath("assets/boxy_font.png"))
-        )
-        .withFonts(FontStuff.fontInfo)
+        AssetType.Image(AssetName("graphics"), AssetPath("assets/graphics.png")),
+        AssetType.Image(FontStuff.fontName, AssetPath("assets/boxy_font.png"))
+      ).withFonts(FontStuff.fontInfo)
         .withSubSystems(Score.automataSubSystem(FontStuff.fontKey))
     }
 
@@ -47,9 +46,8 @@ object AutomataExample extends IndigoDemo[Size, Size, Unit, ViewModel] {
       )
     )
 
-  def updateModel(context: FrameContext[Size], model: Unit): GlobalEvent => Outcome[Unit] = {
-    case _ =>
-      Outcome(model)
+  def updateModel(context: FrameContext[Size], model: Unit): GlobalEvent => Outcome[Unit] = { case _ =>
+    Outcome(model)
   }
 
   def updateViewModel(context: FrameContext[Size], model: Unit, viewModel: ViewModel): GlobalEvent => Outcome[ViewModel] = {

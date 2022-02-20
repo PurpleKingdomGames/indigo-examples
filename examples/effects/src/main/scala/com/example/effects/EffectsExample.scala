@@ -9,9 +9,7 @@ import indigoextras.effectmaterials.Thickness
 import scala.scalajs.js.annotation._
 
 @JSExportTopLevel("IndigoGame")
-object EffectsExample extends IndigoSandbox[Unit, Unit] {
-
-  val targetFPS: Int = 60
+object EffectsExample extends IndigoSandbox[Unit, Unit]:
 
   private val magnificationLevel: Int = 2
   private val viewportWidth: Int      = 550
@@ -20,7 +18,6 @@ object EffectsExample extends IndigoSandbox[Unit, Unit] {
   val config: GameConfig =
     GameConfig(
       viewport = GameViewport(viewportWidth, viewportHeight),
-      frameRate = targetFPS,
       clearColor = RGBA(0.0, 0.0, 0.2, 1.0),
       magnification = magnificationLevel
     )
@@ -74,15 +71,11 @@ object EffectsExample extends IndigoSandbox[Unit, Unit] {
         graphic // linear gradient overlay - identical to ImageEffects material
           .moveTo(viewCenter)
           .moveBy(60, -40)
-          .modifyMaterial(
-            _.withOverlay(Fill.LinearGradient(Point.zero, RGBA.Magenta, Point(40), RGBA.Cyan.withAmount(0.5)))
-          ),
+          .modifyMaterial(_.withOverlay(Fill.LinearGradient(Point.zero, RGBA.Magenta, Point(40), RGBA.Cyan.withAmount(0.5)))),
         graphic // radial gradient overlay - identical to ImageEffects material
           .moveTo(viewCenter)
           .moveBy(-60, 10)
-          .modifyMaterial(
-            _.withOverlay(Fill.RadialGradient(Point(20), 10, RGBA.Magenta.withAmount(0.5), RGBA.Cyan.withAmount(0.25)))
-          ),
+          .modifyMaterial(_.withOverlay(Fill.RadialGradient(Point(20), 10, RGBA.Magenta.withAmount(0.5), RGBA.Cyan.withAmount(0.25)))),
         graphic // inner glow
           .moveTo(viewCenter)
           .moveBy(0, 10)
@@ -112,9 +105,8 @@ object EffectsExample extends IndigoSandbox[Unit, Unit] {
       )
     )
   }
-}
 
-object EffectsAssets {
+object EffectsAssets:
 
   val junctionBoxAlbedo: AssetName = AssetName("junctionbox_albedo")
 
@@ -123,7 +115,5 @@ object EffectsAssets {
 
   def assets: Set[AssetType] =
     Set(
-      AssetType.Image(junctionBoxAlbedo, AssetPath("assets/" + junctionBoxAlbedo.toString + ".png"))
+      AssetType.Image(junctionBoxAlbedo, AssetPath("assets/" + junctionBoxAlbedo + ".png"))
     )
-
-}

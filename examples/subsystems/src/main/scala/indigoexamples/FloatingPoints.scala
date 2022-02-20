@@ -16,10 +16,7 @@ final case class FloatingPoints(fontKey: FontKey) extends SubSystem {
   def initialModel: Outcome[List[FloatingPointEntity]] =
     Outcome(Nil)
 
-  def update(
-      context: SubSystemFrameContext,
-      entities: List[FloatingPointEntity]
-  ): FloatingPointEvent => Outcome[List[FloatingPointEntity]] = {
+  def update(context: SubSystemFrameContext, entities: List[FloatingPointEntity]): FloatingPointEvent => Outcome[List[FloatingPointEntity]] = {
     case FloatingPointEvent.Spawn(position) =>
       Outcome(
         FloatingPointEntity(position, context.gameTime.running, Decreasing(2, 1)) :: entities
@@ -33,7 +30,7 @@ final case class FloatingPoints(fontKey: FontKey) extends SubSystem {
       )
   }
 
-  val text: Text[_] =
+  val text: Text[Material.Bitmap] =
     Text("10", 0, 0, 1, fontKey, Material.Bitmap(AssetName(FontDetails.fontName))).alignCenter
 
   def present(context: SubSystemFrameContext, entities: List[FloatingPointEntity]): Outcome[SceneUpdateFragment] =
@@ -54,7 +51,7 @@ object FloatingPoints {
         Outcome(
           text.moveTo(
             seed.spawnedAt.x,
-            seed.spawnedAt.y - ((t - seed.createdAt).toDouble * 30).toInt
+            seed.spawnedAt.y - ((t - seed.createdAt) * 30).toInt
           )
         )
       }

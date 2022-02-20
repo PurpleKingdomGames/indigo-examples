@@ -46,7 +46,7 @@ object InputFieldExample extends IndigoDemo[Unit, Unit, Unit, MyViewModel] {
 
   def updateModel(context: FrameContext[Unit], model: Unit): GlobalEvent => Outcome[Unit] = {
     case InputFieldChange(key, updatedText) =>
-      println(s"Updated '${key.toString}' to: $updatedText")
+      println(s"Updated '${key}' to: $updatedText")
       Outcome(model)
 
     case MyInputFieldEvent(message) =>

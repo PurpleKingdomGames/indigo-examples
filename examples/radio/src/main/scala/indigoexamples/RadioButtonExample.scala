@@ -5,8 +5,7 @@ import indigoextras.ui._
 
 import scala.scalajs.js.annotation._
 
-/** Presents an example of a radio button. The demo shows three options in a row that can be selected between. On
-  * selecting different options, the background changes colour.
+/** Presents an example of a radio button. The demo shows three options in a row that can be selected between. On selecting different options, the background changes colour.
   */
 @JSExportTopLevel("IndigoGame")
 object RadioButtonExample extends IndigoDemo[Unit, Unit, MyGameModel, MyViewModel] {

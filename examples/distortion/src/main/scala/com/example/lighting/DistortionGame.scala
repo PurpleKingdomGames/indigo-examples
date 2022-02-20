@@ -7,9 +7,7 @@ import indigoextras.effectmaterials.RefractionEntity
 import scala.scalajs.js.annotation._
 
 @JSExportTopLevel("IndigoGame")
-object DistortionGame extends IndigoSandbox[Unit, Unit] {
-
-  val targetFPS: Int = 60
+object DistortionGame extends IndigoSandbox[Unit, Unit]:
 
   private val magnificationLevel: Int = 3
   private val viewportWidth: Int      = 228 * magnificationLevel
@@ -18,7 +16,6 @@ object DistortionGame extends IndigoSandbox[Unit, Unit] {
   val config: GameConfig =
     GameConfig(
       viewport = GameViewport(viewportWidth, viewportHeight),
-      frameRate = targetFPS,
       clearColor = RGBA(0.0, 0.0, 0.2, 1.0),
       magnification = magnificationLevel
     )
@@ -53,21 +50,21 @@ object DistortionGame extends IndigoSandbox[Unit, Unit] {
   def updateModel(context: FrameContext[Unit], model: Unit): GlobalEvent => Outcome[Unit] =
     _ => Outcome(())
 
-  val graphic: Graphic[_] =
+  val graphic: Graphic[Material.Bitmap] =
     Graphic(Rectangle(0, 0, 64, 64), 1, DistortionAssets.junctionBoxMaterial)
       .withRef(20, 20)
       .moveTo(viewCenter)
 
-  val imageLight: Graphic[_] =
+  val imageLight: Graphic[Material.Bitmap] =
     Graphic(Rectangle(0, 0, 320, 240), 1, DistortionAssets.imageLightMaterial)
       .moveBy(-14, -60)
 
-  val distortion: Graphic[_] =
+  val distortion: Graphic[RefractionEntity] =
     Graphic(Rectangle(0, 0, 240, 240), 1, DistortionAssets.normalMapMaterial)
       .scaleBy(0.5, 0.5)
       .withRef(120, 120)
 
-  val background: Graphic[_] =
+  val background: Graphic[Material.Bitmap] =
     Graphic(Rectangle(0, 0, 790, 380), 1, DistortionAssets.foliageMaterial)
 
   def sliding: Signal[Graphic[_]] =
@@ -86,23 +83,23 @@ object DistortionGame extends IndigoSandbox[Unit, Unit] {
         graphic.moveBy(60, 0)
       ).addLayer(
         Layer(imageLight).withBlending(Blending.Lighting(RGBA(0.2, 0.5, 0.3, 0.5)))
-      ).addLayer(
+      )
+      .addLayer(
         Layer(
-          distortion.moveTo(viewCenter + Point(50, 0)),
-          sliding.affectTime(0.3).at(context.gameTime.running)
-        ).withBlending(
-          Refraction.blending(
-            Signal.SmoothPulse
-              .map(d => 0.25 * d)
-              .affectTime(0.25)
-              .at(context.running)
+            distortion.moveTo(viewCenter + Point(50, 0)),
+            sliding.affectTime(0.3).at(context.gameTime.running)
+          ).withBlending(
+            Refraction.blending(
+              Signal.SmoothPulse
+                .map(d => 0.25 * d)
+                .affectTime(0.25)
+                .at(context.running)
+            )
           )
-        )
       )
     )
-}
 
-object DistortionAssets {
+object DistortionAssets:
 
   val junctionBoxAlbedo: AssetName = AssetName("junctionbox_albedo")
   val junctionBoxEmission: Texture = Texture(AssetName("junctionbox_emission"), 1.0d)
@@ -127,17 +124,12 @@ object DistortionAssets {
   def assets: Set[AssetType] =
     Set(
       AssetType.Tagged("atlas1")(
-        AssetType.Image(junctionBoxAlbedo, AssetPath("assets/" + junctionBoxAlbedo.toString + ".png")),
-        AssetType
-          .Image(junctionBoxEmission.assetName, AssetPath("assets/" + junctionBoxEmission.assetName.toString + ".png")),
-        AssetType
-          .Image(junctionBoxNormal.assetName, AssetPath("assets/" + junctionBoxNormal.assetName.toString + ".png")),
-        AssetType
-          .Image(junctionBoxSpecular.assetName, AssetPath("assets/" + junctionBoxSpecular.assetName.toString + ".png")),
-        AssetType.Image(imageLightName, AssetPath("assets/" + imageLightName.toString + ".png")),
-        AssetType.Image(foliageName, AssetPath("assets/" + foliageName.toString + ".png")),
-        AssetType.Image(normalName, AssetPath("assets/" + normalName.toString + ".png"))
+        AssetType.Image(junctionBoxAlbedo, AssetPath("assets/" + junctionBoxAlbedo + ".png")),
+        AssetType.Image(junctionBoxEmission.assetName, AssetPath("assets/" + junctionBoxEmission.assetName + ".png")),
+        AssetType.Image(junctionBoxNormal.assetName, AssetPath("assets/" + junctionBoxNormal.assetName + ".png")),
+        AssetType.Image(junctionBoxSpecular.assetName, AssetPath("assets/" + junctionBoxSpecular.assetName + ".png")),
+        AssetType.Image(imageLightName, AssetPath("assets/" + imageLightName + ".png")),
+        AssetType.Image(foliageName, AssetPath("assets/" + foliageName + ".png")),
+        AssetType.Image(normalName, AssetPath("assets/" + normalName + ".png"))
       )
     )
-
-}
