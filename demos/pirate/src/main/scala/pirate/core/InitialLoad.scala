@@ -103,7 +103,7 @@ object InitialLoad {
         Right(spriteAndAnimations)
 
       case None =>
-        Left("Failed to load " + name.toString)
+        Left("Failed to load " + name)
     }
   }
 
@@ -140,11 +140,7 @@ object InitialLoad {
       .Success(
         StartupData(
           captain.sprite
-            .withMaterial {
-              captain.sprite.material match {
-                case m: Material.Bitmap => Material.ImageEffects(m.diffuse)
-              }
-            }
+            .modifyMaterial(m => Material.ImageEffects(m.diffuse))
             .withRef(37, 64)
             .moveTo(300, 271),
           levelDataStore.map(_._1)
@@ -174,8 +170,5 @@ final case class LevelDataStore(
       .withDepth(Depth(10))
 }
 
-sealed trait TileType
-object TileType {
-  case object Empty extends TileType
-  case object Solid extends TileType
-}
+enum TileType derives CanEqual:
+  case Empty, Solid

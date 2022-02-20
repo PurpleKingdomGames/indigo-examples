@@ -10,11 +10,7 @@ import pirate.core.Assets
 // your players feedback, as we do below.
 object LoadingView {
 
-  def draw(
-      screenDimensions: Rectangle,
-      captain: Sprite[Material.ImageEffects],
-      loadingState: LoadingState
-  ): SceneUpdateFragment = {
+  def draw(screenDimensions: Rectangle, captain: Sprite[Material.ImageEffects], loadingState: LoadingState): SceneUpdateFragment = {
     val x = screenDimensions.horizontalCenter
     val y = screenDimensions.verticalCenter
 

@@ -18,13 +18,14 @@ object Assets {
     val terrainJsonRef: AssetName = AssetName("terrainJson")
     val terrainRef: AssetName     = AssetName("terrain")
 
-    val chestRef: AssetName   = AssetName("Chest Close 01")
-    val chestGraphic: Graphic[Material.Bitmap] = Graphic(Rectangle(0, 0, 64, 35), 4, Material.Bitmap(chestRef)).withRef(33, 34)
+    val chestRef: AssetName = AssetName("Chest Close 01")
+    val chestGraphic: Graphic[Material.Bitmap] =
+      Graphic(Rectangle(0, 0, 64, 35), 4, Material.Bitmap(chestRef)).withRef(33, 34)
 
     def assets(baseUrl: String): Set[AssetType] =
       Set(
         AssetType.Image(Static.backgroundRef, AssetPath(baseUrl + "assets/bg.png")),
-        AssetType.Image(Static.chestRef, AssetPath(baseUrl + "assets/" + Static.chestRef.toString + ".png")),
+        AssetType.Image(Static.chestRef, AssetPath(baseUrl + "assets/" + Static.chestRef + ".png")),
         AssetType.Image(Static.terrainRef, AssetPath(baseUrl + "assets/terrain.png")),
         AssetType.Text(Static.terrainJsonRef, AssetPath(baseUrl + "assets/terrain.json"))
       )
@@ -60,8 +61,8 @@ object Assets {
 
     def assets(baseUrl: String): Set[AssetType] =
       Set(
-        AssetType.Image(Clouds.bigCloudsRef, AssetPath(baseUrl + "assets/" + Clouds.bigCloudsRef.toString + ".png")),
-        AssetType.Image(Clouds.smallCloudsRef, AssetPath(baseUrl + "assets/" + Clouds.smallCloudsRef.toString + ".png"))
+        AssetType.Image(Clouds.bigCloudsRef, AssetPath(baseUrl + "assets/" + Clouds.bigCloudsRef + ".png")),
+        AssetType.Image(Clouds.smallCloudsRef, AssetPath(baseUrl + "assets/" + Clouds.smallCloudsRef + ".png"))
       )
 
   }
@@ -72,8 +73,8 @@ object Assets {
 
     def assets(baseUrl: String): Set[AssetType] =
       Set(
-        AssetType.Image(Water.ref, AssetPath(baseUrl + "assets/" + Water.ref.toString + ".png")),
-        AssetType.Text(Water.jsonRef, AssetPath(baseUrl + "assets/" + Water.ref.toString + ".json"))
+        AssetType.Image(Water.ref, AssetPath(baseUrl + "assets/" + Water.ref + ".png")),
+        AssetType.Text(Water.jsonRef, AssetPath(baseUrl + "assets/" + Water.ref + ".json"))
       )
   }
 
@@ -83,8 +84,8 @@ object Assets {
 
     def assets(baseUrl: String): Set[AssetType] =
       Set(
-        AssetType.Image(Flag.ref, AssetPath(baseUrl + "assets/" + Flag.ref.toString + ".png")),
-        AssetType.Text(Flag.jsonRef, AssetPath(baseUrl + "assets/" + Flag.ref.toString + ".json"))
+        AssetType.Image(Flag.ref, AssetPath(baseUrl + "assets/" + Flag.ref + ".png")),
+        AssetType.Text(Flag.jsonRef, AssetPath(baseUrl + "assets/" + Flag.ref + ".json"))
       )
   }
 
@@ -94,8 +95,8 @@ object Assets {
 
     def assets(baseUrl: String): Set[AssetType] =
       Set(
-        AssetType.Image(Captain.ref, AssetPath(baseUrl + "assets/" + Captain.ref.toString + ".png")),
-        AssetType.Text(Captain.jsonRef, AssetPath(baseUrl + "assets/" + Captain.ref.toString + ".json"))
+        AssetType.Image(Captain.ref, AssetPath(baseUrl + "assets/" + Captain.ref + ".png")),
+        AssetType.Text(Captain.jsonRef, AssetPath(baseUrl + "assets/" + Captain.ref + ".json"))
       )
   }
 
@@ -119,9 +120,9 @@ object Assets {
 
     def assets(baseUrl: String): Set[AssetType] =
       Set(
-        AssetType.Image(Trees.trunksRef, AssetPath(baseUrl + "assets/" + Trees.trunksRef.toString + ".png")),
-        AssetType.Image(Trees.ref, AssetPath(baseUrl + "assets/" + Trees.ref.toString + ".png")),
-        AssetType.Text(Trees.jsonRef, AssetPath(baseUrl + "assets/" + Trees.ref.toString + ".json"))
+        AssetType.Image(Trees.trunksRef, AssetPath(baseUrl + "assets/" + Trees.trunksRef + ".png")),
+        AssetType.Image(Trees.ref, AssetPath(baseUrl + "assets/" + Trees.ref + ".png")),
+        AssetType.Text(Trees.jsonRef, AssetPath(baseUrl + "assets/" + Trees.ref + ".json"))
       )
   }
 
@@ -131,14 +132,14 @@ object Assets {
 
     def assets(baseUrl: String): Set[AssetType] =
       Set(
-        AssetType.Image(Helm.ref, AssetPath(baseUrl + "assets/" + Helm.ref.toString + ".png")),
-        AssetType.Text(Helm.jsonRef, AssetPath(baseUrl + "assets/" + Helm.ref.toString + ".json"))
+        AssetType.Image(Helm.ref, AssetPath(baseUrl + "assets/" + Helm.ref + ".png")),
+        AssetType.Text(Helm.jsonRef, AssetPath(baseUrl + "assets/" + Helm.ref + ".json"))
       )
   }
 
   object Fonts {
-    val smallFontName: AssetName             = AssetName("smallFontName")
-    val fontKey: FontKey                     = FontKey("boxy font")
+    val smallFontName: AssetName            = AssetName("smallFontName")
+    val fontKey: FontKey                    = FontKey("boxy font")
     val fontMaterial: Material.ImageEffects = Material.ImageEffects(smallFontName)
 
     val fontInfo: FontInfo =
