@@ -51,9 +51,11 @@ object MyGameDemo extends IndigoDemo[Unit, Unit, Unit, Unit] {
 //   def scale: Vector2 = ???
 //   def withDepth(newDepth: Depth): MyCustomEntity = ???
 //   def toShaderData: ShaderData = ???
+//   def eventHandler: ((MyCustomEntity, GlobalEvent)) => Option[GlobalEvent]
+//   def eventHandlerEnabled: Boolean
 
 // A custom entity that flood fills it's area with green.
-final case class MyColoredEntity(position: Point, depth: Depth) extends EntityNode:
+final case class MyColoredEntity(position: Point, depth: Depth) extends EntityNode[MyColoredEntity]:
   def size: Size        = Size(32, 32)
   def flip: Flip        = Flip.default
   def ref: Point        = Point.zero
@@ -65,6 +67,10 @@ final case class MyColoredEntity(position: Point, depth: Depth) extends EntityNo
 
   def toShaderData: ShaderData =
     ShaderData(MyColoredEntity.shader.id)
+
+  def eventHandler: ((MyColoredEntity, GlobalEvent)) => Option[GlobalEvent] =
+    Function.const(None)
+  def eventHandlerEnabled: Boolean = false
 
 object MyColoredEntity:
   val shader: EntityShader =
@@ -80,7 +86,7 @@ object MyColoredEntity:
       )
 
 // A custom entity that flood fills it's area with green.
-final case class MyBitmapEntity(asset: AssetName, position: Point, depth: Depth) extends EntityNode:
+final case class MyBitmapEntity(asset: AssetName, position: Point, depth: Depth) extends EntityNode[MyBitmapEntity]:
   def size: Size        = Size(32, 32)
   def flip: Flip        = Flip.default
   def ref: Point        = Point.zero
@@ -93,6 +99,10 @@ final case class MyBitmapEntity(asset: AssetName, position: Point, depth: Depth)
   def toShaderData: ShaderData =
     ShaderData(MyBitmapEntity.shader.id)
       .withChannel0(asset)
+
+  def eventHandler: ((MyBitmapEntity, GlobalEvent)) => Option[GlobalEvent] =
+    Function.const(None)
+  def eventHandlerEnabled: Boolean = false
 
 object MyBitmapEntity:
   val shader: EntityShader =

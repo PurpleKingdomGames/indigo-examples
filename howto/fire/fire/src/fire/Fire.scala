@@ -11,7 +11,7 @@ final case class Fire(
     inner: RGB,
     center: RGB,
     offset: Double
-) extends EntityNode:
+) extends EntityNode[Fire]:
   def flip: Flip        = Flip.default
   def ref: Point        = Point.zero
   def rotation: Radians = Radians.zero
@@ -33,6 +33,10 @@ final case class Fire(
         )
       )
     )
+
+  def eventHandler: ((Fire, GlobalEvent)) => Option[GlobalEvent] =
+    Function.const(None)
+  def eventHandlerEnabled: Boolean = false
 
 object Fire:
 

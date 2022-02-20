@@ -4,17 +4,18 @@ import mill.scalalib._
 import mill.scalajslib._
 import mill.scalajslib.api._
 
-import $ivy.`io.indigoengine::mill-indigo:0.11.0`, millindigo._
+import $ivy.`io.indigoengine::mill-indigo:0.12.1`, millindigo._
 
 object fire extends ScalaJSModule with MillIndigo {
-  def scalaVersion   = "3.1.0"
-  def scalaJSVersion = "1.8.0"
+  def scalaVersion   = "3.1.1"
+  def scalaJSVersion = "1.9.0"
 
-  val gameAssetsDirectory: os.Path = os.pwd / "assets"
-  val showCursor: Boolean          = true
-  val title: String                = "Fire Shader - Made with Indigo"
-  val windowStartWidth: Int        = 384
-  val windowStartHeight: Int       = 384
+  val gameAssetsDirectory: os.Path   = os.pwd / "assets"
+  val showCursor: Boolean            = true
+  val title: String                  = "Fire Shader - Made with Indigo"
+  val windowStartWidth: Int          = 384
+  val windowStartHeight: Int         = 384
+  val disableFrameRateLimit: Boolean = false
 
   def buildGame() =
     T.command {
@@ -34,7 +35,7 @@ object fire extends ScalaJSModule with MillIndigo {
       }
     }
 
-  val indigoVersion = "0.11.0"
+  val indigoVersion = "0.12.1"
 
   def ivyDeps =
     Agg(

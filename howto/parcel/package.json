@@ -1,6 +1,6 @@
 {
   "scripts": {
-    "start": "sbt fastOptJS indigoBuild && parcel index.html --no-cache --out-dir dist --log-level 4 --no-source-maps",
+    "start": "sbt clean fastOptJS indigoBuild && parcel index.html --no-cache --out-dir dist --log-level 4 --no-source-maps",
     "build": "sbt clean fastOptJS indigoBuild && parcel build index.html --out-dir dist --log-level 4 --no-source-maps"
   },
   "devDependencies": {
