@@ -1,10 +1,10 @@
 package com.example.lighting
 
-import indigo._
+import indigo.*
 import indigoextras.effectmaterials.Refraction
 import indigoextras.effectmaterials.RefractionEntity
 
-import scala.scalajs.js.annotation._
+import scala.scalajs.js.annotation.*
 
 @JSExportTopLevel("IndigoGame")
 object DistortionGame extends IndigoSandbox[Unit, Unit]:
@@ -83,19 +83,18 @@ object DistortionGame extends IndigoSandbox[Unit, Unit]:
         graphic.moveBy(60, 0)
       ).addLayer(
         Layer(imageLight).withBlending(Blending.Lighting(RGBA(0.2, 0.5, 0.3, 0.5)))
-      )
-      .addLayer(
+      ).addLayer(
         Layer(
-            distortion.moveTo(viewCenter + Point(50, 0)),
-            sliding.affectTime(0.3).at(context.gameTime.running)
-          ).withBlending(
-            Refraction.blending(
-              Signal.SmoothPulse
-                .map(d => 0.25 * d)
-                .affectTime(0.25)
-                .at(context.running)
-            )
+          distortion.moveTo(viewCenter + Point(50, 0)),
+          sliding.affectTime(0.3).at(context.gameTime.running)
+        ).withBlending(
+          Refraction.blending(
+            Signal.SmoothPulse
+              .map(d => 0.25 * d)
+              .affectTime(0.25)
+              .at(context.running)
           )
+        )
       )
     )
 

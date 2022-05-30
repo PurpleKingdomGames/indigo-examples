@@ -1,6 +1,6 @@
 package pirate.scenes.level
 
-import indigo._
+import indigo.*
 import indigo.scenes._
 
 import pirate.scenes.level.subsystems.CloudsAutomata

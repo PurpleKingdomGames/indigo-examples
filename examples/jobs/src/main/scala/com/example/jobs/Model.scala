@@ -1,32 +1,30 @@
 package com.example.jobs
 
-import indigo._
+import indigo.*
 import indigoextras.datatypes.IncreaseTo
 import indigoextras.jobs.JobMarketEvent
 
-final case class Model(bob: Bob, grove: Grove, woodPiles: List[Wood], woodCollected: Int) {
+final case class Model(bob: Bob, grove: Grove, woodPiles: Batch[Wood], woodCollected: Int) {
 
   def update(gameTime: GameTime, dice: Dice): GlobalEvent => Outcome[Model] = {
     case e @ FrameTick =>
-      Outcome.combine(bob.update(gameTime, dice)(e), grove.update(gameTime.delta)).map {
-        case (b, g) =>
-          this.copy(
-            bob = b,
-            grove = g
-          )
+      Outcome.combine(bob.update(gameTime, dice)(e), grove.update(gameTime.delta)).map { case (b, g) =>
+        this.copy(
+          bob = b,
+          grove = g
+        )
       }
 
     case e @ JobMarketEvent.Allocate(_, _) =>
-      bob.update(gameTime, dice)(e).map {
-        case b =>
-          this.copy(
-            bob = b
-          )
+      bob.update(gameTime, dice)(e).map { case b =>
+        this.copy(
+          bob = b
+        )
       }
 
     case DropWood(position) =>
       val wood =
-        List(
+        Batch(
           Wood(BindingKey.fromDice(dice), position + Point(-8, -8)),
           Wood(BindingKey.fromDice(dice), position + Point(8, 8))
         )
@@ -65,23 +63,22 @@ object Model {
     Model(
       bob = Bob.initial,
       grove = Grove(
-        startupData.trees.map {
-          case TreeData(i, v, gr) =>
-            Tree(
-              index = i,
-              position = Point((v.x * 25d).toInt, (v.y * 25d).toInt) + Point(50, 150),
-              growth = IncreaseTo(0, 10 + (10 * gr), 100),
-              fullyGrown = false
-            )
+        startupData.trees.map { case TreeData(i, v, gr) =>
+          Tree(
+            index = i,
+            position = Point((v.x * 25d).toInt, (v.y * 25d).toInt) + Point(50, 150),
+            growth = IncreaseTo(0, 10 + (10 * gr), 100),
+            fullyGrown = false
+          )
         }
       ),
-      woodPiles = Nil,
+      woodPiles = Batch.empty,
       woodCollected = 0
     )
 
 }
 
-final case class Grove(trees: List[Tree]) {
+final case class Grove(trees: Batch[Tree]) {
 
   def update(timeDelta: Seconds): Outcome[Grove] =
     Outcome
@@ -107,7 +104,7 @@ final case class Tree(index: Int, position: Point, growth: IncreaseTo, fullyGrow
           fullyGrown = isFullyGrown
         )
       ).addGlobalEvents(
-        if (isFullyGrown) List(JobMarketEvent.Post(ChopDown(index, position))) else Nil
+        if (isFullyGrown) Batch(JobMarketEvent.Post(ChopDown(index, position))) else Batch.empty
       )
     }
 

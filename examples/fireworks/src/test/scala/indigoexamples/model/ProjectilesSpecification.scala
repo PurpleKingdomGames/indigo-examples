@@ -1,5 +1,6 @@
 package indigoexamples.model
 
+import indigo.shared.collections.NonEmptyBatch
 import indigo.shared.collections.NonEmptyList
 import indigo.shared.datatypes.Point
 import indigo.shared.datatypes.Rectangle
@@ -9,12 +10,12 @@ import indigo.shared.time.Seconds
 import indigoextras.geometry.Bezier
 import indigoextras.geometry.BoundingBox
 import indigoextras.geometry.Vertex
-import org.scalacheck.Prop._
-import org.scalacheck._
+import org.scalacheck.Prop.*
+import org.scalacheck.*
 
 class ProjectilesSpecification extends Properties("Projectiles") {
 
-  import Generators._
+  import Generators.*
 
   val screenDimensions: Rectangle =
     Rectangle(0, 0, 1920, 1080)
@@ -65,69 +66,66 @@ class ProjectilesSpecification extends Properties("Projectiles") {
     Projectiles.toScreenSpace(screenDimensions)(vertex)
 
   property("arc signal should always produce a value inside the beziers bounds") = Prop.forAll { (dice: Dice, target: Vertex, time: Seconds) =>
-    Prop.forAll(vertexGen, vertexGen) {
-      case (va, vb) =>
-        val vertices: NonEmptyList[Vertex] =
-          NonEmptyList(va, vb)
+    Prop.forAll(vertexGen, vertexGen) { case (va, vb) =>
+      val vertices: NonEmptyBatch[Vertex] =
+        NonEmptyBatch(va, vb)
 
-        val bounds: BoundingBox =
-          Bezier.fromVerticesNel(vertices).bounds
+      val bounds: BoundingBox =
+        Bezier.fromVerticesNonEmpty(vertices).bounds
 
-        val signal: Signal[Vertex] =
-          Projectiles.createArcSignal(Seconds(1000))(vertices)
+      val signal: Signal[Vertex] =
+        Projectiles.createArcSignal(Seconds(1000))(vertices)
 
-        val point: Vertex =
-          signal.at(time)
+      val point: Vertex =
+        signal.at(time)
 
-        "-- Bounds: " + bounds.toString() +
-          "\n-- Bounds (left): " + bounds.left.toString +
-          "\n-- Bounds (right): " + bounds.right.toString +
-          "\n-- Bounds (top): " + bounds.top.toString +
-          "\n-- Bounds (bottom): " + bounds.bottom.toString +
-          "\n-- target: " + target.toString() +
-          "\n-- Point: " + point.toString() +
-          "\n-- Time: " + time.toString() +
-          "" |: true =? (bounds + BoundingBox(0, 0, 1, 1)).contains(signal.at(time))
+      "-- Bounds: " + bounds.toString() +
+        "\n-- Bounds (left): " + bounds.left.toString +
+        "\n-- Bounds (right): " + bounds.right.toString +
+        "\n-- Bounds (top): " + bounds.top.toString +
+        "\n-- Bounds (bottom): " + bounds.bottom.toString +
+        "\n-- target: " + target.toString() +
+        "\n-- Point: " + point.toString() +
+        "\n-- Time: " + time.toString() +
+        "" |: true =? (bounds + BoundingBox(0, 0, 1, 1)).contains(signal.at(time))
     }
   }
 
   // Previous test guarantees we're always inside the bounds, so we can limit the test cases a bit here.
   property("Over time, the signal should always generate values moving closer to the target") = Prop.forAll { (dice: Dice, target: Vertex) =>
-    Prop.forAll(nowNextSeconds(0, 1), vertexGen) {
-      case ((now, next), target) =>
-        val vertices: NonEmptyList[Vertex] =
-          NonEmptyList(Vertex.zero, target / 2, target)
+    Prop.forAll(nowNextSeconds(0, 1), vertexGen) { case ((now, next), target) =>
+      val vertices: NonEmptyBatch[Vertex] =
+        NonEmptyBatch(Vertex.zero, target / 2, target)
 
-        val signal: Signal[Vertex] =
-          Projectiles.createArcSignal(Seconds(1))(vertices)
+      val signal: Signal[Vertex] =
+        Projectiles.createArcSignal(Seconds(1))(vertices)
 
-        val v1: Vertex =
-          signal.at(now)
+      val v1: Vertex =
+        signal.at(now)
 
-        val v2: Vertex =
-          signal.at(next)
+      val v2: Vertex =
+        signal.at(next)
 
-        "t1: " + now +
-          "\nt2: " + next +
-          "\nv1: " + v1 +
-          "\nv2: " + v2 +
-          "\ntarget: " + target +
-          "\nv1 distance: " + v1.distanceTo(target) +
-          "\nv2 distance: " + v2.distanceTo(target) +
-          "" |: v2.distanceTo(target) <= v1.distanceTo(target)
+      "t1: " + now +
+        "\nt2: " + next +
+        "\nv1: " + v1 +
+        "\nv2: " + v2 +
+        "\ntarget: " + target +
+        "\nv1 distance: " + v1.distanceTo(target) +
+        "\nv2 distance: " + v2.distanceTo(target) +
+        "" |: v2.distanceTo(target) <= v1.distanceTo(target)
     }
   }
 
   property("able to generate a flight time") = Prop.forAll { (dice: Dice) =>
-    Prop.forAll(nowNextSeconds(-10, 10)) {
-      case (min, max) =>
-        val flightTime: Seconds =
-          Projectiles.pickFlightTime(dice, min, max)
+    Prop.forAll(nowNextSeconds(-10, 10)) { case (min, max) =>
+      val flightTime: Seconds =
+        Projectiles.pickFlightTime(dice, min, max)
 
-        Prop.all(
-          flightTime >= min,
-          flightTime < max
-        )
+      Prop.all(
+        flightTime >= min,
+        flightTime < max
+      )
     }
   }
 }

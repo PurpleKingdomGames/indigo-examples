@@ -1,6 +1,6 @@
 package com.example.jobs
 
-import indigo._
+import indigo.*
 
 object Assets {
 

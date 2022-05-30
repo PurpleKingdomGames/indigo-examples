@@ -1,7 +1,7 @@
 package pirate.scenes.level.subsystems
 
-import indigo._
-import indigoextras.subsystems._
+import indigo.*
+import indigoextras.subsystems.*
 import pirate.core.Assets
 
 /*
@@ -17,6 +17,7 @@ object CloudsSubSystem {
 
   def apply(screenWidth: Int): SubSystem =
     SubSystem[FrameTick, CloudsState](
+      SubSystemId("clouds"),
       eventFilter,
       Outcome(CloudsState.initial),
       update(screenWidth),

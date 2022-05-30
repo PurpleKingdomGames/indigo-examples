@@ -1,8 +1,8 @@
 package indigoexamples.model
 
-import indigo._
+import indigo.*
 import indigoextras.geometry.Vertex
-import org.scalacheck._
+import org.scalacheck.*
 
 object Generators {
 

@@ -5,11 +5,11 @@ import indigo.Seconds
 import indigo.shared.datatypes.Point
 import indigo.shared.datatypes.Rectangle
 import indigoexamples.automata.LaunchPadAutomata
-import org.scalacheck._
+import org.scalacheck.*
 
 class LaunchPadSpecification extends Properties("LaunchPad") {
 
-  import Generators._
+  import Generators.*
 
   def launchPadGen: Gen[LaunchPad] =
     diceGen.map(dice => LaunchPad.generateLaunchPad(dice))

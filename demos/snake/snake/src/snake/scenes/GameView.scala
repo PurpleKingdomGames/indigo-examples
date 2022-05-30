@@ -1,6 +1,7 @@
 package snake.scenes
 
-import indigo._
+import indigo.*
+import indigo.syntax.*
 import snake.init.{GameAssets, StaticAssets, ViewConfig}
 import snake.model.GameMap
 import snake.model.GameModel
@@ -30,25 +31,25 @@ object GameView {
       currentState: GameModel,
       staticAssets: StaticAssets,
       walls: Group
-  ): List[SceneNode] =
+  ): Batch[SceneNode] =
     walls ::
       drawApple(viewConfig, currentState.gameMap, staticAssets) ++
-        drawSnake(viewConfig, currentState, staticAssets.snake) ++
+      drawSnake(viewConfig, currentState, staticAssets.snake) ++
       drawScore(viewConfig, currentState.score)
 
-  def drawApple(viewConfig: ViewConfig, gameMap: GameMap, staticAssets: StaticAssets): List[Graphic[_]] =
+  def drawApple(viewConfig: ViewConfig, gameMap: GameMap, staticAssets: StaticAssets): Batch[Graphic[_]] =
     gameMap.findApples.map { a =>
       staticAssets.apple
         .moveTo(gridPointToPoint(a.gridPoint, gameMap.gridSize, viewConfig.gridSquareSize))
     }
 
-  def drawSnake(viewConfig: ViewConfig, currentState: GameModel, snakeAsset: Graphic[_]): List[Graphic[_]] =
-    currentState.snake.givePath.map { pt =>
+  def drawSnake(viewConfig: ViewConfig, currentState: GameModel, snakeAsset: Graphic[_]): Batch[Graphic[_]] =
+    currentState.snake.givePath.toBatch.map { pt =>
       snakeAsset.moveTo(gridPointToPoint(pt, currentState.gameMap.gridSize, viewConfig.gridSquareSize))
     }
 
-  def drawScore(viewConfig: ViewConfig, score: Int): List[SceneNode] =
-    List(
+  def drawScore(viewConfig: ViewConfig, score: Int): Batch[SceneNode] =
+    Batch(
       Text(
         score.toString,
         (viewConfig.viewport.width / viewConfig.magnificationLevel) - 3,

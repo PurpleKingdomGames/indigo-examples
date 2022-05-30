@@ -1,6 +1,6 @@
 package pirate.scenes.level
 
-import indigo._
+import indigo.*
 
 import pirate.core.Assets
 import pirate.core.LevelDataStore
@@ -32,7 +32,7 @@ object LevelView {
             .addLayer(
               Layer(
                 BindingKey("background"),
-                List(Graphic(Rectangle(0, 0, 640, 360), 50, Material.Bitmap(Assets.Static.backgroundRef))) ++
+                Batch(Graphic(Rectangle(0, 0, 640, 360), 50, Material.Bitmap(Assets.Static.backgroundRef))) ++
                   drawWater(assets.waterReflections)
               )
             )
@@ -52,15 +52,15 @@ object LevelView {
         }
         .getOrElse(SceneUpdateFragment.empty)
 
-    def drawWater(waterReflections: Sprite[Material.Bitmap]): List[SceneNode] =
-      List(
+    def drawWater(waterReflections: Sprite[Material.Bitmap]): Batch[SceneNode] =
+      Batch(
         waterReflections.play(),
         waterReflections.moveBy(150, 30).play(),
         waterReflections.moveBy(-100, 60).play()
       )
 
-    def drawForeground(assets: LevelDataStore): List[SceneNode] =
-      List(
+    def drawForeground(assets: LevelDataStore): Batch[SceneNode] =
+      Batch(
         assets.flag.play(),
         assets.helm.play(),
         Assets.Trees.tallTrunkGraphic.moveTo(420, 236),
@@ -99,7 +99,8 @@ object LevelView {
     val respawnFlashSignal: Seconds => Signal[(Boolean, Boolean)] =
       lastRespawn => Signal(_ < lastRespawn + Seconds(1.2)) |*| Signal.Pulse(Seconds(0.1))
 
-    val captainWithAlpha: Sprite[Material.ImageEffects] => SignalFunction[(Boolean, Boolean), Sprite[Material.ImageEffects]] =
+    val captainWithAlpha
+        : Sprite[Material.ImageEffects] => SignalFunction[(Boolean, Boolean), Sprite[Material.ImageEffects]] =
       captain =>
         SignalFunction {
           case (false, _) =>
@@ -114,7 +115,11 @@ object LevelView {
               .modifyMaterial(_.withAlpha(0))
         }
 
-    def respawnEffect(gameTime: GameTime, lastRespawn: Seconds, captain: Sprite[Material.ImageEffects]): Sprite[Material.ImageEffects] =
+    def respawnEffect(
+        gameTime: GameTime,
+        lastRespawn: Seconds,
+        captain: Sprite[Material.ImageEffects]
+    ): Sprite[Material.ImageEffects] =
       (respawnFlashSignal(lastRespawn) |> captainWithAlpha(captain)).at(gameTime.running)
 
     def updatedCaptain(

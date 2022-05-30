@@ -1,6 +1,6 @@
 package snake.scenes
 
-import indigo._
+import indigo.*
 import indigo.scenes._
 
 import snake.model.{GameModel, ViewModel}

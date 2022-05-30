@@ -1,10 +1,10 @@
 package indigoexamples
 
-import indigo._
+import indigo.*
 
 object FontStuff {
 
-  val fontName: AssetName    = AssetName("My boxy font")
+  val fontName: AssetName                 = AssetName("My boxy font")
   val fontMaterial: Material.ImageEffects = Material.ImageEffects(fontName)
 
   def fontKey: FontKey = FontKey("My Font")

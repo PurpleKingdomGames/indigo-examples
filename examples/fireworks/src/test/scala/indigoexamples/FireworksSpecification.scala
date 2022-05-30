@@ -7,11 +7,11 @@ import indigo.shared.time.Millis
 import indigoexamples.automata.LaunchPadAutomata
 import indigoexamples.model.Projectiles
 import indigoextras.geometry.Vertex
-import org.scalacheck._
+import org.scalacheck.*
 
 class FireworksSpecification extends Properties("FireworksModel") {
 
-  import indigoexamples.model.Generators._
+  import indigoexamples.model.Generators.*
 
   val screenDimensions: Rectangle =
     Rectangle(0, 0, 1920, 1080)

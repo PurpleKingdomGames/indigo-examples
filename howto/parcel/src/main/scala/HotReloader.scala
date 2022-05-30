@@ -5,6 +5,8 @@ final case class HotReloader() extends SubSystem:
   type EventType      = SaveModel
   type SubSystemModel = Unit
 
+  val id: SubSystemId = SubSystemId("hot reloader")
+
   def eventFilter: GlobalEvent => Option[EventType] = {
     case e: SaveModel => Some(e)
     case _            => None

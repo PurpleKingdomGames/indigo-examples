@@ -1,6 +1,6 @@
 package indigoexamples
 
-import indigo._
+import indigo.*
 import indigoexamples.automata.FlareAutomata
 import indigoexamples.automata.LaunchPadAutomata
 import indigoexamples.automata.RocketAutomata
@@ -11,7 +11,7 @@ import indigoextras.geometry.Vertex
 import indigoextras.subsystems.AutomataEvent
 import indigoextras.subsystems.FPSCounter
 
-import scala.scalajs.js.annotation._
+import scala.scalajs.js.annotation.*
 
 @JSExportTopLevel("IndigoGame")
 object Fireworks extends IndigoDemo[Vertex => Point, FireworksStartupData, Unit, Unit] {
@@ -56,8 +56,8 @@ object Fireworks extends IndigoDemo[Vertex => Point, FireworksStartupData, Unit,
         )
     }
 
-  def launchFireworks(dice: Dice, toScreenSpace: Vertex => Point): List[AutomataEvent.Spawn] =
-    List.fill(dice.roll(5) + 5)(
+  def launchFireworks(dice: Dice, toScreenSpace: Vertex => Point): Batch[AutomataEvent.Spawn] =
+    Batch.fill(dice.roll(5) + 5)(
       LaunchPadAutomata.spawnEvent(
         LaunchPad.generateLaunchPad(dice),
         toScreenSpace

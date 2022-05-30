@@ -1,9 +1,9 @@
 package indigoexamples
 
-import indigo._
-import indigoextras.ui._
+import indigo.*
+import indigoextras.ui.*
 
-import scala.scalajs.js.annotation._
+import scala.scalajs.js.annotation.*
 
 @JSExportTopLevel("IndigoGame")
 object HttpExample extends IndigoDemo[Unit, Unit, Unit, Button] {

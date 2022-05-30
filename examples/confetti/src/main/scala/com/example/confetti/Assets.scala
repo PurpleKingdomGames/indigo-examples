@@ -1,6 +1,6 @@
 package com.example.confetti
 
-import indigo._
+import indigo.*
 
 object Assets:
 
@@ -15,4 +15,3 @@ object Assets:
   val greenDot: Graphic[Material.Bitmap]  = Graphic(Rectangle(16, 0, 16, 16), 1, Material.Bitmap(dots)).withRef(8, 8)
   val blueDot: Graphic[Material.Bitmap]   = Graphic(Rectangle(0, 16, 16, 16), 1, Material.Bitmap(dots)).withRef(8, 8)
   val yellowDot: Graphic[Material.Bitmap] = Graphic(Rectangle(16, 16, 16, 16), 1, Material.Bitmap(dots)).withRef(8, 8)
-

@@ -25,7 +25,7 @@ final case class Fire(
       Fire.shaderId,
       UniformBlock(
         "FireData",
-        List(
+        Batch(
           Uniform("OFFSET")       -> float(offset),
           Uniform("COLOR_OUTER")  -> vec3(outer.r, outer.g, outer.b),
           Uniform("COLOR_INNER")  -> vec3(inner.r, inner.g, inner.b),

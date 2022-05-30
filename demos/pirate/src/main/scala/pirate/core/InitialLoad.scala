@@ -1,6 +1,6 @@
 package pirate.core
 
-import indigo._
+import indigo.*
 import indigo.json.Json
 import indigo.shared.formats.TiledGridMap
 

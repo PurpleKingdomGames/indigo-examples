@@ -1,6 +1,6 @@
 package pirate.scenes.loading
 
-import indigo._
+import indigo.*
 import indigo.scenes._
 import indigoextras.subsystems._
 

@@ -79,8 +79,8 @@ object HelloIndigo extends IndigoSandbox[Unit, Model] {
 
   def drawDots(
       center: Point,
-      dots: List[Dot]
-  ): List[Graphic[_]] =
+      dots: Batch[Dot]
+  ): Batch[Graphic[_]] =
     dots.map { dot =>
       val position = Point(
         (Math.sin(dot.angle.toDouble) * dot.orbitDistance + center.x).toInt,
@@ -95,7 +95,7 @@ object HelloIndigo extends IndigoSandbox[Unit, Model] {
 
 }
 
-case class Model(center: Point, dots: List[Dot]) {
+case class Model(center: Point, dots: Batch[Dot]) {
   def addDot(dot: Dot): Model =
     this.copy(dots = dot :: dots)
 
@@ -103,7 +103,7 @@ case class Model(center: Point, dots: List[Dot]) {
     this.copy(dots = dots.map(_.update(timeDelta)))
 }
 object Model {
-  def initial(center: Point): Model = Model(center, Nil)
+  def initial(center: Point): Model = Model(center, Batch.empty)
 }
 case class Dot(orbitDistance: Int, angle: Radians) {
   def update(timeDelta: Seconds): Dot =

@@ -1,6 +1,6 @@
 package indigoexamples.model
 
-import indigo._
+import indigo.*
 import indigoexamples.automata.LaunchPadAutomata
 import indigoextras.geometry.Vertex
 import indigoextras.subsystems.AutomatonPayload

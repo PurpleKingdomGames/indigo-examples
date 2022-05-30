@@ -1,6 +1,6 @@
 package pirate.core
 
-import indigo._
+import indigo.*
 
 /*
 This object declares all of the assets we want to load statically.

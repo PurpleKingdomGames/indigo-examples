@@ -1,6 +1,6 @@
 package pirate.core
 
-import indigo._
+import indigo.*
 
 import pirate.scenes.level.viewmodel.LevelViewModel
 import pirate.scenes.level.model.Pirate

@@ -5,6 +5,7 @@ import indigoextras.geometry.BoundingBox
 import indigoextras.trees.QuadTree
 import indigoextras.geometry.Vertex
 import scala.annotation.tailrec
+import indigo.shared.collections.Batch
 
 final case class GameMap(quadTree: QuadTree[MapElement], gridSize: BoundingBox) {
 
@@ -17,7 +18,7 @@ final case class GameMap(quadTree: QuadTree[MapElement], gridSize: BoundingBox) 
   def removeApple(gridPoint: Vertex): GameMap =
     this.copy(quadTree = quadTree.removeElement(gridPoint).prune)
 
-  def insertElements(elements: List[MapElement]): GameMap =
+  def insertElements(elements: Batch[MapElement]): GameMap =
     this.copy(
       quadTree = quadTree.insertElements(elements.map(me => (me, me.giveGridPoint))).prune
     )
@@ -25,25 +26,25 @@ final case class GameMap(quadTree: QuadTree[MapElement], gridSize: BoundingBox) 
   def findEmptySpace(dice: Dice, not: List[Vertex]): Vertex =
     GameMap.findEmptySpace(quadTree, dice, gridSize, not)
 
-  def asElementList: List[MapElement] =
-    quadTree.toList
+  def asElementList: Batch[MapElement] =
+    quadTree.toBatch
 
-  lazy val findWalls: List[MapElement.Wall] =
+  lazy val findWalls: Batch[MapElement.Wall] =
     asElementList.flatMap {
       case w: MapElement.Wall =>
-        List(w)
+        Batch(w)
 
       case _ =>
-        Nil
+        Batch.empty
     }
 
-  def findApples: List[MapElement.Apple] =
+  def findApples: Batch[MapElement.Apple] =
     asElementList.flatMap {
       case a: MapElement.Apple =>
-        List(a)
+        Batch(a)
 
       case _ =>
-        Nil
+        Batch.empty
     }
 
 }
@@ -95,21 +96,21 @@ object GameMap {
       .insertElements(leftEdgeWall(adjustedGridSize))
   }
 
-  private def topEdgeWall(gridSize: BoundingBox): List[MapElement.Wall] =
+  private def topEdgeWall(gridSize: BoundingBox): Batch[MapElement.Wall] =
     fillIncrementally(gridSize.topLeft, gridSize.topRight).map(MapElement.Wall.apply)
 
-  private def rightEdgeWall(gridSize: BoundingBox): List[MapElement.Wall] =
+  private def rightEdgeWall(gridSize: BoundingBox): Batch[MapElement.Wall] =
     fillIncrementally(gridSize.topRight, gridSize.bottomRight).map(MapElement.Wall.apply)
 
-  private def bottomEdgeWall(gridSize: BoundingBox): List[MapElement.Wall] =
+  private def bottomEdgeWall(gridSize: BoundingBox): Batch[MapElement.Wall] =
     fillIncrementally(gridSize.bottomLeft, gridSize.bottomRight).map(MapElement.Wall.apply)
 
-  private def leftEdgeWall(gridSize: BoundingBox): List[MapElement.Wall] =
+  private def leftEdgeWall(gridSize: BoundingBox): Batch[MapElement.Wall] =
     fillIncrementally(gridSize.topLeft, gridSize.bottomLeft).map(MapElement.Wall.apply)
 
-  private def fillIncrementally(start: Vertex, end: Vertex): List[Vertex] = {
+  private def fillIncrementally(start: Vertex, end: Vertex): Batch[Vertex] = {
     @tailrec
-    def rec(last: Vertex, dest: Vertex, p: Vertex => Boolean, acc: List[Vertex]): List[Vertex] =
+    def rec(last: Vertex, dest: Vertex, p: Vertex => Boolean, acc: Batch[Vertex]): Batch[Vertex] =
       if (p(last)) acc
       else {
         val nextX: Double = if (last.x + 1 <= end.x) last.x + 1 else last.x
@@ -118,8 +119,8 @@ object GameMap {
         rec(next, dest, p, acc :+ next)
       }
 
-    if (lessThanOrEqual(start, end)) rec(start, end, (gp: Vertex) => gp == end, List(start))
-    else rec(end, start, (gp: Vertex) => gp == start, List(end))
+    if (lessThanOrEqual(start, end)) rec(start, end, (gp: Vertex) => gp == end, Batch(start))
+    else rec(end, start, (gp: Vertex) => gp == start, Batch(end))
   }
 
   private def lessThanOrEqual(a: Vertex, b: Vertex): Boolean =

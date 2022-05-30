@@ -1,8 +1,8 @@
 package indigoexamples
 
-import indigo._
+import indigo.*
 
-import scala.scalajs.js.annotation._
+import scala.scalajs.js.annotation.*
 
 @JSExportTopLevel("IndigoGame")
 object BlendingExample extends IndigoSandbox[Unit, Unit]:

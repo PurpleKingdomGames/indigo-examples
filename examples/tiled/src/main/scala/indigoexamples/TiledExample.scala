@@ -1,9 +1,9 @@
 package indigoexamples
 
-import indigo._
+import indigo.*
 import indigo.json.Json
 
-import scala.scalajs.js.annotation._
+import scala.scalajs.js.annotation.*
 
 @JSExportTopLevel("IndigoGame")
 object TiledExample extends IndigoSandbox[Group, Unit] {

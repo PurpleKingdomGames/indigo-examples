@@ -1,9 +1,9 @@
 package indigoexamples
 
-import indigo._
-import indigoextras.ui._
+import indigo.*
+import indigoextras.ui.*
 
-import scala.scalajs.js.annotation._
+import scala.scalajs.js.annotation.*
 
 /** Presents an example of a radio button. The demo shows three options in a row that can be selected between. On selecting different options, the background changes colour.
   */

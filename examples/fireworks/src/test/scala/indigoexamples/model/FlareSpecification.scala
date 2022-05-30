@@ -5,12 +5,12 @@ import indigo.shared.datatypes.Radians
 import indigo.shared.dice.Dice
 import indigo.shared.time.Millis
 import indigoextras.geometry.Vertex
-import org.scalacheck.Prop._
-import org.scalacheck._
+import org.scalacheck.Prop.*
+import org.scalacheck.*
 
 class FlareSpecification extends Properties("Flare") {
 
-  import Generators._
+  import Generators.*
 
   property("always creates two control points") = Prop.forAll { (target: Vertex) =>
     Flare.createArcControlVertices(Vertex.zero)(target).length == 2

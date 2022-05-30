@@ -1,13 +1,13 @@
 package indigoexamples
 
-import indigo._
+import indigo.*
 
-import scala.scalajs.js.annotation._
+import scala.scalajs.js.annotation.*
 
 @JSExportTopLevel("IndigoGame")
 object SubSystemsExample extends IndigoDemo[Unit, Unit, Unit, Unit] {
 
-  import FontDetails._
+  import FontDetails.*
 
   val eventFilters: EventFilters = EventFilters.Permissive
 

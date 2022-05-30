@@ -1,6 +1,6 @@
 package snake.scenes
 
-import indigo._
+import indigo.*
 import indigo.scenes._
 import snake.model.ViewModel
 import snake.init.{GameAssets, StartupData}
@@ -56,7 +56,14 @@ object GameOverScene extends Scene[StartupData, GameModel, ViewModel] {
           Layer(
             BindingKey("ui"),
             Text("Game Over!", horizontalCenter, verticalMiddle - 20, 1, GameAssets.fontKey, GameAssets.fontMaterial).alignCenter,
-            Text(s"You scored: ${pointsScored.toString()} pts!", horizontalCenter, verticalMiddle - 5, 1, GameAssets.fontKey, GameAssets.fontMaterial).alignCenter,
+            Text(
+              s"You scored: ${pointsScored.toString()} pts!",
+              horizontalCenter,
+              verticalMiddle - 5,
+              1,
+              GameAssets.fontKey,
+              GameAssets.fontMaterial
+            ).alignCenter,
             Text("(hit space to restart)", horizontalCenter, 220, 1, GameAssets.fontKey, GameAssets.fontMaterial).alignCenter
           )
         )

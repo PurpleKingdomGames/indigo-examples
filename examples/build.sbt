@@ -3,7 +3,7 @@ import scala.language.postfixOps
 
 import sbtwelcome._
 
-val scala3Version = "3.1.1"
+val scala3Version = "3.1.2"
 
 Global / onChangedBuildSource := ReloadOnSourceChanges
 
@@ -15,8 +15,8 @@ lazy val commonSettings = Seq(
   organization := "indigo-examples",
   libraryDependencies ++= Seq(
     "org.scalameta"   %%% "munit"         % "0.7.29" % Test,
-    "io.indigoengine" %%% "indigo"        % "0.12.1",
-    "io.indigoengine" %%% "indigo-extras" % "0.12.1"
+    "io.indigoengine" %%% "indigo"        % "0.13.0",
+    "io.indigoengine" %%% "indigo-extras" % "0.13.0"
   ),
   testFrameworks += new TestFramework("munit.Framework"),
   Test / scalaJSLinkerConfig ~= { _.withModuleKind(ModuleKind.CommonJSModule) },
@@ -157,7 +157,7 @@ lazy val tiled =
       windowStartWidth    := 19 * 32,
       windowStartHeight   := 11 * 32,
       libraryDependencies ++= Seq(
-        "io.indigoengine" %%% "indigo-json-circe" % "0.12.1"
+        "io.indigoengine" %%% "indigo-json-circe" % "0.13.0"
       )
     )
 

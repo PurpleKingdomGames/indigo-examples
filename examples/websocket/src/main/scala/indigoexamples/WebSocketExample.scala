@@ -1,12 +1,12 @@
 package indigoexamples
 
-import indigo._
-import indigoextras.ui._
+import indigo.*
+import indigoextras.ui.*
 
-import scala.scalajs.js.annotation._
+import scala.scalajs.js.annotation.*
 
 @JSExportTopLevel("IndigoGame")
-object WebSocketExample extends IndigoDemo[Unit, WebSocketConfig, List[String], Button] {
+object WebSocketExample extends IndigoDemo[Unit, WebSocketConfig, Batch[String], Button] {
 
   val eventFilters: EventFilters = EventFilters.Permissive
 
@@ -34,10 +34,10 @@ object WebSocketExample extends IndigoDemo[Unit, WebSocketConfig, List[String], 
       )
     )
 
-  def initialModel(echoSocket: WebSocketConfig): Outcome[List[String]] =
-    Outcome(Nil)
+  def initialModel(echoSocket: WebSocketConfig): Outcome[Batch[String]] =
+    Outcome(Batch.empty)
 
-  def initialViewModel(echoSocket: WebSocketConfig, log: List[String]): Outcome[Button] =
+  def initialViewModel(echoSocket: WebSocketConfig, log: Batch[String]): Outcome[Button] =
     Outcome(
       Button(
         buttonAssets = buttonAssets,
@@ -46,7 +46,7 @@ object WebSocketExample extends IndigoDemo[Unit, WebSocketConfig, List[String], 
       ).withUpActions(WebSocketEvent.Send("Hello!", echoSocket))
     )
 
-  def updateModel(context: FrameContext[WebSocketConfig], log: List[String]): GlobalEvent => Outcome[List[String]] = {
+  def updateModel(context: FrameContext[WebSocketConfig], log: Batch[String]): GlobalEvent => Outcome[Batch[String]] = {
     case WebSocketEvent.Receive(WebSocketId("echo"), message) =>
       val msg = "Server says you said: " + message
       IndigoLogger.consoleLog(msg)
@@ -66,7 +66,7 @@ object WebSocketExample extends IndigoDemo[Unit, WebSocketConfig, List[String], 
       Outcome(log)
   }
 
-  def updateViewModel(context: FrameContext[WebSocketConfig], log: List[String], button: Button): GlobalEvent => Outcome[Button] = {
+  def updateViewModel(context: FrameContext[WebSocketConfig], log: Batch[String], button: Button): GlobalEvent => Outcome[Button] = {
     case FrameTick =>
       button.update(context.inputState.mouse)
 
@@ -74,11 +74,11 @@ object WebSocketExample extends IndigoDemo[Unit, WebSocketConfig, List[String], 
       Outcome(button)
   }
 
-  def present(context: FrameContext[WebSocketConfig], log: List[String], button: Button): Outcome[SceneUpdateFragment] =
+  def present(context: FrameContext[WebSocketConfig], log: Batch[String], button: Button): Outcome[SceneUpdateFragment] =
     Outcome(
       SceneUpdateFragment(
         Layer(
-          List(
+          Batch(
             TextBox("Click to connect: ").withColor(RGBA.White).moveTo(5, 12),
             button.draw,
             TextBox("Message Log: ").withColor(RGBA.Green).moveTo(5, 25)

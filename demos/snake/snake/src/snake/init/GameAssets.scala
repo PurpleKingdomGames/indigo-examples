@@ -1,6 +1,6 @@
 package snake.init
 
-import indigo._
+import indigo.*
 
 object GameAssets {
 

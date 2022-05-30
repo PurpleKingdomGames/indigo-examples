@@ -1,13 +1,13 @@
 package indigoexamples
 
-import indigo._
+import indigo.*
 
-import scala.scalajs.js.annotation._
+import scala.scalajs.js.annotation.*
 
 @JSExportTopLevel("IndigoGame")
 object GraphicExample extends IndigoSandbox[Unit, Unit] {
 
-  val config: GameConfig = defaultGameConfig //.withMagnification(1)
+  val config: GameConfig = defaultGameConfig // .withMagnification(1)
 
   val assets: Set[AssetType] = Set(AssetType.Image(AssetName("graphics"), AssetPath("assets/graphics.png")))
 

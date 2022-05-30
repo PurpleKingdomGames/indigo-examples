@@ -1,6 +1,6 @@
 package com.example.jobs
 
-import indigo._
+import indigo.*
 import indigoextras.datatypes.IncreaseTo
 import indigoextras.jobs.Job
 import indigoextras.jobs.JobName

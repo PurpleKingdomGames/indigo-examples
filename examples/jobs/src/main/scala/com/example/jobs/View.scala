@@ -1,6 +1,6 @@
 package com.example.jobs
 
-import indigo._
+import indigo.*
 
 object View {
 
@@ -41,7 +41,7 @@ object View {
         }
     )
 
-  def drawWood(woodPiles: List[Wood]): Group =
+  def drawWood(woodPiles: Batch[Wood]): Group =
     Group(
       woodPiles.map { wood =>
         Assets.yellowDot

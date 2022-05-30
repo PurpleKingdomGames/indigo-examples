@@ -1,6 +1,6 @@
 package pirate.scenes.loading
 
-import indigo._
+import indigo.*
 import pirate.core.Assets
 
 // Handles the rendering of the loading screen.
@@ -10,7 +10,11 @@ import pirate.core.Assets
 // your players feedback, as we do below.
 object LoadingView {
 
-  def draw(screenDimensions: Rectangle, captain: Sprite[Material.ImageEffects], loadingState: LoadingState): SceneUpdateFragment = {
+  def draw(
+      screenDimensions: Rectangle,
+      captain: Sprite[Material.ImageEffects],
+      loadingState: LoadingState
+  ): SceneUpdateFragment = {
     val x = screenDimensions.horizontalCenter
     val y = screenDimensions.verticalCenter
 

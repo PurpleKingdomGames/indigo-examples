@@ -1,6 +1,6 @@
 package indigoexamples
 
-import indigo._
+import indigo.*
 
 object FontDetails {
 

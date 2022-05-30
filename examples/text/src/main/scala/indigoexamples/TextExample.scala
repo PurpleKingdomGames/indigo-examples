@@ -1,13 +1,13 @@
 package indigoexamples
 
-import indigo._
+import indigo.*
 
-import scala.scalajs.js.annotation._
+import scala.scalajs.js.annotation.*
 
 @JSExportTopLevel("IndigoGame")
 object TextExample extends IndigoSandbox[Unit, Model] {
 
-  import FontStuff._
+  import FontStuff.*
 
   val config: GameConfig =
     defaultGameConfig

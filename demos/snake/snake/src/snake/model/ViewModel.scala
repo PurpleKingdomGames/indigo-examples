@@ -1,6 +1,6 @@
 package snake.model
 
-import indigo._
+import indigo.*
 import snake.scenes.GameView
 import snake.init.StartupData
 

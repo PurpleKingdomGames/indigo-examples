@@ -1,6 +1,6 @@
 package pirate.scenes.level.viewmodel
 
-import indigo._
+import indigo.*
 import pirate.scenes.level.model.Pirate
 import pirate.core.Assets
 import pirate.scenes.level.model.PirateState
@@ -67,10 +67,10 @@ final case class PirateViewState(
 
     }
 
-  def updateWalkSound(gameTime: GameTime, soundLastPlayed: Seconds): (List[GlobalEvent], Seconds) =
+  def updateWalkSound(gameTime: GameTime, soundLastPlayed: Seconds): (Batch[GlobalEvent], Seconds) =
     if (gameTime.running > soundLastPlayed + Seconds(0.25))
-      (List(PlaySound(Assets.Sounds.walkSound, Volume(0.5d))), gameTime.running)
-    else (Nil, soundLastPlayed)
+      (Batch(PlaySound(Assets.Sounds.walkSound, Volume(0.5d))), gameTime.running)
+    else (Batch.empty, soundLastPlayed)
 
 }
 object PirateViewState {

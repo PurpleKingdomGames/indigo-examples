@@ -1,8 +1,8 @@
 package com.example.jobs
 
-import indigo._
+import indigo.*
 import indigoextras.datatypes.IncreaseTo
-import indigoextras.jobs._
+import indigoextras.jobs.*
 
 // Bob is our NPC 'Actor'
 final case class Bob(position: Point, workSchedule: WorkSchedule[Bob, Unit], state: BobState) {
@@ -12,9 +12,8 @@ final case class Bob(position: Point, workSchedule: WorkSchedule[Bob, Unit], sta
       val nextJobs =
         workSchedule.update(gameTime, dice, this, ())(e)
 
-      nextJobs.map {
-        case WorkProgressReport(nextSchedule, nextBob) =>
-          nextBob.copy(workSchedule = nextSchedule)
+      nextJobs.map { case WorkProgressReport(nextSchedule, nextBob) =>
+        nextBob.copy(workSchedule = nextSchedule)
       }
     }
 

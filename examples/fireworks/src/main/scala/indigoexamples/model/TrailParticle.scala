@@ -1,6 +1,6 @@
 package indigoexamples.model
 
-import indigo._
+import indigo.*
 import indigoextras.subsystems.AutomatonPayload
 
 final class TrailParticle(val alpha: Double, val tint: RGBA) extends AutomatonPayload {

@@ -1,6 +1,6 @@
 package pirate.scenes.level.model
 
-import indigo._
+import indigo.*
 import indigoextras.geometry.BoundingBox
 import indigoextras.geometry.Vertex
 import pirate.core.Assets
@@ -46,8 +46,8 @@ final case class Pirate(
     else {
       val maybeJumpSound =
         if (!state.inMidAir && nextState.isJumping)
-          List(PlaySound(Assets.Sounds.jumpSound, Volume.Max))
-        else Nil
+          Batch(PlaySound(Assets.Sounds.jumpSound, Volume.Max))
+        else Batch.empty
 
       Outcome(Pirate(nextBounds, nextState, lastRespawn, ySpeedNext))
         .addGlobalEvents(maybeJumpSound)

@@ -1,9 +1,9 @@
 package indigoexamples
 
-import indigo._
-import indigoextras.ui._
+import indigo.*
+import indigoextras.ui.*
 
-import scala.scalajs.js.annotation._
+import scala.scalajs.js.annotation.*
 
 @JSExportTopLevel("IndigoGame")
 object AudioExample extends IndigoDemo[Unit, Unit, Unit, Button] {
@@ -40,9 +40,8 @@ object AudioExample extends IndigoDemo[Unit, Unit, Unit, Button] {
       ).withUpActions(PlaySound(AssetName("bounce"), Volume.Max))
     )
 
-  def updateModel(context: FrameContext[Unit], model: Unit): GlobalEvent => Outcome[Unit] = {
-    case _ =>
-      Outcome(model)
+  def updateModel(context: FrameContext[Unit], model: Unit): GlobalEvent => Outcome[Unit] = { case _ =>
+    Outcome(model)
   }
 
   def updateViewModel(context: FrameContext[Unit], model: Unit, viewModel: Button): GlobalEvent => Outcome[Button] = {

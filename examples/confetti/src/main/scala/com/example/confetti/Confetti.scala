@@ -1,6 +1,7 @@
 package com.example.confetti
 
-import indigo._
+import indigo.*
+import indigo.syntax.*
 import indigoextras.subsystems.FPSCounter
 
 import scala.scalajs.js.annotation.JSExportTopLevel
@@ -57,14 +58,14 @@ object Confetti extends IndigoDemo[Unit, Unit, Model, Unit]:
   def updateViewModel(context: FrameContext[Unit], model: Model, viewModel: Unit): GlobalEvent => Outcome[Unit] =
     _ => Outcome(viewModel)
 
-  val lmbDots: List[Graphic[Material.Bitmap]] =
-    List(
+  val lmbDots: Batch[Graphic[Material.Bitmap]] =
+    Batch(
       Assets.redDot,
       Assets.greenDot
     )
 
-  val rmbDots: List[Graphic[Material.Bitmap]] =
-    List(
+  val rmbDots: Batch[Graphic[Material.Bitmap]] =
+    Batch(
       Assets.blueDot,
       Assets.yellowDot
     )
@@ -88,27 +89,27 @@ object Confetti extends IndigoDemo[Unit, Unit, Model, Unit]:
             case MouseButton.RightMouseButton => rmbDots
 
           dots(p.color).moveTo(p.x, p.y).scaleBy(p.scale, p.scale)
-        } ++ List(
+        } ++ Batch(
           count.withText(s"count: ${model.particles.length}"),
           helpText
         )
       )
     )
 
-opaque type Model = (Int, List[Particle])
+opaque type Model = (Int, Batch[Particle])
 type LmbOrRmb     = MouseButton.LeftMouseButton.type | MouseButton.RightMouseButton.type
 
 object Model:
-  def empty: Model = (0, Nil)
+  def empty: Model = (0, Batch.empty)
 
   extension (m: Model)
-    def color: Int                = m._1
-    def particles: List[Particle] = m._2
+    def color: Int                 = m._1
+    def particles: Batch[Particle] = m._2
 
     def spawn(context: FrameContext[Unit], count: Int, source: LmbOrRmb): Model =
       (
         m._1,
-        (0 until count).toList.map { _ =>
+        (0 until count).toBatch.map { _ =>
           Particle(
             context.mouse.position.x,
             context.mouse.position.y,

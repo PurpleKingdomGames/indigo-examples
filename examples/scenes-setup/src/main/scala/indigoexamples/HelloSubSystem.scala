@@ -1,10 +1,12 @@
 package indigoexamples
 
-import indigo._
+import indigo.*
 
 final case class HelloSubSystem(initialMessage: String, fontKey: FontKey) extends SubSystem {
   type EventType      = GlobalEvent
   type SubSystemModel = String
+
+  val id: SubSystemId = SubSystemId("hello")
 
   val eventFilter: GlobalEvent => Option[EventType] =
     _ => None

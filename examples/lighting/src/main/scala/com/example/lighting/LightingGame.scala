@@ -1,8 +1,8 @@
 package com.example.lighting
 
-import indigo._
+import indigo.*
 
-import scala.scalajs.js.annotation._
+import scala.scalajs.js.annotation.*
 
 @JSExportTopLevel("IndigoGame")
 object LightingGame extends IndigoSandbox[Unit, Unit]:

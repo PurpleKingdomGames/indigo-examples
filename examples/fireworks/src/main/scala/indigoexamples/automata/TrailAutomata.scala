@@ -1,9 +1,9 @@
 package indigoexamples.automata
 
-import indigo._
+import indigo.*
 import indigoexamples.Assets
 import indigoexamples.model.TrailParticle
-import indigoextras.subsystems._
+import indigoextras.subsystems.*
 
 object TrailAutomata {
 
@@ -44,15 +44,14 @@ object TrailAutomata {
       }
 
     val signal: SignalReader[(AutomatonSeedValues, SceneNode), AutomatonUpdate] =
-      SignalReader {
-        case (sa, n) =>
-          (sa.payload, n) match {
-            case (Some(TrailParticle(_, t)), g: Graphic[_]) =>
-              TrailParticle.fade(sa.lifeSpan) |> present(g, sa.spawnedAt, t)
+      SignalReader { case (sa, n) =>
+        (sa.payload, n) match {
+          case (Some(TrailParticle(_, t)), g: Graphic[_]) =>
+            TrailParticle.fade(sa.lifeSpan) |> present(g, sa.spawnedAt, t)
 
-            case _ =>
-              Signal.fixed(AutomatonUpdate.empty)
-          }
+          case _ =>
+            Signal.fixed(AutomatonUpdate.empty)
+        }
       }
 
   }

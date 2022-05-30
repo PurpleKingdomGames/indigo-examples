@@ -1,8 +1,8 @@
 package com.example.sandbox
 
-import indigo._
+import indigo.*
 
-import scala.scalajs.js.annotation._
+import scala.scalajs.js.annotation.*
 import scala.util.control.NoStackTrace
 
 /*
@@ -19,7 +19,7 @@ method calls.
 
 To see the output, open the developer tools / console in your browser, or
 in electron if you used indigoRun.
-*/
+ */
 
 @JSExportTopLevel("IndigoGame")
 object ErrorsExample extends IndigoDemo[BootData, StartUpData, Model, ViewModel] {
@@ -31,71 +31,61 @@ object ErrorsExample extends IndigoDemo[BootData, StartUpData, Model, ViewModel]
   def boot(flags: Map[String, String]): Outcome[BootResult[BootData]] =
     Outcome
       .raiseError(BootUpCrash)
-      .logCrash {
-        case BootUpCrash =>
-          "[Crash] Boot Error"
+      .logCrash { case BootUpCrash =>
+        "[Crash] Boot Error"
       }
-      .handleError {
-        case BootUpCrash =>
-          Outcome(BootResult(GameConfig.default, BootData()))
-            .addGlobalEvents(TraceEvent("boot"))
+      .handleError { case BootUpCrash =>
+        Outcome(BootResult(GameConfig.default, BootData()))
+          .addGlobalEvents(TraceEvent("boot"))
       }
 
   def setup(bootData: BootData, assetCollection: AssetCollection, dice: Dice): Outcome[Startup[StartUpData]] =
     Outcome
       .raiseError(StartUpCrash)
-      .logCrash {
-        case StartUpCrash =>
-          "[Crash] Startup Error"
+      .logCrash { case StartUpCrash =>
+        "[Crash] Startup Error"
       }
-      .handleError {
-        case StartUpCrash =>
-          Outcome(Startup.Success(StartUpData()))
-            .addGlobalEvents(TraceEvent("setup"))
+      .handleError { case StartUpCrash =>
+        Outcome(Startup.Success(StartUpData()))
+          .addGlobalEvents(TraceEvent("setup"))
       }
 
   def initialModel(startupData: StartUpData): Outcome[Model] =
     Outcome
       .raiseError(InitialiseModelCrash)
-      .logCrash {
-        case InitialiseModelCrash =>
-          "[Crash] Initial Model Error"
+      .logCrash { case InitialiseModelCrash =>
+        "[Crash] Initial Model Error"
       }
-      .handleError {
-        case InitialiseModelCrash =>
-          Outcome(Model())
-            .addGlobalEvents(TraceEvent("initialModel"))
+      .handleError { case InitialiseModelCrash =>
+        Outcome(Model())
+          .addGlobalEvents(TraceEvent("initialModel"))
       }
 
   def initialViewModel(startupData: StartUpData, model: Model): Outcome[ViewModel] =
     Outcome
       .raiseError(InitialiseViewModelCrash)
-      .logCrash {
-        case InitialiseViewModelCrash =>
-          "[Crash] Initial ViewModel Error"
+      .logCrash { case InitialiseViewModelCrash =>
+        "[Crash] Initial ViewModel Error"
       }
-      .handleError {
-        case InitialiseViewModelCrash =>
-          Outcome(ViewModel())
-            .addGlobalEvents(TraceEvent("initialViewModel"))
+      .handleError { case InitialiseViewModelCrash =>
+        Outcome(ViewModel())
+          .addGlobalEvents(TraceEvent("initialViewModel"))
       }
 
   def updateModel(context: FrameContext[StartUpData], model: Model): GlobalEvent => Outcome[Model] = {
     case FrameTick =>
       Outcome
         .raiseError(UpdateModelCrash)
-        .logCrash {
-          case UpdateModelCrash =>
-            "[Crash] Update Model Error"
+        .logCrash { case UpdateModelCrash =>
+          "[Crash] Update Model Error"
         }
-        .handleError {
-          case UpdateModelCrash =>
-            Outcome(model)
-              .addGlobalEvents(TraceEvent("updateModel"))
+        .handleError { case UpdateModelCrash =>
+          Outcome(model)
+            .addGlobalEvents(TraceEvent("updateModel"))
         }
 
     case TraceEvent("present") =>
-        Outcome.raiseError(new Exception("One full frame completed, time to stop."))
+      Outcome.raiseError(new Exception("One full frame completed, time to stop."))
 
     case TraceEvent(origin) =>
       println("Model recieved trace event from: " + origin)
@@ -109,14 +99,12 @@ object ErrorsExample extends IndigoDemo[BootData, StartUpData, Model, ViewModel]
     case FrameTick =>
       Outcome
         .raiseError(UpdateViewModelCrash)
-        .logCrash {
-          case UpdateViewModelCrash =>
-            "[Crash] Update ViewModel Error"
+        .logCrash { case UpdateViewModelCrash =>
+          "[Crash] Update ViewModel Error"
         }
-        .handleError {
-          case UpdateViewModelCrash =>
-            Outcome(viewModel)
-              .addGlobalEvents(TraceEvent("updateViewModel"))
+        .handleError { case UpdateViewModelCrash =>
+          Outcome(viewModel)
+            .addGlobalEvents(TraceEvent("updateViewModel"))
         }
 
     case TraceEvent(origin) =>
@@ -130,14 +118,12 @@ object ErrorsExample extends IndigoDemo[BootData, StartUpData, Model, ViewModel]
   def present(context: FrameContext[StartUpData], model: Model, viewModel: ViewModel): Outcome[SceneUpdateFragment] =
     Outcome
       .raiseError(PresentViewCrash)
-      .logCrash {
-        case PresentViewCrash =>
-          "[Crash] Presentation Error"
+      .logCrash { case PresentViewCrash =>
+        "[Crash] Presentation Error"
       }
-      .handleError {
-        case PresentViewCrash =>
-          Outcome(SceneUpdateFragment.empty)
-            .addGlobalEvents(TraceEvent("present"))
+      .handleError { case PresentViewCrash =>
+        Outcome(SceneUpdateFragment.empty)
+          .addGlobalEvents(TraceEvent("present"))
       }
 
 }

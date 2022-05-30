@@ -1,11 +1,11 @@
 package indigoexamples.automata
 
-import indigo._
+import indigo.*
 import indigoexamples.Assets
 import indigoexamples.model.Flare
 import indigoexamples.model.Projectiles
 import indigoextras.geometry.Vertex
-import indigoextras.subsystems._
+import indigoextras.subsystems.*
 
 object FlareAutomata {
 
@@ -32,19 +32,18 @@ object FlareAutomata {
   object ModifierFunctions {
 
     def signal(toScreenSpace: Vertex => Point): SignalReader[(AutomatonSeedValues, SceneNode), AutomatonUpdate] =
-      SignalReader {
-        case (sa, n) =>
-          (sa.payload, n) match {
-            case (Some(Flare(_, moveSignal, tint)), r: Graphic[_]) =>
-              for {
-                position <- moveSignal |> SignalFunction(toScreenSpace)
-                events   <- Projectiles.emitTrailEvents(position, tint, Millis(25).toSeconds)
-              } yield AutomatonUpdate(List(r.moveTo(position)), events)
+      SignalReader { case (sa, n) =>
+        (sa.payload, n) match {
+          case (Some(Flare(_, moveSignal, tint)), r: Graphic[_]) =>
+            for {
+              position <- moveSignal |> SignalFunction(toScreenSpace)
+              events   <- Projectiles.emitTrailEvents(position, tint, Millis(25).toSeconds)
+            } yield AutomatonUpdate(Batch(r.moveTo(position)), events)
 
-            case _ =>
-              Signal.fixed(AutomatonUpdate.empty)
+          case _ =>
+            Signal.fixed(AutomatonUpdate.empty)
 
-          }
+        }
       }
 
   }

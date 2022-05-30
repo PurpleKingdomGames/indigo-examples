@@ -1,12 +1,12 @@
 package com.example.lighting
 
-import indigo._
+import indigo.*
 import indigoextras.effectmaterials.Border
 import indigoextras.effectmaterials.Glow
 import indigoextras.effectmaterials.LegacyEffects
 import indigoextras.effectmaterials.Thickness
 
-import scala.scalajs.js.annotation._
+import scala.scalajs.js.annotation.*
 
 @JSExportTopLevel("IndigoGame")
 object EffectsExample extends IndigoSandbox[Unit, Unit]:
@@ -64,7 +64,7 @@ object EffectsExample extends IndigoSandbox[Unit, Unit]:
           .moveTo(viewCenter)
           .moveBy(-30, -40)
           .modifyMaterial(_.withSaturation(0.0)),
-        graphic //color overlay - identical to ImageEffects material
+        graphic // color overlay - identical to ImageEffects material
           .moveTo(viewCenter)
           .moveBy(30, -40)
           .modifyMaterial(_.withOverlay(Fill.Color(RGBA.Magenta.withAmount(0.75)))),

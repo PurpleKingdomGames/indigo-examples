@@ -1,10 +1,10 @@
 package indigoexamples
 
-import indigo._
-import indigo.scenes._
+import indigo.*
+import indigo.scenes.*
 import indigoextras.subsystems.FPSCounter
 
-import scala.scalajs.js.annotation._
+import scala.scalajs.js.annotation.*
 
 @JSExportTopLevel("IndigoGame")
 object ScenesSetup extends IndigoGame[Unit, StartUpData, GameModel, Unit]:
