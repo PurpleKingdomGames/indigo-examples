@@ -1,7 +1,7 @@
 package pirate
 
 import indigo.*
-import indigo.scenes._
+import indigo.scenes.*
 import indigoextras.subsystems.FPSCounter
 import pirate.scenes.loading.LoadingScene
 import pirate.scenes.level.LevelScene

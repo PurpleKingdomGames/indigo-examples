@@ -1,7 +1,7 @@
 package snake
 
 import indigo.*
-import indigo.scenes._
+import indigo.scenes.*
 import indigoextras.subsystems.FPSCounter
 
 import snake.model.{ControlScheme, GameModel, ViewModel}

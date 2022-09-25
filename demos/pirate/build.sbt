@@ -4,7 +4,7 @@
 
 Global / onChangedBuildSource := ReloadOnSourceChanges
 
-val scala3Version = "3.1.2"
+val scala3Version = "3.2.0"
 
 lazy val pirate =
   (project in file("."))
@@ -31,10 +31,12 @@ lazy val pirate =
       windowStartWidth      := 1280,
       windowStartHeight     := 720,
       disableFrameRateLimit := false,
+      electronInstall       := indigoplugin.ElectronInstall.Latest,
+      backgroundColor       := "white",
       libraryDependencies ++= Seq(
-        "io.indigoengine" %%% "indigo-json-circe" % "0.13.0", // Needed for Aseprite & Tiled support
-        "io.indigoengine" %%% "indigo"            % "0.13.0", // Important! :-)
-        "io.indigoengine" %%% "indigo-extras"     % "0.13.0"  // Important! :-)
+        "io.indigoengine" %%% "indigo-json-circe" % "0.14.0", // Needed for Aseprite & Tiled support
+        "io.indigoengine" %%% "indigo"            % "0.14.0", // Important! :-)
+        "io.indigoengine" %%% "indigo-extras"     % "0.14.0"  // Important! :-)
       )
     )
 

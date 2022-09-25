@@ -28,7 +28,7 @@ object SceneB extends Scene[StartUpData, GameModel, Unit] {
     )
 
   // Nothing to do
-  def updateModel(context: FrameContext[StartUpData], sceneModel: MessageB): GlobalEvent => Outcome[MessageB] = {
+  def updateModel(context: SceneContext[StartUpData], sceneModel: MessageB): GlobalEvent => Outcome[MessageB] = {
     case SceneEvent.SceneChange(from, to, at) =>
       println(s"B: Changed scene from '${from}' to '${to}' at running time: ${at}")
       Outcome(sceneModel)
@@ -38,12 +38,12 @@ object SceneB extends Scene[StartUpData, GameModel, Unit] {
   }
 
   // Nothing to do
-  def updateViewModel(context: FrameContext[StartUpData], sceneModel: MessageB, sceneViewModel: Unit): GlobalEvent => Outcome[Unit] =
+  def updateViewModel(context: SceneContext[StartUpData], sceneModel: MessageB, sceneViewModel: Unit): GlobalEvent => Outcome[Unit] =
     _ => Outcome(())
 
   // Show some text
   // When the user clicks anywhere in the screen, trigger an event to jump to the other scene.
-  def present(context: FrameContext[StartUpData], sceneModel: MessageB, sceneViewModel: Unit): Outcome[SceneUpdateFragment] = {
+  def present(context: SceneContext[StartUpData], sceneModel: MessageB, sceneViewModel: Unit): Outcome[SceneUpdateFragment] = {
     val events: Batch[GlobalEvent] =
       if (context.inputState.mouse.wasMouseClickedWithin(Rectangle(0, 0, 550, 400))) Batch(SceneEvent.JumpTo(SceneA.name))
       else Batch.empty

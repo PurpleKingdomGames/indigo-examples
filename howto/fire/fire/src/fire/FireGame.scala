@@ -1,7 +1,7 @@
 package fire
 
-import indigo._
-import indigo.scenes._
+import indigo.*
+import indigo.scenes.*
 import scala.scalajs.js.annotation.JSExportTopLevel
 
 @JSExportTopLevel("IndigoGame")

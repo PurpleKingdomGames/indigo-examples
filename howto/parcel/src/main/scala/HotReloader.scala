@@ -1,4 +1,4 @@
-import indigo._
+import indigo.*
 import indigo.shared.events.StorageEvent
 
 final case class HotReloader() extends SubSystem:

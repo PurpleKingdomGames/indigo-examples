@@ -1,7 +1,7 @@
 package snake.scenes
 
 import indigo.*
-import indigo.scenes._
+import indigo.scenes.*
 
 import snake.model.{GameModel, ViewModel}
 import snake.Score
@@ -27,18 +27,18 @@ object GameScene extends Scene[StartupData, GameModel, ViewModel] {
   val subSystems: Set[SubSystem] =
     Set(Score.automataSubSystem(GameModel.ScoreIncrement.toString(), GameAssets.fontKey))
 
-  def updateModel(context: FrameContext[StartupData], gameModel: GameModel): GlobalEvent => Outcome[GameModel] =
+  def updateModel(context: SceneContext[StartupData], gameModel: GameModel): GlobalEvent => Outcome[GameModel] =
     gameModel.update(context.gameTime, context.dice, context.startUpData.viewConfig.gridSquareSize)
 
   def updateViewModel(
-      context: FrameContext[StartupData],
+      context: SceneContext[StartupData],
       gameModel: GameModel,
       walls: Group
   ): GlobalEvent => Outcome[Group] =
     _ => Outcome(walls)
 
   def present(
-      context: FrameContext[StartupData],
+      context: SceneContext[StartupData],
       gameModel: GameModel,
       walls: Group
   ): Outcome[SceneUpdateFragment] =

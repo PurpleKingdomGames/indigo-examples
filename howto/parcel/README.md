@@ -25,6 +25,8 @@ Then to run your game
 yarn start
 ```
 
+> Note that running `yarn start` in this project also performs the required sbt build.
+
 and navigate to [http://localhost:1234/](http://localhost:1234/).
 
 There is also a `yarn build` command if you want to do a clean build rather than running the game now.

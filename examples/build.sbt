@@ -3,7 +3,7 @@ import scala.language.postfixOps
 
 import sbtwelcome._
 
-val scala3Version = "3.1.2"
+val scala3Version = "3.2.0"
 
 Global / onChangedBuildSource := ReloadOnSourceChanges
 
@@ -15,14 +15,20 @@ lazy val commonSettings = Seq(
   organization := "indigo-examples",
   libraryDependencies ++= Seq(
     "org.scalameta"   %%% "munit"         % "0.7.29" % Test,
-    "io.indigoengine" %%% "indigo"        % "0.13.0",
-    "io.indigoengine" %%% "indigo-extras" % "0.13.0"
+    "io.indigoengine" %%% "indigo"        % "0.14.0",
+    "io.indigoengine" %%% "indigo-extras" % "0.14.0"
   ),
   testFrameworks += new TestFramework("munit.Framework"),
   Test / scalaJSLinkerConfig ~= { _.withModuleKind(ModuleKind.CommonJSModule) },
   scalafixOnCompile := true,
   semanticdbEnabled := true,
-  semanticdbVersion := scalafixSemanticdb.revision
+  semanticdbVersion := scalafixSemanticdb.revision,
+  // Common Indigo settings
+  disableFrameRateLimit := false,
+  electronInstall       := indigoplugin.ElectronInstall.Latest,
+  backgroundColor       := "black",
+  showCursor            := true,
+  gameAssetsDirectory   := "assets"
 )
 
 // Examples
@@ -33,10 +39,8 @@ lazy val basicSetup =
     .enablePlugins(SbtIndigo)
     .enablePlugins(ScalaJSPlugin)
     .settings(
-      name                := "basic-setup",
-      showCursor          := true,
-      title               := "Basic Setup",
-      gameAssetsDirectory := "assets"
+      name  := "basic-setup",
+      title := "Basic Setup"
     )
 
 lazy val blending =
@@ -46,10 +50,8 @@ lazy val blending =
     .enablePlugins(SbtIndigo)
     .enablePlugins(ScalaJSPlugin)
     .settings(
-      name                := "blending-example",
-      showCursor          := true,
-      title               := "Blending example",
-      gameAssetsDirectory := "assets"
+      name  := "blending-example",
+      title := "Blending example"
     )
 
 lazy val subSystems =
@@ -59,10 +61,8 @@ lazy val subSystems =
     .enablePlugins(SbtIndigo)
     .enablePlugins(ScalaJSPlugin)
     .settings(
-      name                := "subsystems",
-      showCursor          := true,
-      title               := "SubSystems Example",
-      gameAssetsDirectory := "assets"
+      name  := "subsystems",
+      title := "SubSystems Example"
     )
 
 lazy val scenesSetup =
@@ -72,10 +72,8 @@ lazy val scenesSetup =
     .enablePlugins(SbtIndigo)
     .enablePlugins(ScalaJSPlugin)
     .settings(
-      name                := "scenes-setup",
-      showCursor          := true,
-      title               := "Scene Manager Setup",
-      gameAssetsDirectory := "assets"
+      name  := "scenes-setup",
+      title := "Scene Manager Setup"
     )
 
 lazy val text =
@@ -85,10 +83,8 @@ lazy val text =
     .enablePlugins(SbtIndigo)
     .enablePlugins(ScalaJSPlugin)
     .settings(
-      name                := "text-example",
-      showCursor          := true,
-      title               := "Text example",
-      gameAssetsDirectory := "assets"
+      name  := "text-example",
+      title := "Text example"
     )
 
 lazy val inputfield =
@@ -98,10 +94,8 @@ lazy val inputfield =
     .enablePlugins(SbtIndigo)
     .enablePlugins(ScalaJSPlugin)
     .settings(
-      name                := "input-field-example",
-      showCursor          := true,
-      title               := "Input field example",
-      gameAssetsDirectory := "assets"
+      name  := "input-field-example",
+      title := "Input field example"
     )
 
 lazy val button =
@@ -111,10 +105,8 @@ lazy val button =
     .enablePlugins(SbtIndigo)
     .enablePlugins(ScalaJSPlugin)
     .settings(
-      name                := "button-example",
-      showCursor          := true,
-      title               := "Button example",
-      gameAssetsDirectory := "assets"
+      name  := "button-example",
+      title := "Button example"
     )
 
 lazy val graphic =
@@ -124,10 +116,8 @@ lazy val graphic =
     .enablePlugins(SbtIndigo)
     .enablePlugins(ScalaJSPlugin)
     .settings(
-      name                := "graphic-example",
-      showCursor          := true,
-      title               := "Graphic example",
-      gameAssetsDirectory := "assets"
+      name  := "graphic-example",
+      title := "Graphic example"
     )
 
 lazy val group =
@@ -137,10 +127,8 @@ lazy val group =
     .enablePlugins(SbtIndigo)
     .enablePlugins(ScalaJSPlugin)
     .settings(
-      name                := "group-example",
-      showCursor          := true,
-      title               := "Group example",
-      gameAssetsDirectory := "assets"
+      name  := "group-example",
+      title := "Group example"
     )
 
 lazy val tiled =
@@ -150,14 +138,12 @@ lazy val tiled =
     .enablePlugins(SbtIndigo)
     .enablePlugins(ScalaJSPlugin)
     .settings(
-      name                := "tiled-example",
-      showCursor          := true,
-      title               := "Tiled example",
-      gameAssetsDirectory := "assets",
-      windowStartWidth    := 19 * 32,
-      windowStartHeight   := 11 * 32,
+      name              := "tiled-example",
+      title             := "Tiled example",
+      windowStartWidth  := 19 * 32,
+      windowStartHeight := 11 * 32,
       libraryDependencies ++= Seq(
-        "io.indigoengine" %%% "indigo-json-circe" % "0.13.0"
+        "io.indigoengine" %%% "indigo-json-circe" % "0.14.0"
       )
     )
 
@@ -168,10 +154,8 @@ lazy val sprite =
     .enablePlugins(SbtIndigo)
     .enablePlugins(ScalaJSPlugin)
     .settings(
-      name                := "sprite-example",
-      showCursor          := true,
-      title               := "Sprite example",
-      gameAssetsDirectory := "assets"
+      name  := "sprite-example",
+      title := "Sprite example"
     )
 
 lazy val http =
@@ -181,10 +165,8 @@ lazy val http =
     .enablePlugins(SbtIndigo)
     .enablePlugins(ScalaJSPlugin)
     .settings(
-      name                := "http-example",
-      showCursor          := true,
-      title               := "Http example",
-      gameAssetsDirectory := "assets"
+      name  := "http-example",
+      title := "Http example"
     )
 
 lazy val websocket =
@@ -194,10 +176,8 @@ lazy val websocket =
     .enablePlugins(SbtIndigo)
     .enablePlugins(ScalaJSPlugin)
     .settings(
-      name                := "websocket-example",
-      showCursor          := true,
-      title               := "WebSocket example",
-      gameAssetsDirectory := "assets"
+      name  := "websocket-example",
+      title := "WebSocket example"
     )
 
 lazy val automata =
@@ -207,10 +187,8 @@ lazy val automata =
     .enablePlugins(SbtIndigo)
     .enablePlugins(ScalaJSPlugin)
     .settings(
-      name                := "automata-example",
-      showCursor          := true,
-      title               := "Automata example",
-      gameAssetsDirectory := "assets"
+      name  := "automata-example",
+      title := "Automata example"
     )
 
 lazy val fireworks =
@@ -221,9 +199,7 @@ lazy val fireworks =
     .enablePlugins(ScalaJSPlugin)
     .settings(
       name                  := "fireworks-example",
-      showCursor            := true,
       title                 := "Fireworks!",
-      gameAssetsDirectory   := "assets",
       windowStartWidth      := 1280,
       windowStartHeight     := 720,
       disableFrameRateLimit := true,
@@ -239,10 +215,8 @@ lazy val audio =
     .enablePlugins(SbtIndigo)
     .enablePlugins(ScalaJSPlugin)
     .settings(
-      name                := "audio-example",
-      showCursor          := true,
-      title               := "Audio example",
-      gameAssetsDirectory := "assets"
+      name  := "audio-example",
+      title := "Audio example"
     )
 
 lazy val lighting =
@@ -251,12 +225,10 @@ lazy val lighting =
     .enablePlugins(ScalaJSPlugin)
     .settings(commonSettings: _*)
     .settings(
-      name                := "lighting Example",
-      showCursor          := true,
-      title               := "Lighting",
-      gameAssetsDirectory := "assets",
-      windowStartWidth    := 684,
-      windowStartHeight   := 384
+      name              := "lighting Example",
+      title             := "Lighting",
+      windowStartWidth  := 684,
+      windowStartHeight := 384
     )
     .settings(
       publish      := {},
@@ -269,12 +241,10 @@ lazy val distortion =
     .enablePlugins(ScalaJSPlugin)
     .settings(commonSettings: _*)
     .settings(
-      name                := "distortion",
-      showCursor          := true,
-      title               := "Distortion Example",
-      gameAssetsDirectory := "assets",
-      windowStartWidth    := 684,
-      windowStartHeight   := 384
+      name              := "distortion",
+      title             := "Distortion Example",
+      windowStartWidth  := 684,
+      windowStartHeight := 384
     )
     .settings(
       publish      := {},
@@ -287,10 +257,8 @@ lazy val assetLoading =
     .enablePlugins(ScalaJSPlugin)
     .settings(commonSettings: _*)
     .settings(
-      name                := "assetLoading",
-      showCursor          := true,
-      title               := "Asset Loading Example",
-      gameAssetsDirectory := "assets"
+      name  := "assetLoading",
+      title := "Asset Loading Example"
     )
     .settings(
       publish      := {},
@@ -303,12 +271,10 @@ lazy val effects =
     .enablePlugins(ScalaJSPlugin)
     .settings(commonSettings: _*)
     .settings(
-      name                := "effects",
-      showCursor          := true,
-      title               := "Effects Example",
-      gameAssetsDirectory := "assets",
-      windowStartWidth    := 550,
-      windowStartHeight   := 400
+      name              := "effects",
+      title             := "Effects Example",
+      windowStartWidth  := 550,
+      windowStartHeight := 400
     )
     .settings(
       publish      := {},
@@ -322,10 +288,8 @@ lazy val radio =
     .enablePlugins(SbtIndigo)
     .enablePlugins(ScalaJSPlugin)
     .settings(
-      name                := "radio-example",
-      showCursor          := true,
-      title               := "Radio button example",
-      gameAssetsDirectory := "assets"
+      name  := "radio-example",
+      title := "Radio button example"
     )
 
 lazy val jobs =
@@ -335,12 +299,10 @@ lazy val jobs =
     .enablePlugins(SbtIndigo)
     .enablePlugins(ScalaJSPlugin)
     .settings(
-      name                := "jobs-example",
-      showCursor          := true,
-      title               := "Job System Example",
-      gameAssetsDirectory := "assets",
-      windowStartWidth    := 400,
-      windowStartHeight   := 400
+      name              := "jobs-example",
+      title             := "Job System Example",
+      windowStartWidth  := 400,
+      windowStartHeight := 400
     )
 
 lazy val confetti =
@@ -350,12 +312,10 @@ lazy val confetti =
     .enablePlugins(SbtIndigo)
     .enablePlugins(ScalaJSPlugin)
     .settings(
-      name                := "confetti",
-      showCursor          := true,
-      title               := "Confetti",
-      gameAssetsDirectory := "assets",
-      windowStartWidth    := 640,
-      windowStartHeight   := 480
+      name              := "confetti",
+      title             := "Confetti",
+      windowStartWidth  := 640,
+      windowStartHeight := 480
     )
 
 lazy val inputmapper =
@@ -365,12 +325,10 @@ lazy val inputmapper =
     .enablePlugins(SbtIndigo)
     .enablePlugins(ScalaJSPlugin)
     .settings(
-      name                := "inputmapper-example",
-      showCursor          := true,
-      title               := "Input Mapper Example",
-      gameAssetsDirectory := "assets",
-      windowStartWidth    := 400,
-      windowStartHeight   := 400
+      name              := "inputmapper-example",
+      title             := "Input Mapper Example",
+      windowStartWidth  := 400,
+      windowStartHeight := 400
     )
 
 lazy val mouseevents =
@@ -380,12 +338,10 @@ lazy val mouseevents =
     .enablePlugins(SbtIndigo)
     .enablePlugins(ScalaJSPlugin)
     .settings(
-      name                := "mouseevents-example",
-      showCursor          := true,
-      title               := "Mouse Events Example",
-      gameAssetsDirectory := "assets",
-      windowStartWidth    := 550,
-      windowStartHeight   := 400
+      name              := "mouseevents-example",
+      title             := "Mouse Events Example",
+      windowStartWidth  := 550,
+      windowStartHeight := 400
     )
 
 lazy val errors =
@@ -395,12 +351,10 @@ lazy val errors =
     .enablePlugins(ScalaJSPlugin)
     .enablePlugins(SbtIndigo)
     .settings(
-      name                := "errors",
-      showCursor          := true,
-      title               := "Error Handling",
-      gameAssetsDirectory := "assets",
-      windowStartWidth    := 800,
-      windowStartHeight   := 800
+      name              := "errors",
+      title             := "Error Handling",
+      windowStartWidth  := 800,
+      windowStartHeight := 800
     )
 
 // Root

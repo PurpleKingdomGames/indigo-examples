@@ -1,7 +1,7 @@
 package pirate.scenes.level.subsystems
 
 import indigo.*
-import indigoextras.subsystems._
+import indigoextras.subsystems.*
 import pirate.core.Assets
 
 /*

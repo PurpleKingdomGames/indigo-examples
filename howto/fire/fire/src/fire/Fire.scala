@@ -1,7 +1,7 @@
 package fire
 
-import indigo._
-import indigo.ShaderPrimitive._
+import indigo.*
+import indigo.ShaderPrimitive.*
 
 final case class Fire(
     position: Point,

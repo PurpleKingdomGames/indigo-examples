@@ -1,6 +1,6 @@
 package fire
 
-import indigo._
+import indigo.*
 
 object Assets:
 

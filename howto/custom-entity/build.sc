@@ -4,11 +4,11 @@ import mill.scalalib._
 import mill.scalajslib._
 import mill.scalajslib.api._
 
-import $ivy.`io.indigoengine::mill-indigo:0.13.0`, millindigo._
+import $ivy.`io.indigoengine::mill-indigo:0.14.0`, millindigo._
 
 object mygame extends ScalaJSModule with MillIndigo {
-  def scalaVersion   = "3.1.2"
-  def scalaJSVersion = "1.10.0"
+  def scalaVersion   = "3.2.0"
+  def scalaJSVersion = "1.11.0"
 
   val gameAssetsDirectory: os.Path   = os.pwd / "assets"
   val showCursor: Boolean            = true
@@ -16,7 +16,8 @@ object mygame extends ScalaJSModule with MillIndigo {
   val windowStartWidth: Int          = 550
   val windowStartHeight: Int         = 400
   val disableFrameRateLimit: Boolean = false
-  val electronInstall = indigoplugin.ElectronInstall.Global
+  val backgroundColor: String        = "white"
+  val electronInstall = indigoplugin.ElectronInstall.Latest
 
   def buildGame() =
     T.command {
@@ -36,7 +37,7 @@ object mygame extends ScalaJSModule with MillIndigo {
       }
     }
 
-  def ivyDeps = Agg(ivy"io.indigoengine::indigo::0.13.0")
+  def ivyDeps = Agg(ivy"io.indigoengine::indigo::0.14.0")
 
   def scalacOptions = super.scalacOptions() ++ ScalacOptions.compile
 

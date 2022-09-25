@@ -2,10 +2,11 @@
 
 Examples of how to build things in Indigo using the latest public release.
 
-There are two sections:
+There are three sections:
 
 1. Demos
 1. Examples
+2. How to's!
 
 ## Watch out!
 
