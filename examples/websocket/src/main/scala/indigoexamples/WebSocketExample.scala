@@ -44,7 +44,7 @@ object WebSocketExample extends IndigoDemo[Unit, WebSocketConfig, Batch[String],
         bounds = Rectangle(100, 10, 16, 16),
         depth = Depth(2)
       ).withUpActions(WebSocketEvent.Send("Hello!", echoSocket))
-    )
+    ).addGlobalEvents(WebSocketEvent.Open("Opening connection", echoSocket))
 
   def updateModel(context: FrameContext[WebSocketConfig], log: Batch[String]): GlobalEvent => Outcome[Batch[String]] = {
     case WebSocketEvent.Receive(WebSocketId("echo"), message) =>
