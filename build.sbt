@@ -16,8 +16,8 @@ lazy val commonSettings = Seq(
   organization := "indigo-examples",
   libraryDependencies ++= Seq(
     "org.scalameta"   %%% "munit"         % "0.7.29" % Test,
-    "io.indigoengine" %%% "indigo"        % "0.15.0",
-    "io.indigoengine" %%% "indigo-extras" % "0.15.0"
+    "io.indigoengine" %%% "indigo"        % "0.15.1",
+    "io.indigoengine" %%% "indigo-extras" % "0.15.1"
   ),
   scalacOptions ++= Seq("-language:strictEquality"),
   testFrameworks += new TestFramework("munit.Framework"),
